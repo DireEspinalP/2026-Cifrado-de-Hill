@@ -13,4 +13,5 @@ Este ataque intenta probar todas las matrices invertibles mod 26 con el el fin d
 Esta simulacion se requere otro tipo de lenguaje, ademas hay una manera sencilla de hacerlo graficamente y es con el simulacion de IBM composer. 
 
 Por si te interesa mas de esto, puedes darle clik al siguiente enlace:
-.........................
+
+https://cifradodehill.tiiny.site/
