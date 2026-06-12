@@ -5,6 +5,7 @@ Tipos de descifrados:
 
 -Know Plaintext Attack:
 Con n² pares (plano, cifrado) se resuelve el sistema lineal y se recupera la llave matriz. Este proceso, especialemente para orden 2, bastan 4 pares de letras. Tiene una complejidad de O(n³)
+
 -Brute Force Attack:
 Este ataque intenta probar todas las matrices invertibles mod 26 con el el fin de encontrar la llave matriz. Sin embargo, su complejidad algoritmica crece exponencialmente para ordenes de matrices n>3 O(26^(n^2)).
 
