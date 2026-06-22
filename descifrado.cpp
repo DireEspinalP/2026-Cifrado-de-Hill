@@ -8,9 +8,10 @@ using namespace std;
 
 // Verificamos la invertiblidad de la llave
 // Solo para orden 2
+
 T1 Determinante(size_t n, T1 llave[10][10], size_t ope)
 {
-    T1 (*determinant[3])(size_t, T1[10][10]) = {det1x1, det2x2, detnxn};
+    T1 (*determinant[3])(size_t n, T1[10][10]) = {det1x1, det2x2, detnxn};
 
     return determinant[ope](n, llave);
 }
@@ -67,6 +68,7 @@ bool esInvertibleMod26(T1 det)
     det = ((det % 26) + 26) % 26;
     return gcd(det, 26) == 1;
 }
+
 
 void DemoCifradoHill()
 {
