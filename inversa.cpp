@@ -13,7 +13,7 @@ void CambioFilas(size_t n, T1 aumentM[10][20], size_t i, size_t r){
     }
 }
 
-void CreatematrixAument(size_t n, T1 llave[10][10],T1 aumentM[10][20]){
+void CreatematrixAument(size_t n, const T1 llave[10][10],T1 aumentM[10][20]){
     for (size_t i=0; i<n; i++){
         for (size_t j=0; j<n; j++){
             aumentM[i][j]=((llave[i][j]%26)+26)%26;
@@ -23,7 +23,7 @@ void CreatematrixAument(size_t n, T1 llave[10][10],T1 aumentM[10][20]){
 
 }
 T1 inversoMod26(T1 pivote){
-
+    pivote=((pivote%26)+26)%26;
     for(T1 p=1; p<26 ; p++){
        if  ((pivote*p)%26==1){
         return p;
@@ -71,3 +71,21 @@ bool Pivote(size_t n, T1 aumentaM[10][20], size_t i){
     return false;
 }
 
+bool InversaMatrix(size_t n, const T1 llave[10][10], T1 Inv[10][10]){
+   T1 aumentM[10][20];
+   CreatematrixAument(n,llave,aumentM);
+   for (size_t i=0; i<n; i++){
+    if(!Pivote(n,aumentM,i)){
+        return false;
+    }
+    T1 inv=inversoMod26(aumentM[i][i]);
+    if (inv==-1){
+        return false;
+    }
+    normalizarFila(n, aumentM,i , inv);
+    ElimGJ(n,aumentM,i);
+   }
+   CreateInversa(n, aumentM, Inv);
+   return true;
+
+}
