@@ -13,7 +13,7 @@ void EscribirllaveMatrix(size_t n, T1 llave[10][10])
     ofstream outFile("llave_matriz.txt");
     for (size_t i = 0; i < n; i++)
     {
-        for (size_t j = 0; j < 0; j++)
+        for (size_t j = 0; j < n; j++)
         {
             outFile << llave[i][j] << " ";
         }
@@ -59,15 +59,12 @@ void letraNumero(string mensaje, T1 mensajeNum[200], size_t ope)
     }
 }
 
-void numeroLetra(T1 mensajeCifrado[200], T1 total)
-{
-    ofstream outfile("mensaje_cifrado.txt", ios::app);
+void numeroLetra(T1 mensajeCifrado[200], size_t total, ostream& outfile){
     for (size_t i = 0; i < total; i++)
     {
         outfile << T3(mensajeCifrado[i] + 'A');
     }
     outfile << endl;
-    outfile.close();
 }
 
 T1 Particion(size_t n, string mensaje, T1 mensajeNum[200])
@@ -87,14 +84,14 @@ T1 CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200])
     return Particion(n, mensaje, mensajeNum);
 }
 
-void PrintMatrixmensajeNum(size_t n, T1 total, T1 mensajeNum[])
+void PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
 {
     ofstream outFile("mensaje_cifrado.txt");
-    for (size_t i = 0; i < n; i++)
+    auto k = total / n;
+    for (size_t i = 0; i <k; i++)
     {
-        for (size_t j = 0; j < n; j++)
+        for (size_t j = 0 ; j < k; j++)
         {
-            mensajeNum[i][j] = mensajeNum[i * n + j];
             outFile << mensajeNum[i * n + j] << " ";
         }
         outFile << endl;
@@ -102,10 +99,10 @@ void PrintMatrixmensajeNum(size_t n, T1 total, T1 mensajeNum[])
     outFile.close();
 }
 
-void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], T1 total, T1 mensajeCifrado[200])
+void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 mensajeCifrado[200])
 {
     ofstream cipherFile("mensaje_cifrado.txt");
-    T1 k = total / n;
+    auto k = total / n;
     for (size_t i = 0; i < k; i++)
     {
         for (size_t j = 0; j < n; j++)
@@ -119,11 +116,11 @@ void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], T1 total, T1 mensa
         }
     }
     cipherFile << "Mensaje cifrado es:" << endl;
-    numeroLetra(mensajeCifrado, total);
+    numeroLetra(mensajeCifrado, total, cout);
     cipherFile.close();
 }
 
-void LlaveMatrix(size_t n, T1 llave[10][10], ostream &salida, istream &entrada)
+void llaveMatrix(size_t &n, T1 llave[10][10], ostream &salida, istream &entrada)
 {
     salida << "Ingrese el tamanio de la llave matriz (n x n): ";
     entrada >> n;
