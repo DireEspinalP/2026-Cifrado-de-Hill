@@ -1,7 +1,12 @@
 #include <iostream>
 #include "cifrado.h"
 #include "descifrado.h"
-using namespace std;
+#include "tipos.h"
+
 int main(){
-    DemoCifradoHill();
+
+  std::cout<<"-----CIFRADO DE HILL-----"<<endl;
+  std::cout<<endl;
+   DemoCifradoHill();
+   
 }

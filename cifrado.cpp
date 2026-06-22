@@ -11,6 +11,7 @@ using namespace std;
 void EscribirllaveMatrix(size_t n, T1 llave[10][10])
 {
     ofstream outFile("llave_matriz.txt");
+    outFile<<"La llave de la matrix es: "<<endl;
     for (size_t i = 0; i < n; i++)
     {
         for (size_t j = 0; j < n; j++)
@@ -19,6 +20,7 @@ void EscribirllaveMatrix(size_t n, T1 llave[10][10])
         }
         outFile << endl;
     }
+    outFile<<"verificacion";
     outFile.close();
 }
 void LeerllaveMatrix(size_t n, T1 llave[10][10])
@@ -59,12 +61,15 @@ void letraNumero(string mensaje, T1 mensajeNum[200], size_t ope)
     }
 }
 
-void numeroLetra(T1 mensajeCifrado[200], size_t total, ostream& outfile){
+void numeroLetra(T1 mensajeCifrado[200], size_t total){
+    ofstream outFile("mensaje_cifrado.txt");
+    outFile<<"El mensaje cifrado es : "<<endl;
     for (size_t i = 0; i < total; i++)
     {
-        outfile << T3(mensajeCifrado[i] + 'A');
+        outFile << T3(mensajeCifrado[i] + 'A');
     }
-    outfile << endl;
+    outFile << endl;
+    outFile.close();
 }
 
 T1 Particion(size_t n, string mensaje, T1 mensajeNum[200])
@@ -88,14 +93,16 @@ void PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
 {
     ofstream outFile("mensaje_cifrado.txt");
     auto k = total / n;
+   
     for (size_t i = 0; i <k; i++)
     {
-        for (size_t j = 0 ; j < k; j++)
+        for (size_t j = 0 ; j < n; j++)
         {
             outFile << mensajeNum[i * n + j] << " ";
         }
         outFile << endl;
     }
+    
     outFile.close();
 }
 
@@ -116,11 +123,11 @@ void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 m
         }
     }
     cipherFile << "Mensaje cifrado es:" << endl;
-    numeroLetra(mensajeCifrado, total, cout);
+    numeroLetra(mensajeCifrado, total);
     cipherFile.close();
 }
 
-void llaveMatrix(size_t &n, T1 llave[10][10], ostream &salida, istream &entrada)
+void llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada)
 {
     salida << "Ingrese el tamanio de la llave matriz (n x n): ";
     entrada >> n;

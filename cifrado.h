@@ -8,7 +8,7 @@ using namespace std;
 
 void LeerllaveMatrix(size_t n,T1 llave[10][10]);
 void EscribirllaveMatrix(size_t n, T1 llave[10][10]);
-void llaveMatrix(size_t n, T1 llave[10][10], ostream &salida, istream &entrada);
+void llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada);
 
 //Convertidor
 void numeroLetra(T1 mensajeNum[200], string &mensaje, size_t longitud);
