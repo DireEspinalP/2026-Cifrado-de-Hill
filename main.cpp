@@ -2,11 +2,12 @@
 #include "cifrado.h"
 #include "descifrado.h"
 #include "tipos.h"
+using namespace std;
 
-int main(){
+int main()
+{
 
-  std::cout<<"-----CIFRADO DE HILL-----"<<endl;
-  std::cout<<endl;
-   DemoCifradoHill();
-   
+  cout << "-----CIFRADO DE HILL-----" << endl;
+  cout << endl;
+  DemoCifradoHill();
 }

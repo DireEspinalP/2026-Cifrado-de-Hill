@@ -13,11 +13,14 @@ void CambioFilas(size_t n, T1 aumentM[10][20], size_t i, size_t r){
     }
 }
 
-void CreatematrixAument(size_t n, const T1 llave[10][10],T1 aumentM[10][20]){
+void CreatematrixAument(size_t n,  T1 llave[10][10],T1 aumentM[10][20]){
     for (size_t i=0; i<n; i++){
-        for (size_t j=0; j<n; j++){
+        for (size_t j=0; j<2*n; j++){
+            aumentM[i][j]=0;
+            for (size_t j=0; j<n; j++){
             aumentM[i][j]=((llave[i][j]%26)+26)%26;
              aumentM[i][j + n] = (i == j) ? 1 : 0;
+            }
         }
     }
 
@@ -71,7 +74,7 @@ bool Pivote(size_t n, T1 aumentaM[10][20], size_t i){
     return false;
 }
 
-bool InversaMatrix(size_t n, const T1 llave[10][10], T1 Inv[10][10]){
+bool InversaMatrix(size_t n,  T1 llave[10][10], T1 Inv[10][10]){
    T1 aumentM[10][20];
    CreatematrixAument(n,llave,aumentM);
    for (size_t i=0; i<n; i++){

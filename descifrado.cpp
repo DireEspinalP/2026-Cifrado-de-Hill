@@ -29,12 +29,13 @@ T1 detnxn(size_t n, T1 llave[10][10])
 {
     T1 det = 0;
     T1 sub[10][10];
-    size_t subi = 0;
-    size_t subj = 0;
+ 
+  
     for (size_t x = 0; x < n; x++)
     {
+         size_t subi = 0;
         for (size_t i = 1; i < n; i++)
-        {
+        {  size_t subj = 0;
             for (size_t j = 0; j < n; j++)
             {
                 if (j == x)
@@ -51,6 +52,7 @@ T1 detnxn(size_t n, T1 llave[10][10])
     return (det < 0) ? det + 26 : det;
 }
 
+
 T1 gcd(T1 a, T1 b)
 {
     a = (a < 0) ? -a : a;
@@ -62,6 +64,8 @@ T1 gcd(T1 a, T1 b)
     }
     return a;
 }
+
+
 
 bool esInvertibleMod26(T1 det)
 {
