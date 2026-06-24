@@ -12,7 +12,7 @@ using namespace std;
 T1 Determinante(size_t n, T1 llave[10][10], size_t ope)
 {
     T1 (*determinant[3])(size_t n, T1[10][10]) = {det1x1, det2x2, detnxn};
-
+    
     return determinant[ope](n, llave);
 }
 T1 det1x1(size_t n, T1 llave[10][10])
