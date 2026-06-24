@@ -53,10 +53,12 @@ void Cambio_a(string mensaje, T1 mensajeNum[200])
     }
 }
 
-void letraNumero(string mensaje, T1 mensajeNum[200], size_t ope)
+void letraNumero(string mensaje, T1 mensajeNum[200])
 {
+   size_t ope=0;
     void (*palabra[2])(string, T1[200]) = {Cambio_A, Cambio_a};
     {
+        
         palabra[ope](mensaje, mensajeNum);
     }
 }
@@ -85,7 +87,7 @@ T1 Particion(size_t n, string mensaje, T1 mensajeNum[200])
 
 T1 CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200])
 {
-    letraNumero(mensaje, mensajeNum, 0);
+    letraNumero(mensaje, mensajeNum);
     return Particion(n, mensaje, mensajeNum);
 }
 
@@ -129,8 +131,8 @@ void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 m
 
 void llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada)
 {
-    salida << "Ingrese el tamanio de la llave matriz (n x n): ";
-    entrada >> n;
+   salida<<"Eliga el numero de orden de la matrix llave :";
+   entrada>>n;
     LeerllaveMatrix(n, llave);
     salida << endl;
     EscribirllaveMatrix(n, llave);

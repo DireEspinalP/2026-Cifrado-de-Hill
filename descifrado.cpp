@@ -9,10 +9,11 @@ using namespace std;
 // Verificamos la invertiblidad de la llave
 // Solo para orden 2
 
-T1 Determinante(size_t n, T1 llave[10][10], size_t ope)
+T1 Determinante(size_t n, T1 llave[10][10])
 {
+    size_t ope=0;
     T1 (*determinant[3])(size_t n, T1[10][10]) = {det1x1, det2x2, detnxn};
-    
+
     return determinant[ope](n, llave);
 }
 T1 det1x1(size_t n, T1 llave[10][10])
@@ -79,7 +80,6 @@ void DemoCifradoHill()
     ostream &salida = cout;
     istream &entrada = cin;
     size_t n=0;
-    size_t ope = 0;
     string mensaje;
 
     T1 llave[10][10];
@@ -87,13 +87,13 @@ void DemoCifradoHill()
     T1 mensajeNum[200];
    
 
-    salida << "Ingrese la llave para cifrar el mensaje " << endl;  
+    salida << "PRIMERO INGRESE LA LLAVE PARA CIFRAR EL MENSAJE " << endl;  
     salida << "en el archivo 'llave_matriz.txt' : " << endl;
     salida<<endl;
     llaveMatrix(n, llave, salida, entrada);
 
-    esInvertibleMod26(Determinante(n, llave, ope)) ? salida << "La llave es invertible. Procediendo con el cifrado..." << endl
-                                                   : salida << "La llave no es invertible. Por favor, ingrese una llave válida." << endl;
+    esInvertibleMod26(Determinante(n, llave)) ? salida << "La llave es invertible. Procediendo con el cifrado..." << endl
+                                                   : salida << "La llave NO ES INVERTIBLE. Por favor, ingrese una llave válida." << endl;
     entrada.ignore();
    
     salida << "Ingrese el mensaje a cifrar: ";
@@ -104,5 +104,5 @@ void DemoCifradoHill()
     
 
     salida<<endl;
-     salida<<"OBSERVE en el archivo 'mensaje_cifrado.txt"<<endl;
+     salida<<"OBSERVE EN EL ARCHIVO 'mensaje_cifrado.txt"<<endl;
 }

@@ -12,7 +12,7 @@ void llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada)
 
 //Convertidor
 void numeroLetra(T1 mensajeNum[200], size_t total);
-void letraNumero(string mensaje, T1 mensajeNum[200], size_t ope);
+void letraNumero(string mensaje, T1 mensajeNum[200]);
 void Cambio_A(string mensaje, T1 mensajeNum[200]);
 void Cambio_a(string mensaje, T1 mensajeNum[200]);
 

@@ -14,4 +14,4 @@ Esta simulacion se requere otro tipo de lenguaje, ademas hay una manera sencilla
 
 Por si te interesa mas de esto, puedes darle clik al siguiente enlace:
 
-https://cifradodehill.tiiny.site/
+https://blush-suzann-57.tiiny.site
