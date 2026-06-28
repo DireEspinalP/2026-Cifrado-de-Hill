@@ -2,9 +2,12 @@
 #include "descifrado.h"
 #include "tipos.h"
 #include "inversa.h"
+
 #include <iostream>
 #include <cstddef>
+#include <fstream>
 #include <string>
+
 using namespace std;
 
 void multiplicar(size_t n, T1 A[10][10], T1 B[10][10], T1 C[10][10])
@@ -60,16 +63,17 @@ bool CalcularLlave(size_t n, T1 P[10][10], T1 C[10][10], T1 Pinversa[10][10], T1
     multiplicar(n, C, Pinversa, K);
     return true;
 }
-void PrintLllave(ostream &salida, size_t n, T1 bloqueinicial, T1 K[10][10])
+void PrintLllave( size_t n, T1 bloqueinicial, T1 K[10][10])
 {
-    salida << "Llave descubierta" << endl;
+    ofstream outFile("mensaje_descifrado");
+    outFile << "Llave descubierta" << endl;
     for (size_t i = 0; i < n; i++)
     {
         for (size_t j = 0; j < n; j++)
         {
-            salida << K[i][j] << " ";
+            outFile << K[i][j] << " ";
         }
-        salida << endl;
+       outFile << endl;
     }
 }
 
@@ -77,7 +81,8 @@ void DemoKPA()
 {
     Convertidor CO;
 
-    ostream &salida = cout;
+    ofstream outFile("mensaje_descifrado");
+    ostream &salida= cout;
     istream &entrada = cin;
 
     string plano, textocifrado;
@@ -104,17 +109,17 @@ void DemoKPA()
 
     if (bloqueinicial == -1)
     {
-        salida << "No se encontro un bloque de la llave en mod26";
+        outFile << "No se encontro un bloque de la llave en mod26";
         return;
     }
 
     if (!CalcularLlave(n, P, C, Pinversa, K))
     {
-        salida << "No se pudo calcular la llave (P no es invertible)";
+        outFile << "No se pudo calcular la llave (P no es invertible)";
         return;
     }
 
-    salida << endl;
+    outFile << endl;
 
-    PrintLllave(salida, n, bloqueinicial, K);
+    PrintLllave(n, bloqueinicial, K);
 }

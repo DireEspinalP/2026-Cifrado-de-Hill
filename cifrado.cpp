@@ -4,67 +4,132 @@
 #include <cstring>
 #include <string>
 #include <cstddef>
+
 #include "tipos.h"
 #include "cifrado.h"
+
 using namespace std;
 
-void  Matrixllave::EscribirllaveMatrix(size_t n, T1 llave[10][10])
-{
-    ofstream outFile("llave_matriz.txt");
+void Matrixllave::CreatellaveMatrix(){
+    m_pMat=new T1*[filas];
+    for (size_t i=0; i<filas; i++){
+        m_pMat[i]=new T1[columnas];
+    }
+}
+
+
+void  Matrixllave::PrintllaveMatrix(){
+    ofstream outFile("matriz_llave.txt");
     outFile<<"La llave de la matrix es: "<<endl;
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < filas; i++)
     {
-        for (size_t j = 0; j < n; j++)
+        for (size_t j = 0; j < columnas; j++)
         {
-            outFile << llave[i][j] << " ";
+            outFile << *(*(m_pMat+i)+j) << " ";
         }
         outFile << endl;
     }
     outFile<<"verificacion";
     outFile.close();
 }
-void Matrixllave::LeerllaveMatrix(size_t n, T1 llave[10][10])
-{
-    ifstream inFile("llave_matriz.txt");
-    for (size_t i = 0; i < n; i++)
+void Matrixllave::ReadllaveMatrix(){
+    ifstream inFile("matriz_llave.txt");
+    for (size_t i = 0; i < filas; i++)
     {
-        for (size_t j = 0; j < n; j++)
+        for (size_t j = 0; j < columnas; j++)
         {
-            inFile >> llave[i][j];
+            inFile >> *(*(m_pMat+i)+j);
         }
+        
     }
     inFile.close();
 }
 
+
+void Matrixllave::DestroyllaveMatrix(){
+    if(m_pMat==nullptr) return ;
+    for (size_t i=0; i<filas; i++){
+        delete[] m_pMat[i];
+    }
+    delete[] m_pMat;
+    m_pMat=nullptr;
+
+}
+
+T1 Matrixllave::Particion(size_t n, string mensaje, T1 mensajeNum[200])
+{
+    size_t longitud = (size_t)mensaje.length();
+    size_t padding = (n - (longitud % n)) % n;
+    for (size_t i = 0; i < padding; i++)
+    {
+        mensajeNum[longitud + i] = 26;
+    }
+    return longitud + padding;
+}
+
+
+void Matrixllave::llaveMatrix( ostream &salida, istream &entrada)
+{
+   salida<<"Eliga el numero de orden de la matrix llave :";
+   entrada>>this->filas>>this->columnas;
+    CreatellaveMatrix();
+    ReadllaveMatrix();
+    salida << endl;
+    PrintllaveMatrix();
+    DestroyllaveMatrix();
+}
+
+void Matrixllave::MCifrado(size_t n, size_t total, Convertidor &CO)
+{
+    T1* mensajeCifrado=new T1[total];
+    auto k = total / n;
+    for (size_t i = 0; i < k; i++)
+    {
+        for (size_t j = 0; j < n; j++)
+        {
+            mensajeCifrado[i * n + j] = 0;
+            for (size_t l = 0; l < n; l++)
+            {
+                mensajeCifrado[i * n + j] += *(*(m_pMat+j)+l) * CO.m_mensaje[i * n + l];
+            }
+            mensajeCifrado[i * n + j] = ((mensajeCifrado[i * n + j] % 26) + 26) % 26;
+        }
+    }
+   CO.numeroLetra(mensajeCifrado,total);
+   delete[] mensajeCifrado;
+}
+
+
+
 // Letra a num
-void Convertidor::Cambio_A(string mensaje, T1 mensajeNum[200])
+void Convertidor::Cambio_A(string mensaje)
 {
     for (size_t i = 0; i < mensaje.length(); i++)
     {
-        (mensaje[i] >= 'A' && mensaje[i] <= 'Z') ? mensajeNum[i] = mensaje[i] - 'A' : mensajeNum[i] = 23;
+        (mensaje[i] >= 'A' && mensaje[i] <= 'Z') ? m_mensaje[i] = mensaje[i] - 'A' : m_mensaje[i] = 23;
     }
 }
 
-void Convertidor::Cambio_a(string mensaje, T1 mensajeNum[200])
+void Convertidor::Cambio_a(string mensaje)
 {
     for (size_t i = 0; i < mensaje.length(); i++)
     {
-        (mensaje[i] >= 'a' && mensaje[i] <= 'z') ? mensajeNum[i] = mensaje[i] - 'a' : mensajeNum[i] = 23;
+        (mensaje[i] >= 'a' && mensaje[i] <= 'z') ? m_mensaje[i] = mensaje[i] - 'a' : m_mensaje[i] = 23;
     }
 }
 
-void Convertidor::letraNumero(string mensaje, T1 mensajeNum[200])
+void Convertidor::letraNumero(string mensaje)
 {
    size_t ope=0;
-    void (Convertidor::*palabra[2])(string, T1[200]) = {Cambio_A, Cambio_a};
-    
+    void (Convertidor::*palabra[2])(string) = {Cambio_A, Cambio_a};
+
     {
         
-      (this->*palabra[ope])(mensaje, mensajeNum);
+     (  this->*palabra[ope])(mensaje);
     }
 }
 
-void Convertidor::numeroLetra(T1 mensajeCifrado[200], size_t total){
+void Convertidor::numeroLetra(T1* mensajeCifrado, size_t total){
     ofstream outFile("mensaje_cifrado.txt");
     outFile<<"El mensaje cifrado es : "<<endl;
     for (size_t i = 0; i < total; i++)
@@ -75,25 +140,20 @@ void Convertidor::numeroLetra(T1 mensajeCifrado[200], size_t total){
     outFile.close();
 }
 
-T1 Matrixllave::Particion(size_t n, string mensaje, T1 mensajeNum[200])
-{
-    size_t longitud = (size_t)mensaje.length();
-    size_t padding = (n - (longitud % n)) % n;
-    for (size_t i = 0; i < padding; i++)
-    {
-        mensajeNum[longitud + i] = 23;
-    }
-    return longitud + padding;
+
+
+void Convertidor::CreateVectorMensaje(size_t n){
+    fila=n; 
+    m_mensaje=new T1[fila];
 }
 
-T1 Matrixllave::CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200])
+void Convertidor::TransfVectorMensaje(string mensaje)
 {
-    Convertidor CO;
-    CO.letraNumero(mensaje, mensajeNum);
-    return Particion(n, mensaje, mensajeNum);
+     letraNumero(mensaje);
 }
 
-void Matrixllave::PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
+
+void Convertidor::PrintVectorMensaje(size_t n, size_t total)
 {
     ofstream outFile("mensaje_cifrado.txt");
     auto k = total / n;
@@ -102,7 +162,7 @@ void Matrixllave::PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
     {
         for (size_t j = 0 ; j < n; j++)
         {
-            outFile << mensajeNum[i * n + j] << " ";
+            outFile << m_mensaje[i * n + j] << " ";
         }
         outFile << endl;
     }
@@ -110,33 +170,12 @@ void Matrixllave::PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
     outFile.close();
 }
 
-void Matrixllave::MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 mensajeCifrado[200])
-{
-    Convertidor CO;
-    ofstream cipherFile("mensaje_cifrado.txt");
-    auto k = total / n;
-    for (size_t i = 0; i < k; i++)
-    {
-        for (size_t j = 0; j < n; j++)
-        {
-            mensajeCifrado[i * n + j] = 0;
-            for (size_t l = 0; l < n; l++)
-            {
-                mensajeCifrado[i * n + j] += llave[j][l] * mensajeNum[i * n + l];
-            }
-            mensajeCifrado[i * n + j] = ((mensajeCifrado[i * n + j] % 26) + 26) % 26;
-        }
+void Convertidor::DeleteVectorMensaje(){
+    if(m_mensaje!=nullptr){
+        delete[] m_mensaje;
+        m_mensaje = nullptr;
     }
-    cipherFile << "Mensaje cifrado es:" << endl;
-    CO.numeroLetra(mensajeCifrado, total);
-    cipherFile.close();
 }
 
-void Matrixllave::llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada)
-{
-   salida<<"Eliga el numero de orden de la matrix llave :";
-   entrada>>n;
-    LeerllaveMatrix(n, llave);
-    salida << endl;
-    EscribirllaveMatrix(n, llave);
-}
+
+

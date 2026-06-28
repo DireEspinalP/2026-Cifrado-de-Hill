@@ -8,17 +8,17 @@ using namespace std;
 
 // Verificamos la invertiblidad de la llave
 // Solo para orden 2
-T1 VInvertiblidad::det1x1(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::det1x1(size_t n, T1 **llave)
 {
     return ((llave[0][0] % 26 + 26) % 26);
 }
-T1 VInvertiblidad::det2x2(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::det2x2(size_t n, T1 **llave)
 {
     T1 valor = ((llave[0][0] * llave[1][1] - llave[0][1] * llave[1][0]) % 26);
     return (valor < 0) ? valor + 26 : valor;
 }
 
-T1 VInvertiblidad::detnxn(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::detnxn(size_t n,T1 **llave)
 {
     T1 det = 0;
     T1 sub[10][10];
@@ -38,17 +38,17 @@ T1 VInvertiblidad::detnxn(size_t n, T1 llave[10][10])
             }
             subi++;
         }
-        T1 signo = (x % 2 == 0) ? 1 : -1;
+        auto signo = (x % 2 == 0) ? 1 : -1;
         det += signo * llave[0][x] * detnxn(n - 1, sub);
         det %= 26;
     }
     return (det < 0) ? det + 26 : det;
 }
 
-T1 VInvertiblidad::Determinante(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::Determinante(size_t n, T1 **llave)
 {
     size_t ope=0;
-    T1 (VInvertiblidad::*determinant[3])(size_t n, T1[10][10]) = {det1x1, det2x2, detnxn};
+    T1 (VInvertiblidad::*determinant[3])(size_t n, T1 **) = {det1x1, det2x2, detnxn};
 
     return (this->*determinant[ope])(n, llave);
 }
@@ -80,22 +80,19 @@ void DemoCifradoHill()
 {
     Matrixllave M;
     VInvertiblidad V;
+    Convertidor CO;
     
 
     ostream &salida = cout;
     istream &entrada = cin;
-    size_t n=0;
+    size_t n;
     string mensaje;
 
-    T1 llave[10][10];
-    T1 mensajeCifrado[200];
-    T1 mensajeNum[200];
-   
 
     salida << "PRIMERO INGRESE LA LLAVE PARA CIFRAR EL MENSAJE " << endl;  
     salida << "en el archivo 'llave_matriz.txt' : " << endl;
     salida<<endl;
-    M.llaveMatrix(n, llave, salida, entrada);
+    M.llaveMatrix(salida, entrada);
 
     V.esInvertibleMod26(V.Determinante(n, llave)) ? salida << "La llave es invertible. Procediendo con el cifrado..." << endl
                                                    : salida << "La llave NO ES INVERTIBLE. Por favor, ingrese una llave válida." << endl;
@@ -104,8 +101,8 @@ void DemoCifradoHill()
     salida << "Ingrese el mensaje a cifrar: ";
     getline(entrada, mensaje);
 
-     size_t total = M.CrearMensajeNum(n, mensaje, mensajeNum);
-    M.MCifrado(n, llave, mensajeNum, total, mensajeCifrado);
+     size_t total = CO.CreateVectorMensaje(n);
+    M.MCifrado(n,total,CO);
     
 
     salida<<endl;

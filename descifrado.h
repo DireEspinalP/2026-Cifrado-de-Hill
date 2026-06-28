@@ -16,9 +16,6 @@ T1 gcd(T1 a, T1 b);
 bool esInvertibleMod26(T1 det);
 
 
-
-friend class Matrixllave;
-friend class Convertidor;
 };
 
 void DemoCifradoHill();
