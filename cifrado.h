@@ -1,28 +1,40 @@
 #ifndef __CIFRADO__
 #define __CIFRADO__
 #include "tipos.h"
+#include "descifrado.h"
 #include <cstddef>
 #include <string>
 #include <iostream>
 using namespace std;
 
-void LeerllaveMatrix(size_t n,T1 llave[10][10]);
-void EscribirllaveMatrix(size_t n, T1 llave[10][10]);
-void llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada);
+class Matrixllave
+{
 
-//Convertidor
-void numeroLetra(T1 mensajeNum[200], size_t total);
-void letraNumero(string mensaje, T1 mensajeNum[200]);
-void Cambio_A(string mensaje, T1 mensajeNum[200]);
-void Cambio_a(string mensaje, T1 mensajeNum[200]);
+public:
+    void LeerllaveMatrix(size_t n, T1 llave[10][10]);
+    void EscribirllaveMatrix(size_t n, T1 llave[10][10]);
+    void llaveMatrix(size_t &n, T1 llave[10][10], ostream &salida, istream &entrada);
 
+    T1 Particion(size_t n, string mensaje, T1 mensajeNum[200]);
+    T1 CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200]);
+    void PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[]);
+    void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 mensajeCifrado[200]);
 
-T1 Particion(size_t n, string mensaje, T1 mensajeNum[200]);
-T1 CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200]);
-void PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[]);
+    friend class Convertidor;
+};
 
-void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 mensajeCifrado[200]);
+// Convertidor
+class Convertidor
+{
+public:
 
+    void numeroLetra(T1 mensajeNum[200], size_t total);
+    void letraNumero(string mensaje, T1 mensajeNum[200]);
+    void Cambio_A(string mensaje, T1 mensajeNum[200]);
+    void Cambio_a(string mensaje, T1 mensajeNum[200]);
 
+    friend class Matrixllave;
+    friend class VInvertiblidad;
+};
 
 #endif // __CIFRADO__

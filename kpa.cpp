@@ -37,10 +37,11 @@ void LlenarMatrix(size_t n, T1 inicioB, T1 Pnum[200], T1 Cnum[200], T1 P[10][10]
 }
 T1 BuscadorBloques(size_t n, size_t numBloques, T1 Pnum[200], T1 Cnum[200], T1 P[10][10], T1 C[10][10])
 {
+    VInvertiblidad V;
     for (size_t a = 0; a <= numBloques - n; a++)
     {
         LlenarMatrix(n, a, Pnum, Cnum, P, C);
-        if (esInvertibleMod26(Determinante(n, P)))
+        if (V.esInvertibleMod26(V.Determinante(n, P)))
         {
             return a;
         }
@@ -50,7 +51,8 @@ T1 BuscadorBloques(size_t n, size_t numBloques, T1 Pnum[200], T1 Cnum[200], T1 P
 
 bool CalcularLlave(size_t n, T1 P[10][10], T1 C[10][10], T1 Pinversa[10][10], T1 K[10][10])
 {
-    if (!InversaMatrix(n, P, Pinversa))
+    Inversa I;
+    if (!I.InversaMatrix(n, P, Pinversa))
     {
         return false;
     }
@@ -73,6 +75,7 @@ void PrintLllave(ostream &salida, size_t n, T1 bloqueinicial, T1 K[10][10])
 
 void DemoKPA()
 {
+    Convertidor CO;
 
     ostream &salida = cout;
     istream &entrada = cin;
@@ -92,8 +95,8 @@ void DemoKPA()
     salida << endl; 
     size_t numBloques = size_t(plano.length() / n);
 
-    letraNumero(plano, Pnum);
-    letraNumero(textocifrado, Cnum);
+    CO.letraNumero(plano, Pnum);
+    CO.letraNumero(textocifrado, Cnum);
 
     T1 P[10][10], C[10][10], K[10][10], Pinversa[10][10];
 

@@ -8,25 +8,17 @@ using namespace std;
 
 // Verificamos la invertiblidad de la llave
 // Solo para orden 2
-
-T1 Determinante(size_t n, T1 llave[10][10])
-{
-    size_t ope=0;
-    T1 (*determinant[3])(size_t n, T1[10][10]) = {det1x1, det2x2, detnxn};
-
-    return determinant[ope](n, llave);
-}
-T1 det1x1(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::det1x1(size_t n, T1 llave[10][10])
 {
     return ((llave[0][0] % 26 + 26) % 26);
 }
-T1 det2x2(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::det2x2(size_t n, T1 llave[10][10])
 {
     T1 valor = ((llave[0][0] * llave[1][1] - llave[0][1] * llave[1][0]) % 26);
     return (valor < 0) ? valor + 26 : valor;
 }
 
-T1 detnxn(size_t n, T1 llave[10][10])
+T1 VInvertiblidad::detnxn(size_t n, T1 llave[10][10])
 {
     T1 det = 0;
     T1 sub[10][10];
@@ -53,8 +45,17 @@ T1 detnxn(size_t n, T1 llave[10][10])
     return (det < 0) ? det + 26 : det;
 }
 
+T1 VInvertiblidad::Determinante(size_t n, T1 llave[10][10])
+{
+    size_t ope=0;
+    T1 (VInvertiblidad::*determinant[3])(size_t n, T1[10][10]) = {det1x1, det2x2, detnxn};
 
-T1 gcd(T1 a, T1 b)
+    return (this->*determinant[ope])(n, llave);
+}
+
+
+
+T1 VInvertiblidad:: gcd(T1 a, T1 b)
 {
     a = (a < 0) ? -a : a;
     for (; b != 0;)
@@ -68,7 +69,7 @@ T1 gcd(T1 a, T1 b)
 
 
 
-bool esInvertibleMod26(T1 det)
+bool VInvertiblidad::esInvertibleMod26(T1 det)
 {
     det = ((det % 26) + 26) % 26;
     return gcd(det, 26) == 1;
@@ -77,6 +78,10 @@ bool esInvertibleMod26(T1 det)
 
 void DemoCifradoHill()
 {
+    Matrixllave M;
+    VInvertiblidad V;
+    
+
     ostream &salida = cout;
     istream &entrada = cin;
     size_t n=0;
@@ -90,17 +95,17 @@ void DemoCifradoHill()
     salida << "PRIMERO INGRESE LA LLAVE PARA CIFRAR EL MENSAJE " << endl;  
     salida << "en el archivo 'llave_matriz.txt' : " << endl;
     salida<<endl;
-    llaveMatrix(n, llave, salida, entrada);
+    M.llaveMatrix(n, llave, salida, entrada);
 
-    esInvertibleMod26(Determinante(n, llave)) ? salida << "La llave es invertible. Procediendo con el cifrado..." << endl
+    V.esInvertibleMod26(V.Determinante(n, llave)) ? salida << "La llave es invertible. Procediendo con el cifrado..." << endl
                                                    : salida << "La llave NO ES INVERTIBLE. Por favor, ingrese una llave válida." << endl;
     entrada.ignore();
    
     salida << "Ingrese el mensaje a cifrar: ";
     getline(entrada, mensaje);
 
-     size_t total = CrearMensajeNum(n, mensaje, mensajeNum);
-    MCifrado(n, llave, mensajeNum, total, mensajeCifrado);
+     size_t total = M.CrearMensajeNum(n, mensaje, mensajeNum);
+    M.MCifrado(n, llave, mensajeNum, total, mensajeCifrado);
     
 
     salida<<endl;

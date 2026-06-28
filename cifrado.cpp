@@ -8,7 +8,7 @@
 #include "cifrado.h"
 using namespace std;
 
-void EscribirllaveMatrix(size_t n, T1 llave[10][10])
+void  Matrixllave::EscribirllaveMatrix(size_t n, T1 llave[10][10])
 {
     ofstream outFile("llave_matriz.txt");
     outFile<<"La llave de la matrix es: "<<endl;
@@ -23,7 +23,7 @@ void EscribirllaveMatrix(size_t n, T1 llave[10][10])
     outFile<<"verificacion";
     outFile.close();
 }
-void LeerllaveMatrix(size_t n, T1 llave[10][10])
+void Matrixllave::LeerllaveMatrix(size_t n, T1 llave[10][10])
 {
     ifstream inFile("llave_matriz.txt");
     for (size_t i = 0; i < n; i++)
@@ -37,7 +37,7 @@ void LeerllaveMatrix(size_t n, T1 llave[10][10])
 }
 
 // Letra a num
-void Cambio_A(string mensaje, T1 mensajeNum[200])
+void Convertidor::Cambio_A(string mensaje, T1 mensajeNum[200])
 {
     for (size_t i = 0; i < mensaje.length(); i++)
     {
@@ -45,7 +45,7 @@ void Cambio_A(string mensaje, T1 mensajeNum[200])
     }
 }
 
-void Cambio_a(string mensaje, T1 mensajeNum[200])
+void Convertidor::Cambio_a(string mensaje, T1 mensajeNum[200])
 {
     for (size_t i = 0; i < mensaje.length(); i++)
     {
@@ -53,17 +53,18 @@ void Cambio_a(string mensaje, T1 mensajeNum[200])
     }
 }
 
-void letraNumero(string mensaje, T1 mensajeNum[200])
+void Convertidor::letraNumero(string mensaje, T1 mensajeNum[200])
 {
    size_t ope=0;
-    void (*palabra[2])(string, T1[200]) = {Cambio_A, Cambio_a};
+    void (Convertidor::*palabra[2])(string, T1[200]) = {Cambio_A, Cambio_a};
+    
     {
         
-        palabra[ope](mensaje, mensajeNum);
+      (this->*palabra[ope])(mensaje, mensajeNum);
     }
 }
 
-void numeroLetra(T1 mensajeCifrado[200], size_t total){
+void Convertidor::numeroLetra(T1 mensajeCifrado[200], size_t total){
     ofstream outFile("mensaje_cifrado.txt");
     outFile<<"El mensaje cifrado es : "<<endl;
     for (size_t i = 0; i < total; i++)
@@ -74,7 +75,7 @@ void numeroLetra(T1 mensajeCifrado[200], size_t total){
     outFile.close();
 }
 
-T1 Particion(size_t n, string mensaje, T1 mensajeNum[200])
+T1 Matrixllave::Particion(size_t n, string mensaje, T1 mensajeNum[200])
 {
     size_t longitud = (size_t)mensaje.length();
     size_t padding = (n - (longitud % n)) % n;
@@ -85,13 +86,14 @@ T1 Particion(size_t n, string mensaje, T1 mensajeNum[200])
     return longitud + padding;
 }
 
-T1 CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200])
+T1 Matrixllave::CrearMensajeNum(size_t n, string mensaje, T1 mensajeNum[200])
 {
-    letraNumero(mensaje, mensajeNum);
+    Convertidor CO;
+    CO.letraNumero(mensaje, mensajeNum);
     return Particion(n, mensaje, mensajeNum);
 }
 
-void PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
+void Matrixllave::PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
 {
     ofstream outFile("mensaje_cifrado.txt");
     auto k = total / n;
@@ -108,8 +110,9 @@ void PrintMatrixMensaje(size_t n, size_t total, T1 mensajeNum[])
     outFile.close();
 }
 
-void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 mensajeCifrado[200])
+void Matrixllave::MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 mensajeCifrado[200])
 {
+    Convertidor CO;
     ofstream cipherFile("mensaje_cifrado.txt");
     auto k = total / n;
     for (size_t i = 0; i < k; i++)
@@ -125,11 +128,11 @@ void MCifrado(size_t n, T1 llave[10][10], T1 mensajeNum[200], size_t total, T1 m
         }
     }
     cipherFile << "Mensaje cifrado es:" << endl;
-    numeroLetra(mensajeCifrado, total);
+    CO.numeroLetra(mensajeCifrado, total);
     cipherFile.close();
 }
 
-void llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada)
+void Matrixllave::llaveMatrix(size_t& n, T1 llave[10][10], ostream &salida, istream &entrada)
 {
    salida<<"Eliga el numero de orden de la matrix llave :";
    entrada>>n;
