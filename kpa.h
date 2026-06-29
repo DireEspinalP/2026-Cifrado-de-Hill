@@ -6,14 +6,19 @@
 #include "tipos.h"
 #include "inversa.h"
 #include <cstddef>
-
+class KPA{
 void multiplicar(size_t n, T1 A[10][10], T1 B[10][10], T1 C[10][10]);
+
+
 
 void LlenarMatrix(size_t n, T1 inicio, T1 Cnum[200], T1 P[10][10], T1 C[10][10]);
 T1 BuscadorBloques(T1 n, T1 numBloques,T1 Pnum[200], T1 Cnum[200]);
 bool CalcularLlave(size_t n, T1 P[10][10],T1 C[10][10], T1 Pinversa[10][10], T1 K[10][10]);
 void PrintLllave(ostream& salida , size_t n, T1 bloqueinicial, T1 K[10][10]);
+
+friend class Matrixllave;
 void DemoKPA();
 
+};
 
 #endif

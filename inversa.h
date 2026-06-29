@@ -6,17 +6,25 @@
 #include "tipos.h"
 class Inversa
 {
+private:
+    T1 **pmat = nullptr;
+    size_t n = 0;
+
 public:
-    void CambioFilas(size_t n, T1 aumentM[10][20], size_t i, size_t r);
 
-    void CreatematrixAument(size_t n, T1 llave[10][10], T1 aumentM[10][20]);
-    bool Pivote(size_t n, T1 aumentM[10][20], size_t i);
+    Inversa() {}
+    ~Inversa(){DeleteMemoriaI();}
+
+    void NewMemoriaI(size_t n);
+    void DeleteMemoriaI();
+
+    void CambioFilas(size_t n, T1** aumentM, size_t i, size_t r);
+    void CreatematrixAument(size_t n, T1**llave, T1** aumentM);
+    bool Pivote(size_t n, T1** aumentM, size_t i);
     T1 inversoMod26(T1 pivote);
-    void ElimGJ(size_t n, T1 aumentM[10][20], size_t i);
-
-    void CreateInversa(size_t n, T1 aumentM[10][20], T1 inversa[10][10]);
-    void normalizarFila(size_t n, T1 aumentaM[10][20], size_t i, T1 inv);
-
-    bool InversaMatrix(size_t n, T1 llave[10][10], T1 Inv[10][10]);
+    void ElimGJ(size_t n, T1** aumentM, size_t i);
+    void CreateInversa(size_t n, T1** aumentM, T1** inversa);
+    void normalizarFila(size_t n, T1** aumentaM, size_t i, T1 inv);
+    bool InversaMatrix(size_t n, T1** llave, T1** inv);
 };
 #endif
