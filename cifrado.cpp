@@ -11,44 +11,44 @@
 using namespace std;
 
 void Matrixllave::CreatellaveMatrix(){
-    m_pMat=new T1*[filas];
-    for (size_t i=0; i<filas; i++){
-        m_pMat[i]=new T1[columnas];
+    m_pMat=new T1*[n];
+    for (size_t i=0; i<n; i++){
+        m_pMat[i]=new T1[n];
     }
 }
 
-
-void  Matrixllave::PrintllaveMatrix(){
-    ofstream outFile("matriz_llave.txt");
-    outFile<<"La llave de la matrix es: "<<endl;
-    for (size_t i = 0; i < filas; i++)
-    {
-        for (size_t j = 0; j < columnas; j++)
-        {
-            outFile << *(*(m_pMat+i)+j) << " ";
-        }
-        outFile << endl;
-    }
-    outFile<<"verificacion";
-    outFile.close();
-}
 void Matrixllave::ReadllaveMatrix(){
     ifstream inFile("matriz_llave.txt");
-    for (size_t i = 0; i < filas; i++)
+    for (size_t i = 0; i < n; i++)
     {
-        for (size_t j = 0; j < columnas; j++)
+        for (size_t j = 0; j < n; j++)
         {
-            inFile >> *(*(m_pMat+i)+j);
+            inFile >> m_pMat[i][j];
         }
         
     }
     inFile.close();
 }
 
+void  Matrixllave::PrintllaveMatrix(){
+    ofstream outFile("matriz_llave.txt");
+    outFile<<"La llave de la matrix es: "<<endl;
+    for (size_t i = 0; i < n; i++)
+    {
+        for (size_t j = 0; j < n; j++)
+        {
+            outFile << m_pMat[i][j]<< " ";
+        }
+        outFile << endl;
+    }
+    outFile<<"verificacion";
+    outFile.close();
+}
+
 
 void Matrixllave::DestroyllaveMatrix(){
     if(m_pMat==nullptr) return ;
-    for (size_t i=0; i<filas; i++){
+    for (size_t i=0; i<n; i++){
         delete[] m_pMat[i];
     }
     delete[] m_pMat;
@@ -56,13 +56,13 @@ void Matrixllave::DestroyllaveMatrix(){
 
 }
 
-T1 Matrixllave::Particion(size_t n, string mensaje, T1 mensajeNum[200])
+T1 Convertidor::Particion(size_t n, string mensaje, T1* mensajeNum)
 {
-    size_t longitud = (size_t)mensaje.length();
+    size_t longitud = mensaje.length();
     size_t padding = (n - (longitud % n)) % n;
     for (size_t i = 0; i < padding; i++)
     {
-        mensajeNum[longitud + i] = 26;
+        mensajeNum[longitud + i] = 23;
     }
     return longitud + padding;
 }
@@ -71,15 +71,14 @@ T1 Matrixllave::Particion(size_t n, string mensaje, T1 mensajeNum[200])
 void Matrixllave::llaveMatrix( ostream &salida, istream &entrada)
 {
    salida<<"Eliga el numero de orden de la matrix llave :";
-   entrada>>this->filas>>this->columnas;
+   entrada>>this->n;
     CreatellaveMatrix();
     ReadllaveMatrix();
     salida << endl;
     PrintllaveMatrix();
-    DestroyllaveMatrix();
 }
 
-void Matrixllave::MCifrado(size_t n, size_t total, Convertidor &CO)
+void Matrixllave::MCifrado(size_t n, T1 total, Convertidor &CO)
 {
     T1* mensajeCifrado=new T1[total];
     auto k = total / n;
@@ -90,7 +89,7 @@ void Matrixllave::MCifrado(size_t n, size_t total, Convertidor &CO)
             mensajeCifrado[i * n + j] = 0;
             for (size_t l = 0; l < n; l++)
             {
-                mensajeCifrado[i * n + j] += *(*(m_pMat+j)+l) * CO.m_mensaje[i * n + l];
+                mensajeCifrado[i * n + j] += m_pMat[j][l] * CO.m_mensaje[i * n + l];
             }
             mensajeCifrado[i * n + j] = ((mensajeCifrado[i * n + j] % 26) + 26) % 26;
         }
@@ -120,7 +119,7 @@ void Convertidor::Cambio_a(string mensaje)
 
 void Convertidor::letraNumero(string mensaje)
 {
-   size_t ope=0;
+    size_t ope = 0;
     void (Convertidor::*palabra[2])(string) = {Cambio_A, Cambio_a};
 
     {
@@ -142,14 +141,21 @@ void Convertidor::numeroLetra(T1* mensajeCifrado, size_t total){
 
 
 
-void Convertidor::CreateVectorMensaje(size_t n){
-    fila=n; 
-    m_mensaje=new T1[fila];
+void Convertidor::CreateVectorMensaje(size_t n){ 
+    this->n=n;
+    m_mensaje=new T1[n];
 }
 
-void Convertidor::TransfVectorMensaje(string mensaje)
+T1 Convertidor::TransfVectorMensaje(size_t n, string mensaje, T1*mensajeNum)
 {
+     T1 total=Particion(n, mensaje, mensajeNum);
      letraNumero(mensaje);
+     size_t longitud = mensaje.length();
+     for (size_t i=longitud; i < (size_t)total; i++){
+        m_mensaje[i]=23;
+        
+     }
+     return total;
 }
 
 
