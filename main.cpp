@@ -15,6 +15,6 @@ int main()
   
   cout<<endl;
   cout <<"---------KNOW PLAINTEXT ATTACK---------" << endl;
-  //DemoKPA();
+  DemoKPA();
 
 }

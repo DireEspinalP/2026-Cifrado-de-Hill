@@ -32,6 +32,7 @@ public:
     void MensajeVector(string mensaje, T1 &total,  size_t n, ostream &salida, istream &entrada, T1* mensajeNum);
 
     friend class Matrixllave;
+    friend class KPA;
 };
 
 
@@ -58,6 +59,7 @@ public:
     void MCifrado(size_t n, T1 total, Convertidor &CO);
 
     friend void DemoCifradoHill();
+    friend void DemoKPA();
 };
 
 

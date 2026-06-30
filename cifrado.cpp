@@ -41,7 +41,6 @@ void  Matrixllave::PrintllaveMatrix(){
         }
         outFile << endl;
     }
-    outFile<<"verificacion";
     outFile.close();
 }
 
@@ -58,6 +57,7 @@ void Matrixllave::DestroyllaveMatrix(){
 
 T1 Convertidor::Particion(size_t n, string mensaje, T1* mensajeNum)
 {
+    
     size_t longitud = mensaje.length();
     size_t padding = (n - (longitud % n)) % n;
     for (size_t i = 0; i < padding; i++)
@@ -119,11 +119,11 @@ void Convertidor::Cambio_a(string mensaje)
 
 void Convertidor::letraNumero(string mensaje)
 {
-    size_t ope = 0;
+    
     void (Convertidor::*palabra[2])(string) = {Cambio_A, Cambio_a};
 
     {
-        
+     size_t ope = (mensaje[0] >> 5) & 1;
      (  this->*palabra[ope])(mensaje);
     }
 }
@@ -141,9 +141,8 @@ void Convertidor::numeroLetra(T1* mensajeCifrado, size_t total){
 
 
 
-void Convertidor::CreateVectorMensaje(size_t n){ 
-    this->n=n;
-    m_mensaje=new T1[n];
+void Convertidor::CreateVectorMensaje(size_t total){ 
+    m_mensaje=new T1[total];
 }
 
 T1 Convertidor::TransfVectorMensaje(size_t n, string mensaje, T1*mensajeNum)
@@ -152,7 +151,7 @@ T1 Convertidor::TransfVectorMensaje(size_t n, string mensaje, T1*mensajeNum)
      letraNumero(mensaje);
      size_t longitud = mensaje.length();
      for (size_t i=longitud; i < (size_t)total; i++){
-        m_mensaje[i]=23;
+        m_mensaje[i]=26;
         
      }
      return total;

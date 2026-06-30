@@ -4,24 +4,47 @@
 #include "inversa.h"
 #include <iostream>
 #include <cstddef>
-void Inversa:: NewMemoriaI(size_t n){
-     pmat=new T1*[n];
-    for (size_t i=0; i<n; i++){
-        pmat[i]=new T1[n];
+void Inversa::NewMemoriaI(size_t n)
+{
+    this->n=n;
+    pmat = new T1 *[n];
+    for (size_t i = 0; i < n; i++)
+    {
+        pmat[i] = new T1[n];
     }
-    
+    inversa = new T1 *[n];
+    for (size_t i = 0; i < n; i++)
+    {
+        inversa[i] = new T1[n];
+    }
+
+    aumentM = new T1 *[n];
+    for (size_t i = 0; i < n; i++)
+    {
+        aumentM[i] = new T1[2*n];
+    }
 }
 
-void Inversa::DeleteMemoriaI(){
-     if(pmat==nullptr) return ;
-    for (size_t i=0; i<n; i++){
-        delete[] pmat[i];
+void Inversa::DeleteMemoriaI()
+{
+    if (pmat != nullptr) {
+        for (size_t i = 0; i < n; i++) delete[] pmat[i];
+        delete[] pmat;
+        pmat = nullptr;
     }
-    delete[] pmat;
-    pmat=nullptr;
+    if (inversa != nullptr) {
+        for (size_t i = 0; i < n; i++) delete[] inversa[i];
+        delete[] inversa;
+        inversa = nullptr;
+    }
+    if (aumentM != nullptr) {
+        for (size_t i = 0; i < n; i++) delete[] aumentM[i];
+        delete[] aumentM;
+        aumentM = nullptr;
+    }
 }
 
-void Inversa::CambioFilas(size_t n, T1** aumentM, size_t i, size_t r)
+void Inversa::CambioFilas(size_t n, T1 **aumentM, size_t i, size_t r)
 {
     for (size_t j = 0; j < 2 * n; j++)
     {
@@ -31,17 +54,16 @@ void Inversa::CambioFilas(size_t n, T1** aumentM, size_t i, size_t r)
     }
 }
 
-void Inversa::CreatematrixAument(size_t n, T1** llave, T1** aumentM)
+void Inversa::CreatematrixAument(size_t n, T1 **llave, T1 **aumentM)
 {
     for (size_t i = 0; i < n; i++)
-    {     
-            for (size_t j = 0; j < n; j++)
-            {
-                aumentM[i][j] = ((llave[i][j] % 26) + 26) % 26;
-                aumentM[i][j + n] = (i == j) ? 1 : 0;
-            }
+    {
+        for (size_t j = 0; j < n; j++)
+        {
+            aumentM[i][j] = ((llave[i][j] % 26) + 26) % 26;
+            aumentM[i][j + n] = (i == j) ? 1 : 0;
         }
-
+    }
 }
 T1 Inversa::inversoMod26(T1 pivote)
 {
@@ -55,7 +77,7 @@ T1 Inversa::inversoMod26(T1 pivote)
     }
     return -1;
 }
-void Inversa::ElimGJ(size_t n, T1** aumentM, size_t i)
+void Inversa::ElimGJ(size_t n, T1 **aumentM, size_t i)
 {
     for (size_t k = 0; k < n; k++)
     {
@@ -70,7 +92,7 @@ void Inversa::ElimGJ(size_t n, T1** aumentM, size_t i)
     }
 }
 
-void Inversa::CreateInversa(size_t n, T1** aumentM, T1** inversa)
+void Inversa::CreateInversa(size_t n, T1 **aumentM, T1 **inversa)
 {
     for (size_t i = 0; i < n; i++)
     {
@@ -81,7 +103,7 @@ void Inversa::CreateInversa(size_t n, T1** aumentM, T1** inversa)
     }
 }
 
-void Inversa::normalizarFila(size_t n, T1** aumentaM, size_t i, T1 inv)
+void Inversa::normalizarFila(size_t n, T1 **aumentaM, size_t i, T1 inv)
 {
     for (size_t j = 0; j < 2 * n; j++)
     {
@@ -89,7 +111,7 @@ void Inversa::normalizarFila(size_t n, T1** aumentaM, size_t i, T1 inv)
     }
 }
 
-bool Inversa::Pivote(size_t n, T1** aumentaM, size_t i)
+bool Inversa::Pivote(size_t n, T1 **aumentaM, size_t i)
 {
     if (aumentaM[i][i] != 0)
         return true;
@@ -105,9 +127,9 @@ bool Inversa::Pivote(size_t n, T1** aumentaM, size_t i)
     return false;
 }
 
-bool Inversa::InversaMatrix(size_t n, T1** llave, T1** Inv)
+bool Inversa::InversaMatrix(size_t n, T1 **llave, T1 **Inv)
 {
-    T1** aumentM;
+
     CreatematrixAument(n, llave, aumentM);
     for (size_t i = 0; i < n; i++)
     {

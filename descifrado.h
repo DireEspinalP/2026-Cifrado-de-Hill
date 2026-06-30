@@ -1,7 +1,6 @@
 #ifndef __DESCIFRADO_H__
 #define __DESCIFRADO_H__
 #include "tipos.h"
-#include "cifrado.h"
 #include <cstddef>
 
 class VInvertiblidad{

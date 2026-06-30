@@ -2,6 +2,7 @@
 #include "descifrado.h"
 #include "tipos.h"
 #include "inversa.h"
+#include "kpa.h"
 
 #include <iostream>
 #include <cstddef>
@@ -9,8 +10,54 @@
 #include <string>
 
 using namespace std;
+void KPA::NewMemoriaKPA(size_t n, size_t longText)
+{
+  this->n = n;
+    Pnum = new T1[longText];
+    Cnum = new T1[longText];
 
-void multiplicar(size_t n, T1 A[10][10], T1 B[10][10], T1 C[10][10])
+    P = new T1*[n];
+    for (size_t i = 0; i < n; i++) P[i] = new T1[n];
+
+    K = new T1*[n];
+    for (size_t i = 0; i < n; i++) K[i] = new T1[n];
+
+    C = new T1*[n];
+    for (size_t i = 0; i < n; i++) C[i] = new T1[n];
+
+}
+
+void KPA::DeleteMemoriaKPA()
+{
+
+    if (P != nullptr)
+    {
+        for (size_t i = 0; i < n; i++)
+            delete[] P[i];
+        delete[] P;
+        P = nullptr;
+    }
+    if (K != nullptr)
+    {
+        for (size_t i = 0; i < n; i++)
+            delete[] K[i];
+        delete[] K;
+        K = nullptr;
+    }
+    if (C != nullptr)
+    {
+        for (size_t i = 0; i < n; i++)
+            delete[] C[i];
+        delete[] C;
+        C = nullptr;
+    }
+    delete[] Pnum;
+    Pnum = nullptr;
+    delete[] Cnum;
+    Cnum = nullptr;
+}
+
+void KPA::multiplicar(size_t n, T1 **A, T1 **B, T1 **C)
 {
     for (size_t i = 0; i < n; i++)
     {
@@ -26,7 +73,7 @@ void multiplicar(size_t n, T1 A[10][10], T1 B[10][10], T1 C[10][10])
     }
 }
 
-void LlenarMatrix(size_t n, T1 inicioB, T1 Pnum[200], T1 Cnum[200], T1 P[10][10], T1 C[10][10])
+void KPA::LlenarMatrix(size_t n, T1 inicioB, T1 *Pnum, T1 *Cnum, T1 **P, T1 **C)
 {
     for (size_t colum = 0; colum < n; colum++)
     {
@@ -38,10 +85,10 @@ void LlenarMatrix(size_t n, T1 inicioB, T1 Pnum[200], T1 Cnum[200], T1 P[10][10]
         }
     }
 }
-T1 BuscadorBloques(size_t n, size_t numBloques, T1 Pnum[200], T1 Cnum[200], T1 P[10][10], T1 C[10][10])
+T1 KPA::BuscadorBloques(size_t n, size_t numBloques, T1 *Pnum, T1 *Cnum, T1 **P, T1 **C)
 {
     VInvertiblidad V;
-    for (size_t a = 0; a <= numBloques - n; a++)
+    for (size_t a = 0; a <= numBloques - n*n; a++)
     {
         LlenarMatrix(n, a, Pnum, Cnum, P, C);
         if (V.esInvertibleMod26(V.Determinante(n, P)))
@@ -52,9 +99,10 @@ T1 BuscadorBloques(size_t n, size_t numBloques, T1 Pnum[200], T1 Cnum[200], T1 P
     return -1;
 }
 
-bool CalcularLlave(size_t n, T1 P[10][10], T1 C[10][10], T1 Pinversa[10][10], T1 K[10][10])
+bool KPA::CalcularLlave(size_t n, T1 **P, T1 **C, T1 **Pinversa, T1 **K)
 {
     Inversa I;
+    I.NewMemoriaI(n);
     if (!I.InversaMatrix(n, P, Pinversa))
     {
         return false;
@@ -63,7 +111,7 @@ bool CalcularLlave(size_t n, T1 P[10][10], T1 C[10][10], T1 Pinversa[10][10], T1
     multiplicar(n, C, Pinversa, K);
     return true;
 }
-void PrintLllave( size_t n, T1 bloqueinicial, T1 K[10][10])
+void KPA::PrintLllave(size_t n, T1 bloqueinicial, T1 **K)
 {
     ofstream outFile("mensaje_descifrado");
     outFile << "Llave descubierta" << endl;
@@ -73,53 +121,86 @@ void PrintLllave( size_t n, T1 bloqueinicial, T1 K[10][10])
         {
             outFile << K[i][j] << " ";
         }
-       outFile << endl;
+        outFile << endl;
+    }
+}
+
+void KPA::ConvertirText(string &plano, string &textocifrado)
+{
+    Convertidor COplano, COcifrado;
+
+    COplano.CreateVectorMensaje(plano.length());
+    COplano.letraNumero(plano);
+
+    COcifrado.CreateVectorMensaje(textocifrado.length());
+    COcifrado.letraNumero(textocifrado);
+    for (size_t i = 0; i < plano.length(); i++)
+        Pnum[i] = COplano.m_mensaje[i];
+
+    for (size_t i = 0; i < textocifrado.length(); i++)
+        Cnum[i] = COcifrado.m_mensaje[i];
+}
+void KPA::NewPinversa()
+{
+    Pinversa = new T1 *[n];
+    for (size_t i = 0; i < n; i++)
+    {
+        Pinversa[i] = new T1[n];
+    }
+}
+void KPA::Deleteinversa()
+{
+    if (Pinversa != nullptr)
+    {
+        for (size_t i = 0; i < n; i++)
+            delete[] Pinversa[i];
+
+        delete[] Pinversa;
+        Pinversa = nullptr;
     }
 }
 
 void DemoKPA()
 {
-    Convertidor CO;
 
-    ofstream outFile("mensaje_descifrado");
-    ostream &salida= cout;
+    Inversa I;
+    KPA Kpa;
+    Convertidor COcifrado, COplano;
+
+    ostream &salida = cout;
     istream &entrada = cin;
+    size_t n;
+    cout << "1";
 
     string plano, textocifrado;
-    size_t n;
-    T1 Pnum[200], Cnum[200];
 
     salida << "Tamano de la matrix: ";
     entrada >> n;
-
+    Kpa.n = n;
     salida << "Texto plano: ";
     entrada >> plano;
     salida << "Texto cifrado: ";
     entrada >> textocifrado;
 
-    salida << endl; 
-    size_t numBloques = size_t(plano.length() / n);
 
-    CO.letraNumero(plano, Pnum);
-    CO.letraNumero(textocifrado, Cnum);
+    Kpa.NewMemoriaKPA(n, plano.length());
+    I.NewMemoriaI(n);
+    Kpa.ConvertirText(plano, textocifrado);
 
-    T1 P[10][10], C[10][10], K[10][10], Pinversa[10][10];
-
-    T1 bloqueinicial = BuscadorBloques(n, numBloques, Pnum, Cnum, P, C);
-
-    if (bloqueinicial == -1)
+    size_t numBloques = plano.length();
+    T1 bloqueinicial = Kpa.BuscadorBloques(n, numBloques, Kpa.Pnum, Kpa.Cnum, Kpa.P, Kpa.C);
+    Kpa.NewPinversa();
+    if (!Kpa.CalcularLlave(n, Kpa.P, Kpa.C, Kpa.Pinversa, Kpa.K))
     {
-        outFile << "No se encontro un bloque de la llave en mod26";
-        return;
-    }
-
-    if (!CalcularLlave(n, P, C, Pinversa, K))
-    {
+        ofstream outFile("mensaje_descifrado");
         outFile << "No se pudo calcular la llave (P no es invertible)";
-        return;
+    }
+    else
+    {
+        Kpa.PrintLllave(n, bloqueinicial, Kpa.K);
     }
 
-    outFile << endl;
-
-    PrintLllave(n, bloqueinicial, K);
+    Kpa.Deleteinversa();
+    Kpa.DeleteMemoriaKPA();
+    I.DeleteMemoriaI();
 }

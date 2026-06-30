@@ -57,10 +57,9 @@ T1 VInvertiblidad::detnxn(size_t n, T1 **llave)
 }
 
 T1 VInvertiblidad::Determinante(size_t n, T1 **llave)
-{;
-    size_t ope=0;
+{
     T1 (VInvertiblidad::*determinant[3])(size_t n, T1 **) = {det1x1, det2x2, detnxn};
-
+      size_t ope = (n > 1) + (n > 2);
     return (this->*determinant[ope])(n, llave);
 }
 
@@ -91,6 +90,7 @@ void Convertidor::MensajeVector(string mensaje, T1 &total, size_t n, ostream &sa
     total = TransfVectorMensaje(n, mensaje, mensajeNum);
     PrintVectorMensaje(n, total);
 }
+
 
 void DemoCifradoHill()
 {
