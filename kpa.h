@@ -196,6 +196,5 @@ void KPA<T>::Deleteinversa()
         Pinversa = nullptr;
     }
 }
-
  void DemoKPA();
 #endif
