@@ -5,4 +5,6 @@ using T1 =int ;
 using T2 = double; 
 using T3= char;
 
+using T=long long;
+
 #endif 
