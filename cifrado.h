@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
+
 // Convertidor
 template <typename T>
 class Convertidor
@@ -179,7 +180,7 @@ void Convertidor<T>::letraNumero(string mensaje)
 {
     size_t ope =0;
     void (Convertidor::*palabra[2])(string) = {Cambio_A, Cambio_a};
-
+   
     {
      (  this->*palabra[ope])(mensaje);
     }

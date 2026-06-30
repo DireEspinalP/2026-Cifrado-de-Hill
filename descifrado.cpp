@@ -33,7 +33,7 @@ void DemoCifradoHill()
     CO.MensajeVector(mensaje, total, n, salida, entrada, mensajeNum);
     M.MCifrado(n, total, CO);
 
-    salida<<"Observa en el archivo 'mensaje_descifrado' tu mensaje esta cifrado...";
+    salida<<"Observa en el archivo 'mensaje_cifrado' tu mensaje esta cifrado...";
 
 
     CO.DeleteVectorMensaje();
