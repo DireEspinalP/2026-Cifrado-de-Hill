@@ -175,7 +175,6 @@ void DemoKPA()
     ostream &salida = cout;
     istream &entrada = cin;
     size_t n;
-    cout << "1";
 
     string plano, textocifrado;
 

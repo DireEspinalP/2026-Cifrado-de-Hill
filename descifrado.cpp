@@ -21,7 +21,7 @@ void DemoCifradoHill()
     T1 total = 0;
 
     salida << "PRIMERO INGRESE LA LLAVE PARA CIFRAR EL MENSAJE " << endl;
-    salida << "en el archivo 'llave_matriz.txt' : " << endl;
+    salida << "en el archivo 'matriz_llave.txt' : " << endl;
 
     salida << endl;
     M.llaveMatrix(salida, entrada);

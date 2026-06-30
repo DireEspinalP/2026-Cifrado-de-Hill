@@ -177,11 +177,10 @@ void Convertidor<T>::Cambio_a(string mensaje)
 template<typename T>
 void Convertidor<T>::letraNumero(string mensaje)
 {
-    
+    size_t ope =0;
     void (Convertidor::*palabra[2])(string) = {Cambio_A, Cambio_a};
 
     {
-     size_t ope = (mensaje[0] >> 5) & 1;
      (  this->*palabra[ope])(mensaje);
     }
 }
