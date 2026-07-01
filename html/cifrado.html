@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cifrado de Hill — Criptografía Clásica</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg: #07090f;
+  --bg2: #0c101c;
+  --bg3: #101520;
+  --border: #1a2238;
+  --border2: #1e3060;
+  --accent: #3b82f6;
+  --accent2: #818cf8;
+  --text: #dde6f5;
+  --muted: #4a607a;
+  --muted2: #7e99b8;
+  --green: #22d982;
+  --green2: #184522;
+  --red: #f05252;
+  --amber: #fbbf24;
+  --pixel: 'Press Start 2P', monospace;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--pixel);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+  image-rendering: pixelated;
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: rgba(7,9,15,0.97);
+  border-bottom: 2px solid var(--accent);
+  display: flex; align-items: center;
+  padding: 0 1.5rem; height: 52px;
+  box-shadow: 0 2px 0 rgba(59,130,246,0.2);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-right: 2rem;
+}
+.nav-logo-box {
+  width: 28px; height: 28px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--pixel); font-size: 11px; color: #fff;
+  clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
+}
+.nav-logo span { font-family: var(--pixel); font-size: 9px; color: var(--text); }
+.nav-links { display: flex; gap: 0; flex: 1; overflow-x: auto; }
+.nav-links a {
+  text-decoration: none; color: var(--muted);
+  font-family: var(--pixel); font-size: 7px;
+  padding: 0 12px; height: 52px;
+  display: flex; align-items: center;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap; transition: color .15s, border-color .15s;
+}
+.nav-links a:hover { color: var(--accent); border-color: var(--accent); }
+
+#hero {
+  padding: 110px 2rem 60px;
+  max-width: 900px; margin: 0 auto;
+  position: relative; overflow: hidden;
+}
+canvas#rain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .07; pointer-events: none; z-index: 0; }
+.hero-inner { position: relative; z-index: 1; }
+
+.px-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--pixel); font-size: 7px;
+  color: var(--accent);
+  background: rgba(59,130,246,0.06);
+  border: 2px solid rgba(59,130,246,0.3);
+  padding: 6px 14px; margin-bottom: 2rem;
+  animation: blink-slow 3s step-end infinite;
+}
+.px-tag::before { content: '▶'; animation: blink-fast 1s step-end infinite; }
+@keyframes blink-slow { 0%,100%{opacity:1} 50%{opacity:.4} }
+@keyframes blink-fast { 0%,100%{opacity:1} 50%{opacity:0} }
+
+h1 {
+  font-family: var(--pixel);
+  font-size: clamp(.9rem, 2.5vw, 1.8rem);
+  line-height: 1.8; letter-spacing: .02em;
+  margin-bottom: 1.5rem; color: var(--text);
+  text-shadow: 4px 4px 0 rgba(59,130,246,0.25);
+}
+h1 em { font-style: normal; color: var(--accent); text-shadow: 4px 4px 0 rgba(59,130,246,0.45); }
+
+.cursor::after { content: '█'; color: var(--accent); animation: blink-fast .8s step-end infinite; margin-left: 4px; }
+
+.hero-desc {
+  font-family: var(--pixel); font-size: 8px;
+  color: var(--muted2); max-width: 620px;
+  margin-bottom: 2rem; line-height: 2.4;
+}
+
+.hero-formula {
+  display: block;
+  text-align: center;
+  margin-top: 50px;
+  font-family: var(--pixel);
+  font-size: 22px;
+  color: #60a5fa;
+  line-height: 2.2;
+  text-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+section { padding: 40px 2rem; max-width: 1000px; margin: 0 auto; }
+section + section { border-top: 2px solid var(--border); }
+
+.px-label {
+  font-family: var(--pixel); font-size: 7px;
+  letter-spacing: .18em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.px-label::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--accent); }
+
+h2 {
+  font-family: var(--pixel); font-size: clamp(.85rem, 2vw, 1.4rem);
+  line-height: 1.7; margin-bottom: 1.25rem;
+  text-shadow: 3px 3px 0 rgba(59,130,246,0.2);
+}
+
+h3 {
+  font-family: var(--pixel); font-size: 10px;
+  line-height: 1.8; margin-bottom: .75rem;
+  color: var(--text);
+}
+
+p {
+  font-family: var(--pixel); font-size: 8px;
+  color: var(--muted2); line-height: 2.2; margin-bottom: 1rem;
+}
+p:last-child { margin-bottom: 0; }
+
+.card {
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  padding: 1.25rem;
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.card::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 0; height: 0;
+  border-style: solid; border-width: 0 8px 8px 0;
+  border-color: transparent var(--border) transparent transparent;
+}
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+
+.card-accent { border-left: 4px solid var(--accent); }
+.card-green  { border-left: 4px solid var(--green); }
+.card-amber  { border-left: 4px solid var(--amber); }
+.card-red    { border-left: 4px solid var(--red); }
+.card-purple { border-left: 4px solid var(--accent2); }
+
+.badge {
+  display: inline-block;
+  font-family: var(--pixel); font-size: 6px;
+  letter-spacing: .05em; padding: 4px 10px;
+  border: 2px solid currentColor;
+}
+.badge-green { color: var(--green); background: rgba(34,217,130,.08); }
+.badge-red   { color: var(--red);   background: rgba(240,82,82,.08); }
+.badge-amber { color: var(--amber); background: rgba(251,191,36,.08); }
+
+.timeline { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
+.tl-item {
+  display: grid; grid-template-columns: 90px 1fr;
+  gap: 1.5rem; padding: 1.5rem 0;
+  border-bottom: 1px dashed var(--border);
+  align-items: start;
+}
+.tl-item:last-child { border-bottom: none; }
+.tl-year { font-family: var(--pixel); font-size: 9px; color: var(--accent); padding-top: 3px; }
+.tl-content h3 { font-size: 9px; color: var(--text); }
+.tl-content p  { font-size: 7.5px; }
+
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th {
+  text-align: left; padding: 12px 14px;
+  font-family: var(--pixel); font-size: 7px; letter-spacing: .1em;
+  color: var(--muted); background: var(--bg3);
+  border: 1px solid var(--border);
+}
+.compare-table td {
+  padding: 10px 14px; border: 1px solid var(--border);
+  font-family: var(--pixel); font-size: 7px; color: var(--muted2);
+  vertical-align: top; line-height: 2;
+}
+.compare-table td:first-child { color: var(--text); }
+
+.attack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.attack-card {
+  background: var(--bg2); border: 2px solid var(--border);
+  padding: 1.25rem;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  position: relative;
+}
+.attack-card::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 0; height: 0; border-style: solid; border-width: 0 8px 8px 0;
+  border-color: transparent var(--border) transparent transparent;
+}
+.attack-tag {
+  font-family: var(--pixel); font-size: 6px; font-weight: 700;
+  letter-spacing: .1em; padding: 4px 10px; margin-bottom: 12px;
+  display: inline-block; border: 2px solid currentColor;
+}
+
+#tool { padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border); }
+.tool-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.5rem; align-items: start; }
+@media(max-width:700px){ .tool-grid { grid-template-columns: 1fr; } }
+
+.matrix-visual {
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+}
+.matrix-bracket {
+  display: grid; grid-template-columns: repeat(2, 58px);
+  gap: 8px; position: relative;
+}
+.matrix-bracket::before, .matrix-bracket::after {
+  content: ''; position: absolute; top: -6px; bottom: -6px; width: 5px;
+  border: 3px solid var(--accent);
+}
+.matrix-bracket::before { left: -12px; border-right: none; }
+.matrix-bracket::after  { right: -12px; border-left: none; }
+.m-input {
+  width: 58px; height: 58px;
+  background: var(--bg); border: 2px solid var(--border2);
+  color: #93c5fd; font-family: var(--pixel); font-size: 16px;
+  text-align: center; outline: none;
+  transition: border-color .15s;
+}
+.m-input:focus { border-color: var(--accent); }
+
+.info-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.info-pill {
+  font-family: var(--pixel); font-size: 7px;
+  padding: 5px 10px; background: var(--bg3); border: 2px solid var(--border);
+  color: var(--muted2);
+}
+.info-pill span { color: #93c5fd; }
+
+.mode-switch { display: flex; gap: 8px; margin-top: 12px; }
+.mode-btn {
+  flex: 1; padding: 10px 6px;
+  border: 2px solid var(--border); background: var(--bg);
+  color: var(--muted); font-family: var(--pixel); font-size: 7px;
+  cursor: pointer; transition: all .15s;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+}
+.mode-btn.active { background: rgba(59,130,246,.1); color: var(--accent); border-color: var(--accent); }
+.mode-btn:hover:not(.active) { border-color: var(--border2); color: var(--muted2); }
+
+.field-label {
+  font-family: var(--pixel); font-size: 7px; color: var(--muted);
+  letter-spacing: .12em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+}
+.field-label::before { content: '>'; color: var(--accent); }
+
+textarea {
+  width: 100%; background: var(--bg); border: 2px solid var(--border);
+  color: var(--text); font-family: var(--pixel); font-size: 9px;
+  padding: 12px; resize: none; outline: none; line-height: 1.9;
+  transition: border-color .15s;
+}
+textarea:focus { border-color: var(--accent); }
+textarea::placeholder { color: #1e3060; }
+
+.run-btn {
+  width: 100%; padding: 14px;
+  background: var(--accent); border: none;
+  color: #fff; font-family: var(--pixel); font-size: 9px;
+  cursor: pointer; letter-spacing: .08em;
+  transition: background .15s, transform .1s;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.run-btn:hover { background: #2563eb; }
+.run-btn:active { transform: scale(.98); }
+.run-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+.output-box {
+  background: var(--bg); border: 2px solid var(--border);
+  border-left: 4px solid var(--accent);
+  padding: 14px; font-family: var(--pixel); font-size: 9px;
+  color: #93c5fd; min-height: 60px; word-break: break-all; line-height: 2;
+}
+.output-box.empty { color: var(--muted); }
+.output-box.error { color: var(--red); border-left-color: var(--red); }
+
+.steps-title {
+  font-family: var(--pixel); font-size: 7px; color: var(--muted);
+  letter-spacing: .1em; margin: 12px 0 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+.steps-title::before { content: '//'; color: var(--accent); }
+
+.step-row {
+  font-family: var(--mono); font-size: 11px; color: var(--muted);
+  padding: 7px 10px; background: var(--bg); border: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.composer-box { background: var(--bg3); border: 2px solid var(--border); margin-top: 1.5rem; }
+.composer-header {
+  background: var(--bg2); border-bottom: 2px solid var(--border);
+  padding: 12px 20px; display: flex; align-items: center; gap: 10px;
+  font-family: var(--pixel); font-size: 7px; color: var(--muted);
+}
+.composer-header strong { color: var(--text); }
+.composer-body { padding: 1.5rem; }
+.composer-body ol {
+  color: var(--muted2); font-family: var(--pixel); font-size: 7.5px;
+  line-height: 2.6; padding-left: 1.2rem;
+}
+.composer-body ol li { margin-bottom: 4px; }
+
+footer {
+  border-top: 2px solid var(--border); padding: 2rem;
+  text-align: center; font-family: var(--pixel); font-size: 7px; color: var(--muted);
+}
+footer::before { content: '[ '; color: var(--accent); }
+footer::after  { content: ' ]'; color: var(--accent); }
+
+ul.px-list { list-style: none; padding: 0; }
+ul.px-list li {
+  font-family: var(--pixel); font-size: 7.5px; color: var(--muted2);
+  line-height: 2.2; padding: 4px 0; padding-left: 18px;
+  position: relative;
+}
+ul.px-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+
+ol.px-list { list-style: none; counter-reset: px-counter; padding: 0; }
+ol.px-list li {
+  font-family: var(--pixel); font-size: 7.5px; color: var(--muted2);
+  line-height: 2.2; padding: 4px 0; padding-left: 28px;
+  position: relative; counter-increment: px-counter;
+}
+ol.px-list li::before {
+  content: counter(px-counter, decimal-leading-zero) '.';
+  position: absolute; left: 0; color: var(--accent); font-size: 7px;
+}
+
+.px-code {
+  background: var(--bg); border: 2px solid var(--border2);
+  border-left: 4px solid var(--accent2);
+  padding: 14px; font-family: var(--mono); font-size: 12px;
+  color: #93c5fd; line-height: 1.9; margin-top: 12px;
+}
+.px-code .comment { color: var(--muted); }
+/* ...código existente... */
+.px-code .comment { color: var(--muted); }
+
+/* ── NAV CARDS GLOBAL ── */
+.sec-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 14px;
+  border-top: 2px dashed var(--border);
+}
+.sec-nav-btn {
+  font-family: var(--pixel);
+  font-size: 7px;
+  background: var(--bg2);
+  border: 2px solid var(--border);
+  color: var(--muted);
+  padding: 10px 16px;
+  cursor: pointer;
+  letter-spacing: .08em;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  transition: color .15s, border-color .15s, background .15s;
+}
+.sec-nav-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(59,130,246,.08);
+}
+.sec-nav-btn.next {
+  color: #22d982;
+  border-color: #184522;
+  background: rgba(34,217,130,.06);
+}
+.sec-nav-btn.next:hover {
+  border-color: #22d982;
+  background: rgba(34,217,130,.12);
+}
+.sec-nav-btn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.sec-counter {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--muted);
+  letter-spacing: .12em;
+}
+
+</style>   ← aquí cierra el style original
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <div class="nav-logo-box">H</div>
+    <span>CIFRADO DE HILL</span>
+  </a>
+  <div class="nav-links">
+    <a href="#introduccion">INTRODUCCION</a>
+    <a href="#historia">HISTORIA</a>
+    <a href="#que-es">QUE ES</a>
+    <a href="#porque-es-importante">IMPORTANCIA</a>
+    <a href="#tipos">TIPOS</a>
+    <a href="#como-funciona">FUNCIONAMIENTO</a>
+    <a href="#teoria">TEORIA</a>
+    <a href="#ataques">ATAQUES</a>
+    <a href="#tool">APLICACION</a>
+
+
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <canvas id="rain"></canvas>
+  <div class="hero-inner">
+    <div class="px-tag">MÓDULO · CRIPTOGRAFÍA CLÁSICA</div>
+    <h1 id="px-title" class="cursor"></h1>
+    <p class="hero-desc" id="px-sub" style="opacity:0;">
+      Sistema criptografico polialfabetico basado en algebra lineal.<br>
+      Matrices mod 26. Por Lester S. Hill (1929).
+    </p>
+    <div class="hero-formula" id="px-formula" style="opacity:0;">
+      C = K · P (mod 26)<br>
+      P = K⁻¹ · C (mod 26)<br>
+      K ∈ ℤ₂₆ⁿˣⁿ  |  mcd(det K, 26) = 1
+    </div>
+  </div>
+</div>
+
+<!-- 00 · INTRODUCCION -->
+<section id="introduccion">
+  <div class="px-label">00 · Introduccion</div>
+  <h2>Resumen</h2>
+  <div class="card card-accent">
+    <p>Lester S. Hill, un matemático estadounidense, publicó en The American Mathematical Monthly uno de los cifrados más relevantes en 1929 al aplicar aritmética modular en un lenguaje polialfabético en vez de monoalfabético, siendo este método nombrado Cifrado de Hill.</p>
+    <p>Este proyecto tiene como objetivo simular, analizar y comparar la seguridad de dicho cifrado frente a ataques criptográficos antiguos y modernos, entre ellos está el Known-Plaintext Attack, el Brute Force Attack y computación cuántica respectivamente, considerando además la ética computacional para casos a futuro.</p>
+  </div>
+  
+ 
+</section>
+
+<!-- 01 · HISTORIA -->
+<section id="historia">
+  <div class="px-label">01 · HISTORIA</div>
+  <h2>ORIGEN DEL CIFRADO</h2>
+  <p>Inventado por el matematico <strong style="color:var(--text)">LESTER S. HILL</strong> y publicado en 1929 en American Mathematical Monthly. Primer sistema en aplicar algebra matricial a la criptografia.</p>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-year">1929</div>
+      <div class="tl-content">
+        <h3>PUBLICACION ORIGINAL</h3>
+        <p>Hill publica "Cryptography in an Algebraic Alphabet" introduciendo matrices para cifrado por bloques.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1931</div>
+      <div class="tl-content">
+        <h3>SEGUNDA PUBLICACION</h3>
+        <p>Amplia su trabajo demostrando aplicaciones mecanicas del sistema mediante dispositivos electrónicos.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">1940s</div>
+      <div class="tl-content">
+        <h3>CONTRIBUCIÓN EN LA SEGUNDA GUERRA MUNDIAL</h3>
+        <p>Hill puso su pericia matemática al servicio del Gobierno de los Estados Unidos y se empeñó en verificar la seguridad de los sistemas de comunicación estadounidenses frente a posibles ataques enemigos.</p>
+        <p>Eclipsado por maquinas como Enigma. Su implementacion manual era demasiado compleja para uso masivo.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-year">Actualidad</div>
+      <div class="tl-content">
+        <h3>TRASCENDENCIA Y EL ESTÁNDAR DE CIFRADO AVANZADO (AES)</h3>
+        <p>Fundamental para cursos de criptografia. Además sentó las bases para la criptografía moderna de bloques; el estándar AES utiliza operaciones sobre campos finitos combinando transformaciones lineales y no lineales.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · QUÉ ES -->
+<section id="que-es">
+  <div class="px-label">02 · ¿QUÉ ES?</div>
+  <h2>DEFINICION</h2>
+  <div class="card card-amber">
+    <p>El cifrado de Hill es un cifrado de <strong style="color:var(--text)">sustitucion poligrafica</strong>. La sustitución poligráfica es un cifrado en el que se realiza una sustitución uniforme en bloques de letras. Las técnicas utilizadas en el cifrado de Hill comprenden el <strong style="color:var(--text)">algebra lineal</strong>, una rama de las matemáticas que requiere conocimientos básicos de matrices.</p>
+    <p>El cifrado de Hill también es un cifrado de bloques, que recibe como entrada bits de texto plano y genera un bloque de bits cifrados. El cifrado de Hill fue inventado por Lester S. Hill en 1929 y fue el primer cifrado poligráfico que operaba con más de tres símbolos o letras a la vez.</p>
+  </div>
+</section>
+
+<!-- 03 · IMPORTANCIA -->
+<section id="porque-es-importante">
+  <div class="px-label">03 · ¿PORQUE ES IMPORTANTE?</div>
+  <h2>IMPORTANCIA</h2>
+  <div class="card card-purple">
+     <p>-Contribuye a comprender las fortalezas y vulnerabilidades del cifrado de Hill en la protección de la información.</p>
+
+    <p>-Fomenta el interés por la criptografía clásica y cuántica mediante un caso práctico de estudio.</p>
+    <p>-Facilita el estudio de aplicaciones del álgebra lineal en la criptografía y la ciberseguridad.</p>
+  </div>
+</section>
+
+<!-- 04 · TIPOS -->
+<section id="tipos">
+  <div class="px-label">04 · TIPOS DE CIFRADO</div>
+  <h2>MONOALFABETICO VS POLIALFABETICO</h2>
+  <div style="overflow-x:auto; border:2px solid var(--border); margin-top:1.5rem;">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>CARACTERISTICA</th>
+          <th>MONOALFABETICO</th>
+          <th>POLIALFABETICO</th>
+          <th>HILL (POLIGRAFICO)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>DEFINICION</td>
+          <td>Una sola sustitucion fija por letra</td>
+          <td>Multiples sustituciones segun posicion</td>
+          <td>Sustitucion de bloques de letras en conjunto</td>
+        </tr>
+        <tr>
+          <td>EJEMPLO</td>
+          <td>Cesar, Atbash</td>
+          <td>Vigenere, Beaufort</td>
+          <td>Hill 2×2, Hill 3×3</td>
+        </tr>
+        <tr>
+          <td>VULNERABILIDAD</td>
+          <td><span class="badge badge-red">ALTA</span></td>
+          <td><span class="badge badge-amber">MEDIA</span></td>
+          <td><span class="badge badge-amber">MEDIA</span></td>
+        </tr>
+        <tr>
+          <td>CLAVE</td>
+          <td>Permutacion del alfabeto</td>
+          <td>Palabra clave</td>
+          <td>Matriz n×n invertible mod 26</td>
+        </tr>
+        <tr>
+          <td>BASE MATEMATICA</td>
+          <td>Permutacion</td>
+          <td>Suma modular</td>
+          <td>Algebra lineal mod 26</td>
+        </tr>
+        <tr>
+          <td>OCULTA FRECUENCIAS</td>
+          <td><span class="badge badge-red">NO</span></td>
+          <td><span class="badge badge-amber">PARCIAL</span></td>
+          <td><span class="badge badge-green">SI</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 05 · COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="px-label">05 · ¿COMO FUNCIONA?</div>
+  <h2>FUNCIONAMIENTO</h2>
+  <div class="card-grid">
+    <div class="card card-accent">
+      <h3>CIFRADO</h3>
+      <p>Divide el texto en bloques de n letras, convierte a numeros (A=0…Z=25) y multiplica cada bloque por la clave K mod 26.</p>
+    </div>
+    <div class="card card-green">
+      <h3>DESCIFRADO</h3>
+      <p>Usa la matriz inversa K⁻¹ mod 26. Existe solo si mcd(det K, 26) = 1, es decir det no es multiplo de 2 ni 13.</p>
+    </div>
+    <div class="card card-amber">
+      <h3>CLAVE VALIDA</h3>
+      <p>La matriz clave K debe ser invertible modulo 26. El determinante no puede ser multiplo de 2 ni de 13.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 06 · TEORIA -->
+<section id="teoria">
+  <div class="px-label">06 · TEORIA MATEMATICA</div>
+  <h2>FUNDAMENTO ALGEBRAICO</h2>
+  <p>El cifrado de Hill requiere aritmetica modular, algebra matricial e inversos multiplicativos. Proceso paso a paso:</p>
+
+  <div style="margin-top:1rem; margin-bottom:.75rem;">
+    <h3>Proceso de Cifrado:</h3>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 01</div>
+      <h3>ESCOGER LA MATRIZ LLAVE</h3>
+      <div class="px-code">
+orden de la matriz = 2<br>
+K → [[3,3],[2,5]]<br>
+det(K) = 3(5) - 3(2) = 9<br>
+→ gcd(9,26) = 1 (correcto)<br>
+verifica la invertibilidad<br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 02</div>
+      <h3>CONVERTIR EL MENSAJE A NUMEROS</h3>
+      <div class="px-code">
+Mensaje = LINEAL<br>
+A=0 B=1 ... Z=25<br>
+"LINEAL" → [11,8,13,4,0,11]<br>
+Bloques de n elementos:<br>
+P1 = [11,8]<br>
+P2 = [13,4]<br>
+P3 = [0,11]<br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 03</div>
+      <h3>MULTIPLICAR CADA BLOQUE POR K</h3>
+      <div class="px-code">
+C1: [[3,3],[2,5]] x [11,8] = [57,62]<br>
+<br>
+C2: [[3,3],[2,5]] x [13,4] = [51,46]<br>
+<br>
+C3: [[3,3],[2,5]] x [0,11] = [33,55]<br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 04</div>
+      <h3>REDUCIR CADA BLOQUE MOD 26</h3>
+      <div class="px-code">
+C1: [57,62] → [5,10]<br>
+<br>
+C2: [51,46] → [25,20]<br>
+<br>
+C3: [33,55] → [7,3]<br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 05</div>
+      <h3>CONVERTIR CADA ELEMENTO A LETRA</h3>
+      <div class="px-code">
+C1 = FK<br>
+C2 = ZU<br>
+C3 = HD<br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 06</div>
+      <h3>UNIR CADA BLOQUE CIFRADO</h3>
+      <div class="px-code">
+C1 U C2 U C3 = FK + ZU + HD<br>
+mensaje cifrado:<br>
+LINEAL → FKZUHD<br>
+      </div>
+    </div>
+  </div>
+  
+
+     <div style="margin-top:1rem; margin-bottom:.75rem;">
+    <h3>Proceso de Desifrado:</h3>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 01</div>
+      <h3>CONVERTIR EL MENSAJE CIFRADO A NUMEROS</h3>
+      <div class="px-code">
+ A=0 B=1 ... Z=25<br>
+"FKZUHD" → [5,10,25,20,7,3]<br>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 02</div>
+      <h3>HALLAR LA INVERSA DE LA MATRIZ K</h3>
+      <div class="px-code">
+    K⁻¹ = 1/det(K)Adj(K) <br>
+       K=[[3,3],[2,5]] → Adj(K) = [[5,-3],[-2,3]]<br>
+       det(K⁻¹) = 3<br>
+       → K⁻¹ = [[15,17],[20,9]]<br>
+      </div>
+    </div>
+
+    
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 03</div>
+      <h3>MULTIPLICAR CADA BLOQUE C POR K⁻¹ </h3>
+      <div class="px-code">
+P1: [[15,17],[20,9]] x [5,10] = [245,190]<br>
+<br>
+P2: [[15,17],[20,9]] x [25,20] = [715,680]<br>
+<br>
+P3:[[15,17],[20,9]] x [7,3] = [156,167]<br>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 04</div>
+      <h3>REDUCIR A MOD 26</h3>
+      <div class="px-code">
+P1: [245,190] → [11,8]<br>
+<br>
+P2: [715,680] → [13,4]<br>
+<br>
+P3: [156,167] → [0,11]<br>
+      </div>
+    </div>
+
+
+<div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 05</div>
+      <h3>CONVERTIR CADA ELEMENTO A LETRA</h3>
+      <div class="px-code">
+P1 = LI<br>
+P2 = NE<br>
+P3 = AL<br>
+      </div>
+    </div>
+
+<div class="card">
+      <div class="px-label" style="font-size:6px;">PASO 06</div>
+      <h3>UNIR CADA BLOQUE CIFRADO</h3>
+      <div class="px-code">
+P1 U P2 U P3 = LI + NE + AL<br>
+mensaje:<br>
+ FKZUHD → LINEAL<br>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+
+
+<!-- 07 · ATAQUES -->
+<section id="ataques">
+  <div class="px-label">07 · ANALISIS DE SEGURIDAD</div>
+  <h2>TIPOS DE ATAQUES</h2>
+  <div class="attack-grid">
+
+    <div class="attack-card">
+      <div class="attack-tag" style="color:var(--red);border-color:var(--red);background:rgba(240,82,82,.06);">KPA · KNOWN-PLAINTEXT</div>
+      <h3>TEXTO PLANO CONOCIDO</h3>
+      <p>Ocurre cuando un atacante logró interceptar el mensaje cifrado (Cn) y de alguna manera logra conocer el mensaje original (Pn). El objetivo de este ataque será romper con el cifrado establecido deduciendo la matriz clave (K) a partir de los bloques de texto plano y sus correspondientes bloques cifrados.</p>
+      <div class="px-label" style="font-size:6px; margin-top:1rem;">PROCESO</div>
+      <div class="px-code">
+Orden de la matriz = 2<br>
+Texto plano conocido = LINEAL<br>
+Texto cifrado = FKZUHD<br>
+→ Llave = [[3,3],[2,5]]<br>
+      </div>
+    </div>
+
+    <div class="attack-card">
+      <div class="attack-tag" style="color:var(--amber);border-color:var(--amber);background:rgba(251,191,36,.06);">BFA · BRUTE-FORCE</div>
+      <h3>FUERZA BRUTA</h3>
+      <p>Tenemos que el atacante solo tiene el texto cifrado (C) y asume que es un cifrado de Hill dividiendo el mensaje en bloques de 2x2. La estrategia es intentar TODAS las llaves posibles (K) hasta encontrar un texto cifrado que tenga sentido.</p>
+      <div class="px-label" style="font-size:6px; margin-top:1rem;">PROCESO</div>
+      <div class="px-code">
+Orden de la matriz = 2<br>
+Texto cifrado = FKZUHD<br>
+Fragmento esperado = LINEAL<br>
+→ Llave = [[3,3],[2,5]]<br>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 08 · HERRAMIENTA -->
+<div id="tool">
+  <div class="px-label">08 · HERRAMIENTA</div>
+  <h2 style="margin-bottom:1.5rem;">CIFRAR / DESCIFRAR</h2>
+  <div class="tool-grid">
+
+    <!-- Columna izquierda: Matriz + Modo -->
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="card">
+        <div class="px-label" style="font-size:6px;">MATRIZ CLAVE K (2×2)</div>
+        <div class="matrix-visual">
+          <div class="matrix-bracket">
+            <input type="number" class="m-input" id="m00" value="3" min="0" max="25" />
+            <input type="number" class="m-input" id="m01" value="3" min="0" max="25" />
+            <input type="number" class="m-input" id="m10" value="2" min="0" max="25" />
+            <input type="number" class="m-input" id="m11" value="5" min="0" max="25" />
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-pill">DET = <span id="det-val">9</span></div>
+          <div class="info-pill">DET⁻¹ MOD26 = <span id="inv-val">3</span></div>
+        </div>
+        <div class="info-row">
+          <div class="info-pill">K⁻¹ = <span id="kinv-display">[15,17/20,9]</span></div>
+        </div>
+        <div style="margin-top:10px;">
+          <span class="badge badge-green" id="valid-badge">✓ VALIDA</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="px-label" style="font-size:6px;">MODO</div>
+        <div class="mode-switch">
+          <button class="mode-btn active" id="btn-enc" onclick="setMode('enc')">▶ CIFRAR</button>
+          <button class="mode-btn" id="btn-dec" onclick="setMode('dec')">◀ DESCIFRAR</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: Input + Output -->
+    <div class="card" style="display:flex; flex-direction:column; gap:14px;">
+      <div>
+        <div class="field-label" id="input-label">TEXTO PLANO</div>
+        <textarea id="input-text" rows="4" placeholder="Escribe aqui..." oninput="updateCount()"></textarea>
+        <div style="text-align:right; font-family:var(--pixel); font-size:7px; color:var(--muted); margin-top:4px;" id="char-count">0 LETRAS</div>
+      </div>
+      <button class="run-btn" id="run-btn" onclick="runCipher()">EJECUTAR ▶</button>
+      <div>
+        <div class="field-label" id="output-label">RESULTADO</div>
+        <div class="output-box empty" id="output-text">// RESULTADO AQUI...</div>
+      </div>
+      <div id="steps-area" style="display:none;">
+        <div class="steps-title">PARES PROCESADOS</div>
+        <div id="steps-list"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+// ─── MATRIX RAIN ───
+(function(){
+  const c = document.getElementById('rain');
+  const ctx = c.getContext('2d');
+  const chars = 'HILL01ABCDEFGHIJKLMNOPQRSTUVWXYZ∑∏∂∇⊕≡∈ℤ×+-=[]'.split('');
+  let drops = [];
+  function resize(){
+    c.width = c.offsetWidth; c.height = c.offsetHeight;
+    const cols = Math.floor(c.width / 14);
+    drops = Array.from({length: cols}, () =>  Math.random() * -c.height / 14);
+  }
+  function draw(){
+    ctx.fillStyle = 'rgba(7,9,15,0.2)'; ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle = '#3b82f6'; ctx.font = '11px "Press Start 2P",monospace';
+    drops.forEach((y, i) => {
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 14, y * 14);
+      if(y * 14 > c.height && Math.random() > .975) drops[i] = 0;
+      drops[i] += 0.35;
+    });
+  }
+  resize(); window.addEventListener('resize', resize); setInterval(draw, 70);
+})();
+
+// ─── TYPEWRITER ───
+(function(){
+  const el = document.getElementById('px-title');
+  const sub = document.getElementById('px-sub');
+  const frm = document.getElementById('px-formula');
+  const full = 'Cifrado de HILL'; let i = 0;
+  function type(){
+    if(i <= full.length){
+      el.innerHTML = full.slice(0, i).replace('HILL', '<em>HILL</em>');
+      i++; setTimeout(type, i < 12 ? 80 : 130);
+    } else {
+      el.classList.remove('cursor');
+      setTimeout(() => { sub.style.transition = 'opacity .6s'; sub.style.opacity = '1'; }, 300);
+      setTimeout(() => { frm.style.transition = 'opacity .5s'; frm.style.opacity = '1'; }, 900);
+    }
+  }
+  setTimeout(type, 600);
+})();
+
+// ─── CIPHER LOGIC ───
+let cipherMode = 'enc';
+function mod(a, n){ return ((a % n) + n) % n; }
+function modInv(a, m){ for(let x = 1; x < m; x++) if(mod(a * x, m) === 1) return x; return null; }
+function det2(K){ return K[0][0] * K[1][1] - K[0][1] * K[1][0]; }
+function matInvMod(K, m){
+  const d = mod(det2(K), m); const di = modInv(d, m); if(!di) return null;
+  return [
+    [mod(di * K[1][1], m), mod(-di * K[0][1], m)],
+    [mod(-di * K[1][0], m), mod(di * K[0][0], m)]
+  ];
+}
+function getK(){
+  return [
+    [+document.getElementById('m00').value || 0, +document.getElementById('m01').value || 0],
+    [+document.getElementById('m10').value || 0, +document.getElementById('m11').value || 0]
+  ];
+}
+function updateMatrix(){
+  const K = getK();
+  const d = mod(det2(K), 26);
+  const di = modInv(d, 26);
+  document.getElementById('det-val').textContent = d;
+  document.getElementById('inv-val').textContent = di != null ? di : '—';
+  const badge = document.getElementById('valid-badge');
+  const kd = document.getElementById('kinv-display');
+  if(di != null){
+    const Ki = matInvMod(K, 26);
+    kd.textContent = `[${Ki[0][0]},${Ki[0][1]}/${Ki[1][0]},${Ki[1][1]}]`;
+    badge.textContent = '✓ VALIDA'; badge.className = 'badge badge-green';
+    document.getElementById('run-btn').disabled = false;
+  } else {
+    kd.textContent = 'NO EXISTE';
+    badge.textContent = '✗ NO INVERTIBLE'; badge.className = 'badge badge-red';
+    document.getElementById('run-btn').disabled = true;
+  }
+}
+document.querySelectorAll('.m-input').forEach(el => el.addEventListener('input', updateMatrix));
+updateMatrix();
+
+function setMode(m){
+  cipherMode = m;
+  document.getElementById('btn-enc').classList.toggle('active', m === 'enc');
+  document.getElementById('btn-dec').classList.toggle('active', m === 'dec');
+  document.getElementById('input-label').textContent = m === 'enc' ? 'TEXTO PLANO' : 'TEXTO CIFRADO';
+  document.getElementById('output-label').textContent = m === 'enc' ? 'RESULTADO CIFRADO' : 'TEXTO DESCIFRADO';
+  document.getElementById('input-text').placeholder = m === 'enc' ? 'Escribe aqui...' : 'Texto cifrado (solo letras)...';
+}
+function updateCount(){
+  const t = document.getElementById('input-text').value.replace(/[^a-zA-Z]/g, '');
+  document.getElementById('char-count').textContent = t.length + ' LETRAS';
+}
+function runCipher(){
+  const K = getK();
+  const di = modInv(mod(det2(K), 26), 26);
+  if(!di) return;
+  const raw = document.getElementById('input-text').value.toUpperCase().replace(/[^A-Z]/g, '');
+  if(!raw){ showOut('// INGRESA UN MENSAJE.', true); return; }
+  let text = raw; if(text.length % 2 !== 0) text += 'X';
+  const useK = cipherMode === 'enc' ? K : matInvMod(K, 26);
+  let result = ''; const steps = [];
+  for(let i = 0; i < text.length; i += 2){
+    const p = [text.charCodeAt(i) - 65, text.charCodeAt(i+1) - 65];
+    const c = [mod(useK[0][0]*p[0] + useK[0][1]*p[1], 26), mod(useK[1][0]*p[0] + useK[1][1]*p[1], 26)];
+    result += String.fromCharCode(c[0] + 65) + String.fromCharCode(c[1] + 65);
+    if(steps.length < 6) steps.push(`[${p[0]},${p[1]}] → [${c[0]},${c[1]}]   ${text[i]}${text[i+1]} → ${String.fromCharCode(c[0]+65)}${String.fromCharCode(c[1]+65)}`);
+  }
+  const out = document.getElementById('output-text');
+  out.textContent = result; out.className = 'output-box';
+  const sl = document.getElementById('steps-list');
+  sl.innerHTML = steps.map(s => `<div class="step-row">${s}</div>`).join('');
+  if(text.length / 2 > 6) sl.innerHTML += `<div class="step-row" style="color:var(--accent);">... Y ${text.length/2 - 6} PARES MAS</div>`;
+  document.getElementById('steps-area').style.display = 'block';
+}
+function showOut(msg, err){
+  const o = document.getElementById('output-text');
+  o.textContent = msg; o.className = 'output-box' + (err ? ' error' : '');
+  document.getElementById('steps-area').style.display = 'none';
+}
+</script>
+</body>
+</html>
