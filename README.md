@@ -14,4 +14,4 @@ Esta simulacion se requere otro tipo de lenguaje, ademas hay una manera sencilla
 
 Por si te interesa mas de esto, puedes darle clik al siguiente enlace:
 
-https://blush-suzann-57.tiiny.site
+Link: https://direespinalp.github.io/2026-Cifrado-de-Hill/
