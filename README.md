@@ -18,4 +18,4 @@ Link: https://direespinalp.github.io/2026-Cifrado-de-Hill
 
 Resumen: https://direespinalp.github.io/2026-Cifrado-de-Hill/summary_document.pdf
 
-Documento completo: https://direespinalp.github.io/2026-Cifrado-de-Hill/full_document.pdf
+Documento completo: https://direespinalp.github.io/2026-Cifrado-de-Hill/summary_document.pdf
