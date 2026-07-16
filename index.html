@@ -1,3 +1,6 @@
+
+
+Cifrado hill nxn · HTML
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,6 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Cifrado de Hill — Criptografía Clásica</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <style>
 :root {
   --bg: #07090f;
@@ -34,13 +39,13 @@ body {
   overflow-x: hidden;
   image-rendering: pixelated;
 }
-
+ 
 body::after {
   content: '';
   position: fixed; inset: 0; pointer-events: none; z-index: 9999;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
 }
-
+ 
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
   background: rgba(7,9,15,0.97);
@@ -71,7 +76,7 @@ nav {
   white-space: nowrap; transition: color .15s, border-color .15s;
 }
 .nav-links a:hover { color: var(--accent); border-color: var(--accent); }
-
+ 
 #hero {
   padding: 110px 2rem 60px;
   max-width: 900px; margin: 0 auto;
@@ -79,7 +84,7 @@ nav {
 }
 canvas#rain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .07; pointer-events: none; z-index: 0; }
 .hero-inner { position: relative; z-index: 1; }
-
+ 
 .px-tag {
   display: inline-flex; align-items: center; gap: 8px;
   font-family: var(--pixel); font-size: 7px;
@@ -92,7 +97,7 @@ canvas#rain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 
 .px-tag::before { content: '▶'; animation: blink-fast 1s step-end infinite; }
 @keyframes blink-slow { 0%,100%{opacity:1} 50%{opacity:.4} }
 @keyframes blink-fast { 0%,100%{opacity:1} 50%{opacity:0} }
-
+ 
 h1 {
   font-family: var(--pixel);
   font-size: clamp(.9rem, 2.5vw, 1.8rem);
@@ -101,15 +106,15 @@ h1 {
   text-shadow: 4px 4px 0 rgba(59,130,246,0.25);
 }
 h1 em { font-style: normal; color: var(--accent); text-shadow: 4px 4px 0 rgba(59,130,246,0.45); }
-
+ 
 .cursor::after { content: '█'; color: var(--accent); animation: blink-fast .8s step-end infinite; margin-left: 4px; }
-
+ 
 .hero-desc {
   font-family: var(--pixel); font-size: 8px;
   color: var(--muted2); max-width: 620px;
   margin-bottom: 2rem; line-height: 2.4;
 }
-
+ 
 .hero-formula {
   display: block;
   text-align: center;
@@ -123,10 +128,10 @@ h1 em { font-style: normal; color: var(--accent); text-shadow: 4px 4px 0 rgba(59
   border: none;
   padding: 0;
 }
-
+ 
 section { padding: 40px 2rem; max-width: 1000px; margin: 0 auto; }
 section + section { border-top: 2px solid var(--border); }
-
+ 
 .px-label {
   font-family: var(--pixel); font-size: 7px;
   letter-spacing: .18em; color: var(--accent);
@@ -134,25 +139,25 @@ section + section { border-top: 2px solid var(--border); }
   display: flex; align-items: center; gap: 8px;
 }
 .px-label::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--accent); }
-
+ 
 h2 {
   font-family: var(--pixel); font-size: clamp(.85rem, 2vw, 1.4rem);
   line-height: 1.7; margin-bottom: 1.25rem;
   text-shadow: 3px 3px 0 rgba(59,130,246,0.2);
 }
-
+ 
 h3 {
   font-family: var(--pixel); font-size: 10px;
   line-height: 1.8; margin-bottom: .75rem;
   color: var(--text);
 }
-
+ 
 p {
   font-family: var(--pixel); font-size: 8px;
   color: var(--muted2); line-height: 2.2; margin-bottom: 1rem;
 }
 p:last-child { margin-bottom: 0; }
-
+ 
 .card {
   background: var(--bg2);
   border: 2px solid var(--border);
@@ -166,15 +171,15 @@ p:last-child { margin-bottom: 0; }
   border-style: solid; border-width: 0 8px 8px 0;
   border-color: transparent var(--border) transparent transparent;
 }
-
+ 
 .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
-
+ 
 .card-accent { border-left: 4px solid var(--accent); }
 .card-green  { border-left: 4px solid var(--green); }
 .card-amber  { border-left: 4px solid var(--amber); }
 .card-red    { border-left: 4px solid var(--red); }
 .card-purple { border-left: 4px solid var(--accent2); }
-
+ 
 .badge {
   display: inline-block;
   font-family: var(--pixel); font-size: 6px;
@@ -184,7 +189,7 @@ p:last-child { margin-bottom: 0; }
 .badge-green { color: var(--green); background: rgba(34,217,130,.08); }
 .badge-red   { color: var(--red);   background: rgba(240,82,82,.08); }
 .badge-amber { color: var(--amber); background: rgba(251,191,36,.08); }
-
+ 
 .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
 .tl-item {
   display: grid; grid-template-columns: 90px 1fr;
@@ -196,7 +201,7 @@ p:last-child { margin-bottom: 0; }
 .tl-year { font-family: var(--pixel); font-size: 9px; color: var(--accent); padding-top: 3px; }
 .tl-content h3 { font-size: 9px; color: var(--text); }
 .tl-content p  { font-size: 7.5px; }
-
+ 
 .compare-table { width: 100%; border-collapse: collapse; }
 .compare-table th {
   text-align: left; padding: 12px 14px;
@@ -210,7 +215,7 @@ p:last-child { margin-bottom: 0; }
   vertical-align: top; line-height: 2;
 }
 .compare-table td:first-child { color: var(--text); }
-
+ 
 .attack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
 .attack-card {
   background: var(--bg2); border: 2px solid var(--border);
@@ -228,11 +233,11 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: .1em; padding: 4px 10px; margin-bottom: 12px;
   display: inline-block; border: 2px solid currentColor;
 }
-
+ 
 #tool { padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border); }
 .tool-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.5rem; align-items: start; }
 @media(max-width:700px){ .tool-grid { grid-template-columns: 1fr; } }
-
+ 
 .matrix-visual {
   display: flex; align-items: center; justify-content: center;
   padding: 2rem 1.5rem;
@@ -255,7 +260,7 @@ p:last-child { margin-bottom: 0; }
   transition: border-color .15s;
 }
 .m-input:focus { border-color: var(--accent); }
-
+ 
 .info-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
 .info-pill {
   font-family: var(--pixel); font-size: 7px;
@@ -263,7 +268,7 @@ p:last-child { margin-bottom: 0; }
   color: var(--muted2);
 }
 .info-pill span { color: #93c5fd; }
-
+ 
 .mode-switch { display: flex; gap: 8px; margin-top: 12px; }
 .mode-btn {
   flex: 1; padding: 10px 6px;
@@ -274,13 +279,13 @@ p:last-child { margin-bottom: 0; }
 }
 .mode-btn.active { background: rgba(59,130,246,.1); color: var(--accent); border-color: var(--accent); }
 .mode-btn:hover:not(.active) { border-color: var(--border2); color: var(--muted2); }
-
+ 
 .field-label {
   font-family: var(--pixel); font-size: 7px; color: var(--muted);
   letter-spacing: .12em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
 }
 .field-label::before { content: '>'; color: var(--accent); }
-
+ 
 textarea {
   width: 100%; background: var(--bg); border: 2px solid var(--border);
   color: var(--text); font-family: var(--pixel); font-size: 9px;
@@ -289,7 +294,7 @@ textarea {
 }
 textarea:focus { border-color: var(--accent); }
 textarea::placeholder { color: #1e3060; }
-
+ 
 .run-btn {
   width: 100%; padding: 14px;
   background: var(--accent); border: none;
@@ -301,7 +306,7 @@ textarea::placeholder { color: #1e3060; }
 .run-btn:hover { background: #2563eb; }
 .run-btn:active { transform: scale(.98); }
 .run-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
-
+ 
 .output-box {
   background: var(--bg); border: 2px solid var(--border);
   border-left: 4px solid var(--accent);
@@ -310,20 +315,20 @@ textarea::placeholder { color: #1e3060; }
 }
 .output-box.empty { color: var(--muted); }
 .output-box.error { color: var(--red); border-left-color: var(--red); }
-
+ 
 .steps-title {
   font-family: var(--pixel); font-size: 7px; color: var(--muted);
   letter-spacing: .1em; margin: 12px 0 6px;
   display: flex; align-items: center; gap: 6px;
 }
 .steps-title::before { content: '//'; color: var(--accent); }
-
+ 
 .step-row {
   font-family: var(--mono); font-size: 11px; color: var(--muted);
   padding: 7px 10px; background: var(--bg); border: 1px solid var(--border);
   margin-bottom: 4px;
 }
-
+ 
 .composer-box { background: var(--bg3); border: 2px solid var(--border); margin-top: 1.5rem; }
 .composer-header {
   background: var(--bg2); border-bottom: 2px solid var(--border);
@@ -337,14 +342,14 @@ textarea::placeholder { color: #1e3060; }
   line-height: 2.6; padding-left: 1.2rem;
 }
 .composer-body ol li { margin-bottom: 4px; }
-
+ 
 footer {
   border-top: 2px solid var(--border); padding: 2rem;
   text-align: center; font-family: var(--pixel); font-size: 7px; color: var(--muted);
 }
 footer::before { content: '[ '; color: var(--accent); }
 footer::after  { content: ' ]'; color: var(--accent); }
-
+ 
 ul.px-list { list-style: none; padding: 0; }
 ul.px-list li {
   font-family: var(--pixel); font-size: 7.5px; color: var(--muted2);
@@ -352,7 +357,7 @@ ul.px-list li {
   position: relative;
 }
 ul.px-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
-
+ 
 ol.px-list { list-style: none; counter-reset: px-counter; padding: 0; }
 ol.px-list li {
   font-family: var(--pixel); font-size: 7.5px; color: var(--muted2);
@@ -363,7 +368,7 @@ ol.px-list li::before {
   content: counter(px-counter, decimal-leading-zero) '.';
   position: absolute; left: 0; color: var(--accent); font-size: 7px;
 }
-
+ 
 .px-code {
   background: var(--bg); border: 2px solid var(--border2);
   border-left: 4px solid var(--accent2);
@@ -373,7 +378,7 @@ ol.px-list li::before {
 .px-code .comment { color: var(--muted); }
 /* ...código existente... */
 .px-code .comment { color: var(--muted); }
-
+ 
 /* ── NAV CARDS GLOBAL ── */
 .sec-nav {
   display: flex;
@@ -420,12 +425,94 @@ ol.px-list li::before {
   color: var(--muted);
   letter-spacing: .12em;
 }
-
-</style>   ← aquí cierra el style original
+ 
+/* ── EXTENSION N×N: ORDEN + MATRIZ DINAMICA + LATEX ── */
+.order-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.order-input {
+  width: 64px; height: 44px;
+  background: var(--bg); border: 2px solid var(--border2);
+  color: #93c5fd; font-family: var(--pixel); font-size: 15px;
+  text-align: center; outline: none;
+  transition: border-color .15s;
+}
+.order-input:focus { border-color: var(--accent); }
+.order-hint {
+  font-family: var(--pixel); font-size: 6.5px;
+  color: var(--muted); letter-spacing: .05em; line-height: 1.8;
+}
+.order-stepper { display: flex; gap: 6px; }
+.order-btn {
+  width: 30px; height: 30px;
+  background: var(--bg2); border: 2px solid var(--border);
+  color: var(--accent); font-family: var(--pixel); font-size: 10px;
+  cursor: pointer; display:flex; align-items:center; justify-content:center;
+  transition: border-color .15s, background .15s;
+}
+.order-btn:hover { border-color: var(--accent); background: rgba(59,130,246,.08); }
+ 
+.matrix-bracket-dyn {
+  display: inline-grid; gap: 6px; position: relative; padding: 4px 16px;
+}
+.matrix-bracket-dyn::before, .matrix-bracket-dyn::after {
+  content: ''; position: absolute; top: -6px; bottom: -6px; width: 5px;
+  border: 3px solid var(--accent);
+}
+.matrix-bracket-dyn::before { left: 0; border-right: none; }
+.matrix-bracket-dyn::after  { right: 0; border-left: none; }
+.m-input-dyn {
+  width: 42px; height: 42px;
+  background: var(--bg); border: 2px solid var(--border2);
+  color: #93c5fd; font-family: var(--pixel); font-size: 12px;
+  text-align: center; outline: none;
+  transition: border-color .15s;
+}
+.m-input-dyn:focus { border-color: var(--accent); }
+ 
+.latex-box {
+  background: var(--bg); border: 2px solid var(--border);
+  border-left: 4px solid var(--accent2);
+  padding: 12px 14px; margin-top: 12px;
+  overflow-x: auto; color: #93c5fd; min-height: 40px;
+}
+.latex-box .katex { color: #93c5fd !important; font-size: 1.05em; }
+.latex-box.err { color: var(--red); border-left-color: var(--red); font-family: var(--pixel); font-size: 8px; }
+ 
+/* ── EXTENSION: KPA / BFA ── */
+.attack-tool-note {
+  font-family: var(--pixel); font-size: 7px; color: var(--muted);
+  line-height: 2; margin-top: 10px; padding: 10px 12px;
+  background: var(--bg3); border: 1px dashed var(--border);
+}
+.progress-outer {
+  width: 100%; height: 18px; background: var(--bg3);
+  border: 2px solid var(--border); margin-top: 10px; position: relative; overflow: hidden;
+}
+.progress-inner {
+  height: 100%; width: 0%; background: var(--accent);
+  transition: width .12s linear;
+}
+.progress-label {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--pixel); font-size: 6.5px; color: #fff; text-shadow: 1px 1px 0 rgba(0,0,0,.6);
+}
+.btn-row { display: flex; gap: 8px; }
+.btn-row .run-btn { flex: 1; }
+.stop-btn {
+  background: var(--bg2); border: 2px solid var(--red); color: var(--red);
+  font-family: var(--pixel); font-size: 9px; padding: 14px; cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+.stop-btn:hover { background: rgba(240,82,82,.1); }
+.stop-btn:disabled { opacity: .3; cursor: not-allowed; }
+.found-key-card {
+  background: var(--bg); border: 2px solid var(--green); border-left: 4px solid var(--green);
+  padding: 12px; margin-top: 8px; font-family: var(--pixel); font-size: 7px; color: var(--muted2); line-height: 2;
+}
+.found-key-card strong { color: var(--green); }
 </style>
 </head>
 <body>
-
+ 
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#hero">
@@ -442,11 +529,13 @@ ol.px-list li::before {
     <a href="#teoria">TEORIA</a>
     <a href="#ataques">ATAQUES</a>
     <a href="#tool">APLICACION</a>
-
-
+    <a href="#kpa">KPA</a>
+    <a href="#bfa">BFA</a>
+ 
+ 
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <div id="hero">
   <canvas id="rain"></canvas>
@@ -464,7 +553,7 @@ ol.px-list li::before {
     </div>
   </div>
 </div>
-
+ 
 <!-- 00 · INTRODUCCION -->
 <section id="introduccion">
   <div class="px-label">00 · Introduccion</div>
@@ -476,7 +565,7 @@ ol.px-list li::before {
   
  
 </section>
-
+ 
 <!-- 01 · HISTORIA -->
 <section id="historia">
   <div class="px-label">01 · HISTORIA</div>
@@ -514,7 +603,7 @@ ol.px-list li::before {
     </div>
   </div>
 </section>
-
+ 
 <!-- 02 · QUÉ ES -->
 <section id="que-es">
   <div class="px-label">02 · ¿QUÉ ES?</div>
@@ -524,19 +613,19 @@ ol.px-list li::before {
     <p>El cifrado de Hill también es un cifrado de bloques, que recibe como entrada bits de texto plano y genera un bloque de bits cifrados. El cifrado de Hill fue inventado por Lester S. Hill en 1929 y fue el primer cifrado poligráfico que operaba con más de tres símbolos o letras a la vez.</p>
   </div>
 </section>
-
+ 
 <!-- 03 · IMPORTANCIA -->
 <section id="porque-es-importante">
   <div class="px-label">03 · ¿PORQUE ES IMPORTANTE?</div>
   <h2>IMPORTANCIA</h2>
   <div class="card card-purple">
      <p>-Contribuye a comprender las fortalezas y vulnerabilidades del cifrado de Hill en la protección de la información.</p>
-
+ 
     <p>-Fomenta el interés por la criptografía clásica y cuántica mediante un caso práctico de estudio.</p>
     <p>-Facilita el estudio de aplicaciones del álgebra lineal en la criptografía y la ciberseguridad.</p>
   </div>
 </section>
-
+ 
 <!-- 04 · TIPOS -->
 <section id="tipos">
   <div class="px-label">04 · TIPOS DE CIFRADO</div>
@@ -592,7 +681,7 @@ ol.px-list li::before {
     </table>
   </div>
 </section>
-
+ 
 <!-- 05 · COMO FUNCIONA -->
 <section id="como-funciona">
   <div class="px-label">05 · ¿COMO FUNCIONA?</div>
@@ -612,17 +701,17 @@ ol.px-list li::before {
     </div>
   </div>
 </section>
-
+ 
 <!-- 06 · TEORIA -->
 <section id="teoria">
   <div class="px-label">06 · TEORIA MATEMATICA</div>
   <h2>FUNDAMENTO ALGEBRAICO</h2>
   <p>El cifrado de Hill requiere aritmetica modular, algebra matricial e inversos multiplicativos. Proceso paso a paso:</p>
-
+ 
   <div style="margin-top:1rem; margin-bottom:.75rem;">
     <h3>Proceso de Cifrado:</h3>
   </div>
-
+ 
   <div class="card-grid">
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 01</div>
@@ -635,7 +724,7 @@ det(K) = 3(5) - 3(2) = 9<br>
 verifica la invertibilidad<br>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 02</div>
       <h3>CONVERTIR EL MENSAJE A NUMEROS</h3>
@@ -649,7 +738,7 @@ P2 = [13,4]<br>
 P3 = [0,11]<br>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 03</div>
       <h3>MULTIPLICAR CADA BLOQUE POR K</h3>
@@ -661,7 +750,7 @@ C2: [[3,3],[2,5]] x [13,4] = [51,46]<br>
 C3: [[3,3],[2,5]] x [0,11] = [33,55]<br>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 04</div>
       <h3>REDUCIR CADA BLOQUE MOD 26</h3>
@@ -673,7 +762,7 @@ C2: [51,46] → [25,20]<br>
 C3: [33,55] → [7,3]<br>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 05</div>
       <h3>CONVERTIR CADA ELEMENTO A LETRA</h3>
@@ -683,7 +772,7 @@ C2 = ZU<br>
 C3 = HD<br>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 06</div>
       <h3>UNIR CADA BLOQUE CIFRADO</h3>
@@ -695,11 +784,11 @@ LINEAL → FKZUHD<br>
     </div>
   </div>
   
-
+ 
      <div style="margin-top:1rem; margin-bottom:.75rem;">
     <h3>Proceso de Desifrado:</h3>
   </div>
-
+ 
   <div class="card-grid">
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 01</div>
@@ -709,7 +798,7 @@ LINEAL → FKZUHD<br>
 "FKZUHD" → [5,10,25,20,7,3]<br>
       </div>
     </div>
-
+ 
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 02</div>
       <h3>HALLAR LA INVERSA DE LA MATRIZ K</h3>
@@ -720,7 +809,7 @@ LINEAL → FKZUHD<br>
        → K⁻¹ = [[15,17],[20,9]]<br>
       </div>
     </div>
-
+ 
     
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 03</div>
@@ -745,8 +834,8 @@ P2: [715,680] → [13,4]<br>
 P3: [156,167] → [0,11]<br>
       </div>
     </div>
-
-
+ 
+ 
 <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 05</div>
       <h3>CONVERTIR CADA ELEMENTO A LETRA</h3>
@@ -756,7 +845,7 @@ P2 = NE<br>
 P3 = AL<br>
       </div>
     </div>
-
+ 
 <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 06</div>
       <h3>UNIR CADA BLOQUE CIFRADO</h3>
@@ -769,15 +858,15 @@ mensaje:<br>
   </div>
   
 </section>
-
-
-
+ 
+ 
+ 
 <!-- 07 · ATAQUES -->
 <section id="ataques">
   <div class="px-label">07 · ANALISIS DE SEGURIDAD</div>
   <h2>TIPOS DE ATAQUES</h2>
   <div class="attack-grid">
-
+ 
     <div class="attack-card">
       <div class="attack-tag" style="color:var(--red);border-color:var(--red);background:rgba(240,82,82,.06);">KPA · KNOWN-PLAINTEXT</div>
       <h3>TEXTO PLANO CONOCIDO</h3>
@@ -790,7 +879,7 @@ Texto cifrado = FKZUHD<br>
 → Llave = [[3,3],[2,5]]<br>
       </div>
     </div>
-
+ 
     <div class="attack-card">
       <div class="attack-tag" style="color:var(--amber);border-color:var(--amber);background:rgba(251,191,36,.06);">BFA · BRUTE-FORCE</div>
       <h3>FUERZA BRUTA</h3>
@@ -803,40 +892,48 @@ Fragmento esperado = LINEAL<br>
 → Llave = [[3,3],[2,5]]<br>
       </div>
     </div>
-
+ 
   </div>
 </section>
-
+ 
 <!-- 08 · HERRAMIENTA -->
 <div id="tool">
   <div class="px-label">08 · HERRAMIENTA</div>
-  <h2 style="margin-bottom:1.5rem;">CIFRAR / DESCIFRAR</h2>
+  <h2 style="margin-bottom:.5rem;">CIFRAR / DESCIFRAR</h2>
+  <p style="margin-bottom:1.5rem;">Version generalizada para cualquier orden n×n. Define el tamaño de la matriz, sus elementos, y el cifrado/descifrado se calcula dinamicamente mod 26, con la matriz K y su inversa K⁻¹ mostradas en notacion LaTeX.</p>
   <div class="tool-grid">
-
-    <!-- Columna izquierda: Matriz + Modo -->
+ 
+    <!-- Columna izquierda: Orden + Matriz + Modo -->
     <div style="display:flex; flex-direction:column; gap:1rem;">
+ 
       <div class="card">
-        <div class="px-label" style="font-size:6px;">MATRIZ CLAVE K (2×2)</div>
-        <div class="matrix-visual">
-          <div class="matrix-bracket">
-            <input type="number" class="m-input" id="m00" value="3" min="0" max="25" />
-            <input type="number" class="m-input" id="m01" value="3" min="0" max="25" />
-            <input type="number" class="m-input" id="m10" value="2" min="0" max="25" />
-            <input type="number" class="m-input" id="m11" value="5" min="0" max="25" />
+        <div class="px-label" style="font-size:6px;">ORDEN DE LA MATRIZ (n)</div>
+        <div class="order-row">
+          <div class="order-stepper">
+            <button class="order-btn" onclick="setOrder(matrixOrder - 1)">−</button>
+            <input type="number" class="order-input" id="order-input" value="2" min="2" max="10" onchange="setOrder(this.value)" />
+            <button class="order-btn" onclick="setOrder(matrixOrder + 1)">+</button>
           </div>
+          <div class="order-hint">n = 2..10<br>bloques de n letras</div>
         </div>
+      </div>
+ 
+      <div class="card">
+        <div class="px-label" style="font-size:6px;">MATRIZ CLAVE K (n×n)</div>
+        <div class="matrix-visual">
+          <div class="matrix-bracket-dyn" id="matrix-grid"></div>
+        </div>
+        <div id="k-latex" class="latex-box"></div>
         <div class="info-row">
           <div class="info-pill">DET = <span id="det-val">9</span></div>
           <div class="info-pill">DET⁻¹ MOD26 = <span id="inv-val">3</span></div>
         </div>
-        <div class="info-row">
-          <div class="info-pill">K⁻¹ = <span id="kinv-display">[15,17/20,9]</span></div>
-        </div>
+        <div id="kinv-latex" class="latex-box"></div>
         <div style="margin-top:10px;">
           <span class="badge badge-green" id="valid-badge">✓ VALIDA</span>
         </div>
       </div>
-
+ 
       <div class="card">
         <div class="px-label" style="font-size:6px;">MODO</div>
         <div class="mode-switch">
@@ -845,7 +942,7 @@ Fragmento esperado = LINEAL<br>
         </div>
       </div>
     </div>
-
+ 
     <!-- Columna derecha: Input + Output -->
     <div class="card" style="display:flex; flex-direction:column; gap:14px;">
       <div>
@@ -863,11 +960,98 @@ Fragmento esperado = LINEAL<br>
         <div id="steps-list"></div>
       </div>
     </div>
-
+ 
   </div>
 </div>
-
-
+ 
+<!-- 09 · KPA -->
+<div id="kpa" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
+  <div class="px-label">09 · ATAQUE KPA</div>
+  <h2 style="margin-bottom:.5rem;">KNOWN-PLAINTEXT ATTACK</h2>
+  <p style="margin-bottom:1.5rem;">Generalizado para cualquier orden n. El atacante conoce un fragmento de texto plano y su correspondiente texto cifrado. Con n bloques independientes (n·n letras) se arma la matriz P (columnas = bloques de texto plano) y C (columnas = bloques cifrados), y se despeja <strong style="color:var(--text)">K = C · P⁻¹ (mod 26)</strong>.</p>
+  <div class="tool-grid">
+ 
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="card">
+        <div class="px-label" style="font-size:6px;">ORDEN DE LA MATRIZ (n)</div>
+        <div class="order-row">
+          <div class="order-stepper">
+            <button class="order-btn" onclick="setKpaOrder(kpaOrder - 1)">−</button>
+            <input type="number" class="order-input" id="kpa-order-input" value="2" min="2" max="8" onchange="setKpaOrder(this.value)" />
+            <button class="order-btn" onclick="setKpaOrder(kpaOrder + 1)">+</button>
+          </div>
+          <div class="order-hint">n = 2..8<br>minimo n·n letras conocidas</div>
+        </div>
+        <div class="attack-tool-note" id="kpa-req-note">Se requieren al menos 4 letras de texto plano conocido y su cifrado correspondiente (n=2).</div>
+      </div>
+ 
+      <div class="card">
+        <div class="px-label" style="font-size:6px;">LLAVE RECUPERADA K</div>
+        <div id="kpa-k-latex" class="latex-box">// AUN NO CALCULADA</div>
+        <div id="kpa-result-note"></div>
+      </div>
+    </div>
+ 
+    <div class="card" style="display:flex; flex-direction:column; gap:14px;">
+      <div>
+        <div class="field-label">TEXTO PLANO CONOCIDO</div>
+        <textarea id="kpa-plain" rows="2" placeholder="Ej: LINEAL"></textarea>
+      </div>
+      <div>
+        <div class="field-label">TEXTO CIFRADO CORRESPONDIENTE</div>
+        <textarea id="kpa-cipher" rows="2" placeholder="Ej: FKZUHD"></textarea>
+      </div>
+      <button class="run-btn" id="kpa-run-btn" onclick="runKPA()">DEDUCIR LLAVE ▶</button>
+      <div>
+        <div class="field-label">TEXTO CIFRADO ADICIONAL (OPCIONAL, MISMA K)</div>
+        <textarea id="kpa-extra" rows="2" placeholder="Otro mensaje interceptado cifrado con la misma llave..."></textarea>
+      </div>
+      <div>
+        <div class="field-label">DESCIFRADO CON LA LLAVE RECUPERADA</div>
+        <div class="output-box empty" id="kpa-output">// RESULTADO AQUI...</div>
+      </div>
+    </div>
+ 
+  </div>
+</div>
+ 
+<!-- 10 · BFA -->
+<div id="bfa" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
+  <div class="px-label">10 · ATAQUE BFA</div>
+  <h2 style="margin-bottom:.5rem;">BRUTE-FORCE ATTACK</h2>
+  <p style="margin-bottom:1.5rem;">Fijo en orden 2×2: el espacio de llaves es 26⁴ = 456,976 matrices, factible de recorrer en el navegador. Para n≥3 el espacio crece a 26⁽ⁿ²⁾ (26⁹ ≈ 5.4 billones para n=3), computacionalmente inviable por fuerza bruta pura — por eso este ataque se mantiene generalizado solo conceptualmente y se demuestra aqui en su caso practico 2×2.</p>
+  <div class="tool-grid">
+ 
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="card">
+        <div class="field-label">TEXTO CIFRADO INTERCEPTADO</div>
+        <textarea id="bfa-cipher" rows="3" placeholder="Ej: FKZUHD"></textarea>
+      </div>
+      <div class="card">
+        <div class="field-label">FRAGMENTO DE TEXTO PLANO ESPERADO (CRIB)</div>
+        <textarea id="bfa-crib" rows="2" placeholder="Ej: LINEAL"></textarea>
+        <div class="attack-tool-note">El crib debe corresponder al INICIO del texto cifrado. Minimo 4 letras (2 bloques) recomendado para evitar falsos positivos.</div>
+      </div>
+    </div>
+ 
+    <div class="card" style="display:flex; flex-direction:column; gap:14px;">
+      <div class="btn-row">
+        <button class="run-btn" id="bfa-run-btn" onclick="startBFA()">INICIAR FUERZA BRUTA ▶</button>
+        <button class="stop-btn" id="bfa-stop-btn" onclick="stopBFA()" disabled>■ DETENER</button>
+      </div>
+      <div class="progress-outer">
+        <div class="progress-inner" id="bfa-progress-bar"></div>
+        <div class="progress-label" id="bfa-progress-label">0 / 456,976</div>
+      </div>
+      <div>
+        <div class="field-label">LLAVES ENCONTRADAS</div>
+        <div id="bfa-results"><div class="output-box empty">// EJECUTA LA BUSQUEDA...</div></div>
+      </div>
+    </div>
+ 
+  </div>
+</div>
+ 
 <script>
 // ─── MATRIX RAIN ───
 (function(){
@@ -891,7 +1075,7 @@ Fragmento esperado = LINEAL<br>
   }
   resize(); window.addEventListener('resize', resize); setInterval(draw, 70);
 })();
-
+ 
 // ─── TYPEWRITER ───
 (function(){
   const el = document.getElementById('px-title');
@@ -910,47 +1094,157 @@ Fragmento esperado = LINEAL<br>
   }
   setTimeout(type, 600);
 })();
-
-// ─── CIPHER LOGIC ───
+ 
+// ─── CIPHER LOGIC (GENERALIZADO n×n) ───
+const MOD26 = 26;
 let cipherMode = 'enc';
+let matrixOrder = 2;
+let matrixValues = [[3,3],[2,5]];
+ 
 function mod(a, n){ return ((a % n) + n) % n; }
-function modInv(a, m){ for(let x = 1; x < m; x++) if(mod(a * x, m) === 1) return x; return null; }
-function det2(K){ return K[0][0] * K[1][1] - K[0][1] * K[1][0]; }
-function matInvMod(K, m){
-  const d = mod(det2(K), m); const di = modInv(d, m); if(!di) return null;
-  return [
-    [mod(di * K[1][1], m), mod(-di * K[0][1], m)],
-    [mod(-di * K[1][0], m), mod(di * K[0][0], m)]
-  ];
+function modInvScalar(a, m){
+  a = mod(a, m);
+  for(let x = 1; x < m; x++) if(mod(a * x, m) === 1) return x;
+  return null;
 }
-function getK(){
-  return [
-    [+document.getElementById('m00').value || 0, +document.getElementById('m01').value || 0],
-    [+document.getElementById('m10').value || 0, +document.getElementById('m11').value || 0]
-  ];
+ 
+// Elimina la fila `row` y columna `col` de una matriz (menor complementario)
+function minorOf(M, row, col){
+  return M.filter((_, i) => i !== row).map(r => r.filter((_, j) => j !== col));
 }
-function updateMatrix(){
-  const K = getK();
-  const d = mod(det2(K), 26);
-  const di = modInv(d, 26);
+ 
+// Determinante por expansion de Laplace, valido sobre el anillo Z/26Z para cualquier n
+function determinant(M, m){
+  const n = M.length;
+  if(n === 1) return mod(M[0][0], m);
+  if(n === 2) return mod(M[0][0]*M[1][1] - M[0][1]*M[1][0], m);
+  let det = 0;
+  for(let j = 0; j < n; j++){
+    const sign = (j % 2 === 0) ? 1 : -1;
+    det += sign * M[0][j] * determinant(minorOf(M, 0, j), m);
+  }
+  return mod(det, m);
+}
+ 
+// Matriz de cofactores mod m
+function cofactorMatrix(M, m){
+  const n = M.length;
+  const C = [];
+  for(let i = 0; i < n; i++){
+    C.push([]);
+    for(let j = 0; j < n; j++){
+      const sign = ((i + j) % 2 === 0) ? 1 : -1;
+      C[i].push(mod(sign * determinant(minorOf(M, i, j), m), m));
+    }
+  }
+  return C;
+}
+ 
+function transpose(M){ return M[0].map((_, j) => M.map(row => row[j])); }
+ 
+// K⁻¹ = det(K)⁻¹ · Adj(K)  mod 26   (Adj = transpuesta de la matriz de cofactores)
+function matrixInverseMod(M, m){
+  const det = determinant(M, m);
+  const detInv = modInvScalar(det, m);
+  if(detInv === null) return null;
+  const adj = transpose(cofactorMatrix(M, m));
+  return adj.map(row => row.map(v => mod(v * detInv, m)));
+}
+ 
+function matVecMulMod(M, v, m){
+  return M.map(row => mod(row.reduce((acc, val, j) => acc + val * v[j], 0), m));
+}
+ 
+function matMulMod(A, B, m){
+  const n = A.length; const R = [];
+  for(let i = 0; i < n; i++){
+    R.push([]);
+    for(let j = 0; j < n; j++){
+      let s = 0;
+      for(let k = 0; k < n; k++) s += A[i][k] * B[k][j];
+      R[i].push(mod(s, m));
+    }
+  }
+  return R;
+}
+ 
+function textToNums(s){ return [...s].map(c => c.charCodeAt(0) - 65); }
+function numsToText(nums){ return nums.map(v => String.fromCharCode(mod(v,26) + 65)).join(''); }
+function blocksOf(nums, n){ const b = []; for(let i = 0; i < nums.length; i += n) b.push(nums.slice(i, i + n)); return b; }
+function colsToMatrix(cols){ const n = cols.length; const M = []; for(let r = 0; r < n; r++) M.push(cols.map(c => c[r])); return M; }
+ 
+// ─── UI: ORDEN Y MATRIZ DINAMICA ───
+function setOrder(n){
+  n = Math.max(2, Math.min(10, parseInt(n) || 2));
+  matrixOrder = n;
+  document.getElementById('order-input').value = n;
+  buildMatrixGrid();
+}
+ 
+function buildMatrixGrid(){
+  const container = document.getElementById('matrix-grid');
+  container.innerHTML = '';
+  container.style.gridTemplateColumns = `repeat(${matrixOrder}, 42px)`;
+  const prev = matrixValues;
+  matrixValues = [];
+  for(let i = 0; i < matrixOrder; i++){
+    matrixValues.push([]);
+    for(let j = 0; j < matrixOrder; j++){
+      // conserva valores previos si existian en esa posicion, si no usa una llave por defecto invertible (identidad)
+      const val = (prev[i] && prev[i][j] !== undefined) ? prev[i][j] : (i === j ? 1 : 0);
+      matrixValues[i].push(val);
+      const input = document.createElement('input');
+      input.type = 'number'; input.className = 'm-input-dyn';
+      input.min = 0; input.max = 25; input.value = val;
+      input.dataset.row = i; input.dataset.col = j;
+      input.addEventListener('input', onMatrixInput);
+      container.appendChild(input);
+    }
+  }
+  updateMatrixInfo();
+}
+ 
+function onMatrixInput(e){
+  const i = +e.target.dataset.row, j = +e.target.dataset.col;
+  matrixValues[i][j] = +e.target.value || 0;
+  updateMatrixInfo();
+}
+ 
+function renderLatexMatrix(elId, M, label){
+  const box = document.getElementById(elId);
+  const rows = M.map(r => r.join(' & ')).join(' \\\\ ');
+  const tex = `${label} = \\begin{bmatrix} ${rows} \\end{bmatrix} \\pmod{26}`;
+  box.classList.remove('err');
+  try{
+    katex.render(tex, box, { throwOnError: false, displayMode: true });
+  }catch(e){
+    box.textContent = label + ' = [matriz no renderizable]';
+  }
+}
+ 
+function updateMatrixInfo(){
+  const K = matrixValues;
+  const d = determinant(K, MOD26);
+  const di = modInvScalar(d, MOD26);
   document.getElementById('det-val').textContent = d;
   document.getElementById('inv-val').textContent = di != null ? di : '—';
   const badge = document.getElementById('valid-badge');
-  const kd = document.getElementById('kinv-display');
+  const runBtn = document.getElementById('run-btn');
+  renderLatexMatrix('k-latex', K, 'K');
   if(di != null){
-    const Ki = matInvMod(K, 26);
-    kd.textContent = `[${Ki[0][0]},${Ki[0][1]}/${Ki[1][0]},${Ki[1][1]}]`;
     badge.textContent = '✓ VALIDA'; badge.className = 'badge badge-green';
-    document.getElementById('run-btn').disabled = false;
+    runBtn.disabled = false;
+    const Kinv = matrixInverseMod(K, MOD26);
+    renderLatexMatrix('kinv-latex', Kinv, 'K^{-1}');
   } else {
-    kd.textContent = 'NO EXISTE';
     badge.textContent = '✗ NO INVERTIBLE'; badge.className = 'badge badge-red';
-    document.getElementById('run-btn').disabled = true;
+    runBtn.disabled = true;
+    const box = document.getElementById('kinv-latex');
+    box.classList.add('err');
+    box.textContent = 'K⁻¹ NO EXISTE — gcd(det K, 26) ≠ 1';
   }
 }
-document.querySelectorAll('.m-input').forEach(el => el.addEventListener('input', updateMatrix));
-updateMatrix();
-
+ 
 function setMode(m){
   cipherMode = m;
   document.getElementById('btn-enc').classList.toggle('active', m === 'enc');
@@ -963,26 +1257,32 @@ function updateCount(){
   const t = document.getElementById('input-text').value.replace(/[^a-zA-Z]/g, '');
   document.getElementById('char-count').textContent = t.length + ' LETRAS';
 }
+ 
 function runCipher(){
-  const K = getK();
-  const di = modInv(mod(det2(K), 26), 26);
-  if(!di) return;
+  const K = matrixValues;
+  const det = determinant(K, MOD26);
+  const detInv = modInvScalar(det, MOD26);
+  if(detInv === null) return;
   const raw = document.getElementById('input-text').value.toUpperCase().replace(/[^A-Z]/g, '');
   if(!raw){ showOut('// INGRESA UN MENSAJE.', true); return; }
-  let text = raw; if(text.length % 2 !== 0) text += 'X';
-  const useK = cipherMode === 'enc' ? K : matInvMod(K, 26);
+  let text = raw;
+  while(text.length % matrixOrder !== 0) text += 'X';
+  const useK = cipherMode === 'enc' ? K : matrixInverseMod(K, MOD26);
   let result = ''; const steps = [];
-  for(let i = 0; i < text.length; i += 2){
-    const p = [text.charCodeAt(i) - 65, text.charCodeAt(i+1) - 65];
-    const c = [mod(useK[0][0]*p[0] + useK[0][1]*p[1], 26), mod(useK[1][0]*p[0] + useK[1][1]*p[1], 26)];
-    result += String.fromCharCode(c[0] + 65) + String.fromCharCode(c[1] + 65);
-    if(steps.length < 6) steps.push(`[${p[0]},${p[1]}] → [${c[0]},${c[1]}]   ${text[i]}${text[i+1]} → ${String.fromCharCode(c[0]+65)}${String.fromCharCode(c[1]+65)}`);
+  const totalBlocks = text.length / matrixOrder;
+  for(let i = 0; i < text.length; i += matrixOrder){
+    const block = text.slice(i, i + matrixOrder);
+    const p = [...block].map(ch => ch.charCodeAt(0) - 65);
+    const c = matVecMulMod(useK, p, MOD26);
+    const cLetters = c.map(v => String.fromCharCode(v + 65)).join('');
+    result += cLetters;
+    if(steps.length < 6) steps.push(`[${p.join(',')}] → [${c.join(',')}]   ${block} → ${cLetters}`);
   }
   const out = document.getElementById('output-text');
   out.textContent = result; out.className = 'output-box';
   const sl = document.getElementById('steps-list');
   sl.innerHTML = steps.map(s => `<div class="step-row">${s}</div>`).join('');
-  if(text.length / 2 > 6) sl.innerHTML += `<div class="step-row" style="color:var(--accent);">... Y ${text.length/2 - 6} PARES MAS</div>`;
+  if(totalBlocks > 6) sl.innerHTML += `<div class="step-row" style="color:var(--accent);">... Y ${totalBlocks - 6} BLOQUES MAS</div>`;
   document.getElementById('steps-area').style.display = 'block';
 }
 function showOut(msg, err){
@@ -990,6 +1290,215 @@ function showOut(msg, err){
   o.textContent = msg; o.className = 'output-box' + (err ? ' error' : '');
   document.getElementById('steps-area').style.display = 'none';
 }
+ 
+// Inicializacion: matriz 2x2 de ejemplo del proyecto (K = [[3,3],[2,5]])
+buildMatrixGrid();
+ 
+// ══════════════════════════════════════════════════
+// 09 · KPA — KNOWN-PLAINTEXT ATTACK (generalizado n×n)
+// ══════════════════════════════════════════════════
+let kpaOrder = 2;
+ 
+function setKpaOrder(n){
+  n = Math.max(2, Math.min(8, parseInt(n) || 2));
+  kpaOrder = n;
+  document.getElementById('kpa-order-input').value = n;
+  document.getElementById('kpa-req-note').textContent =
+    `Se requieren al menos ${n*n} letras de texto plano conocido y su cifrado correspondiente (n=${n}).`;
+}
+ 
+function runKPA(){
+  const n = kpaOrder;
+  const plainRaw = document.getElementById('kpa-plain').value.toUpperCase().replace(/[^A-Z]/g, '');
+  const cipherRaw = document.getElementById('kpa-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
+  const noteEl = document.getElementById('kpa-result-note');
+  const kLatexBox = document.getElementById('kpa-k-latex');
+  const outBox = document.getElementById('kpa-output');
+  outBox.textContent = '// RESULTADO AQUI...'; outBox.className = 'output-box empty';
+  noteEl.innerHTML = '';
+ 
+  if(plainRaw.length !== cipherRaw.length || plainRaw.length < n*n){
+    kLatexBox.classList.add('err');
+    kLatexBox.textContent = `SE NECESITAN AL MENOS ${n*n} LETRAS EN AMBOS CAMPOS, DE IGUAL LONGITUD.`;
+    return;
+  }
+ 
+  const pNums = textToNums(plainRaw);
+  const cNums = textToNums(cipherRaw);
+  const pBlocks = blocksOf(pNums, n);
+  const cBlocks = blocksOf(cNums, n);
+ 
+  // busqueda por ventana deslizante: halla n bloques consecutivos cuya matriz P sea invertible mod 26
+  let Krec = null, windowUsed = null;
+  for(let start = 0; start + n <= pBlocks.length; start++){
+    const Pmat = colsToMatrix(pBlocks.slice(start, start + n));
+    const Pinv = matrixInverseMod(Pmat, 26);
+    if(Pinv){
+      const Cmat = colsToMatrix(cBlocks.slice(start, start + n));
+      Krec = matMulMod(Cmat, Pinv, 26);
+      windowUsed = start;
+      break;
+    }
+  }
+ 
+  if(!Krec){
+    kLatexBox.classList.add('err');
+    kLatexBox.textContent = 'NINGUNA COMBINACION DE BLOQUES PRODUJO UNA MATRIZ P INVERTIBLE. PRUEBA CON OTRO FRAGMENTO.';
+    return;
+  }
+ 
+  kLatexBox.classList.remove('err');
+  renderLatexMatrix('kpa-k-latex', Krec, 'K_{recuperada}');
+ 
+  // verificacion: re-cifra el texto plano conocido completo con la K recuperada y compara
+  let reEncrypted = '';
+  for(let i = 0; i < pBlocks.length; i++){
+    reEncrypted += numsToText(matVecMulMod(Krec, pBlocks[i], 26));
+  }
+  const fullMatch = reEncrypted === cipherRaw;
+  noteEl.innerHTML = `<div class="found-key-card">
+    <strong>${fullMatch ? '✓ VERIFICADA' : '✗ INCONSISTENTE'}</strong> — bloques usados: ventana [${windowUsed}:${windowUsed+n}]<br>
+    Re-cifrando "${plainRaw}" con K recuperada → ${reEncrypted}<br>
+    Coincide con el cifrado dado: ${fullMatch ? 'SI' : 'NO (revisa los datos ingresados)'}
+  </div>`;
+ 
+  // si hay texto cifrado adicional, se descifra con la K recuperada
+  const extraRaw = document.getElementById('kpa-extra').value.toUpperCase().replace(/[^A-Z]/g, '');
+  if(extraRaw){
+    if(extraRaw.length % n !== 0){
+      outBox.textContent = `// EL TEXTO ADICIONAL DEBE SER MULTIPLO DE ${n} LETRAS.`;
+      outBox.className = 'output-box error';
+    } else {
+      const Kinv = matrixInverseMod(Krec, 26);
+      if(!Kinv){
+        outBox.textContent = '// LA LLAVE RECUPERADA NO ES INVERTIBLE.';
+        outBox.className = 'output-box error';
+      } else {
+        const extraBlocks = blocksOf(textToNums(extraRaw), n);
+        let decrypted = '';
+        extraBlocks.forEach(b => decrypted += numsToText(matVecMulMod(Kinv, b, 26)));
+        outBox.textContent = decrypted; outBox.className = 'output-box';
+      }
+    }
+  }
+}
+setKpaOrder(2);
+ 
+// ══════════════════════════════════════════════════
+// 10 · BFA — BRUTE-FORCE ATTACK (fijo 2×2, asincrono con crib)
+// ══════════════════════════════════════════════════
+const BFA_TOTAL = 26 * 26 * 26 * 26; // 456,976
+let bfaCancelled = false;
+let bfaRunning = false;
+ 
+function startBFA(){
+  if(bfaRunning) return;
+  const cipherRaw = document.getElementById('bfa-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
+  const cribRaw = document.getElementById('bfa-crib').value.toUpperCase().replace(/[^A-Z]/g, '');
+  const resultsBox = document.getElementById('bfa-results');
+ 
+  if(!cipherRaw || !cribRaw){
+    resultsBox.innerHTML = '<div class="output-box error">// INGRESA TEXTO CIFRADO Y UN FRAGMENTO ESPERADO.</div>';
+    return;
+  }
+  if(cribRaw.length < 2){
+    resultsBox.innerHTML = '<div class="output-box error">// EL CRIB DEBE TENER AL MENOS 2 LETRAS.</div>';
+    return;
+  }
+ 
+  const cNums = textToNums(cipherRaw);
+  const cribNums = textToNums(cribRaw);
+  const nBlocksNeeded = Math.ceil(cribNums.length / 2);
+  if(cNums.length < nBlocksNeeded * 2){
+    resultsBox.innerHTML = '<div class="output-box error">// EL TEXTO CIFRADO ES MAS CORTO QUE EL CRIB.</div>';
+    return;
+  }
+  const cBlocks = blocksOf(cNums, 2).slice(0, nBlocksNeeded);
+  const cribBlocks = blocksOf(cribNums, 2);
+ 
+  bfaRunning = true; bfaCancelled = false;
+  document.getElementById('bfa-run-btn').disabled = true;
+  document.getElementById('bfa-stop-btn').disabled = false;
+  resultsBox.innerHTML = '<div class="output-box empty">// BUSCANDO...</div>';
+ 
+  const found = [];
+  let a = 0, b = 0, c = 0, d = 0;
+  let tested = 0;
+  const CHUNK = 8000;
+  const startTime = performance.now();
+ 
+  function step(){
+    if(bfaCancelled){ finishBFA(found, tested, true); return; }
+    let count = 0;
+    outer:
+    while(a < 26){
+      while(b < 26){
+        while(c < 26){
+          while(d < 26){
+            const D = [[a,b],[c,d]];
+            let ok = true;
+            for(let i = 0; i < cribBlocks.length; i++){
+              const blk = cribBlocks[i];
+              const p = matVecMulMod(D, cBlocks[i], 26);
+              if(p[0] !== blk[0] || (blk[1] !== undefined && p[1] !== blk[1])){ ok = false; break; }
+            }
+            if(ok) found.push(D);
+            tested++; count++;
+            d++;
+            if(count >= CHUNK) break outer;
+          }
+          d = 0; c++;
+        }
+        c = 0; b++;
+      }
+      b = 0; a++;
+    }
+ 
+    const pct = Math.min(100, (tested / BFA_TOTAL) * 100);
+    document.getElementById('bfa-progress-bar').style.width = pct.toFixed(1) + '%';
+    document.getElementById('bfa-progress-label').textContent = `${tested.toLocaleString('es')} / ${BFA_TOTAL.toLocaleString('es')}`;
+ 
+    if(a >= 26 || tested >= BFA_TOTAL){
+      finishBFA(found, tested, false, performance.now() - startTime);
+    } else {
+      setTimeout(step, 0);
+    }
+  }
+  setTimeout(step, 0);
+}
+ 
+function stopBFA(){ bfaCancelled = true; }
+ 
+function finishBFA(found, tested, wasCancelled, elapsedMs){
+  bfaRunning = false;
+  document.getElementById('bfa-run-btn').disabled = false;
+  document.getElementById('bfa-stop-btn').disabled = true;
+  const resultsBox = document.getElementById('bfa-results');
+  const cipherRaw = document.getElementById('bfa-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
+ 
+  if(found.length === 0){
+    resultsBox.innerHTML = `<div class="output-box error">// NINGUNA LLAVE ENCONTRADA EN ${tested.toLocaleString('es')} PROBADAS${wasCancelled ? ' (DETENIDO)' : ''}.</div>`;
+    return;
+  }
+ 
+  let html = '';
+  found.forEach((D, idx) => {
+    const detInv = modInvScalar(determinant(D, 26), 26);
+    const encK = detInv != null ? matrixInverseMod(D, 26) : null;
+    let decryptedFull = '';
+    const cBlocksAll = blocksOf(textToNums(cipherRaw), 2);
+    cBlocksAll.forEach(blk => decryptedFull += numsToText(matVecMulMod(D, blk, 26)));
+    html += `<div class="found-key-card">
+      <strong>LLAVE #${idx + 1}</strong><br>
+      D (descifrado) = [[${D[0][0]},${D[0][1]}],[${D[1][0]},${D[1][1]}]]<br>
+      K (cifrado, D⁻¹) = ${encK ? `[[${encK[0][0]},${encK[0][1]}],[${encK[1][0]},${encK[1][1]}]]` : 'NO INVERTIBLE'}<br>
+      Texto descifrado completo: ${decryptedFull}
+    </div>`;
+  });
+  html += `<div class="attack-tool-note">Probadas ${tested.toLocaleString('es')} de ${BFA_TOTAL.toLocaleString('es')} llaves${elapsedMs ? ` en ${(elapsedMs/1000).toFixed(2)}s` : ''}${wasCancelled ? ' (busqueda detenida manualmente)' : ''}.</div>`;
+  resultsBox.innerHTML = html;
+}
 </script>
 </body>
 </html>
+ 
