@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 using namespace std;
+
 template <typename T>
 class VInvertiblidad{
     public:
@@ -25,8 +26,6 @@ void DemoCifradoHill();
 
 
 
-// Verificamos la invertiblidad de la llave
-// Solo para orden 2
 template <typename T>
 T VInvertiblidad<T>::det1x1(size_t n, T **llave)
 {

@@ -63,7 +63,10 @@ public:
    
     friend void DemoCifradoHill();
     friend void DemoKPA();
+    friend void DemoBFA();
 };
+
+
 
 
 template <typename T>
@@ -178,7 +181,12 @@ void Convertidor<T>::Cambio_a(string mensaje)
 template<typename T>
 void Convertidor<T>::letraNumero(string mensaje)
 {
-    size_t ope =0;
+    size_t ope;
+    if (isupper(mensaje[0])) {
+        ope = 0; // Mayúsculas
+    } else {
+        ope = 1; // Minúsculas
+    }
     void (Convertidor::*palabra[2])(string) = {Cambio_A, Cambio_a};
    
     {
