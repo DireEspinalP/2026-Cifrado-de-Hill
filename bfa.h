@@ -29,6 +29,7 @@ public:
     T1 Ataque2x2Mod26(const string &textocifrado, const string &fragmento, ostream &salida, T **K, T **Pinversa);
 
     T1 OrdendeAtaque(size_t n);
+    
 };
 void DemoBFA();
 
