@@ -3,6 +3,7 @@
 #include "descifrado.h"
 #include "tipos.h"
 #include "kpa.h"
+#include "bfa.h"
 using namespace std;
 
 int main()
@@ -17,4 +18,7 @@ int main()
   cout <<"---------KNOW PLAINTEXT ATTACK---------" << endl;
   DemoKPA();
 
+  cout<<endl;
+  cout <<"---------BRUTE FORCE ATTACK---------" << endl;
+  DemoBFA();
 }
