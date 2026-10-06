@@ -1,5 +1,5 @@
-# Cifrado de Hill
-Este repositorio contiene la implementación y análisis del Cifrado de Hill, un sistema de  `criptografía poligráfica` inventado en 1929 por el matemático **Lester S. Hill**. El proyecto desarrolla la teoría matemática detrás del cifrado, utilizando álgebra lineal, aritmética modular y matrices para la codificación y decodificación de mensajes.
+# Hill vs. Grover: del álgebra lineal a la era post-cuántica
+Este repositorio contiene la implementación y análisis del Cifrado de Hill, un sistema de  `criptografía poligráfica` inventado en 1929 por el matemático **Lester S. Hill**. El proyecto desarrolla la teoría matemática detrás del cifrado, utilizando álgebra lineal, patrones conocidos, fuerza bruta y un algoritmo cuantico (Grover) para descifrar dicho mensaje.
 
 ---
 
@@ -11,8 +11,8 @@ Con n² pares (plano, cifrado) se resuelve el sistema lineal y se recupera la ll
 -  `Brute Force Attack `
 Este ataque intenta probar todas las matrices invertibles mod 26 con el el fin de encontrar la llave matriz. Sin embargo, su complejidad algoritmica crece exponencialmente para ordenes de matrices n>3 O(26^(n^2)).
 
--  `Quatium computer `
-Esta simulacion se requere otro tipo de lenguaje, ademas hay una manera sencilla de hacerlo graficamente y es con el simulacion de IBM composer. 
+-  `Algoritmo Grover`
+Esta simulacion se requere otro tipo de lenguaje (Qiskit/ OpenQASM), reduce la cantidad de interacciones de una fuerza bruta y la complejidad algorítmica de O(N) hasta O(√N) 
 
 Por si te interesa mas de esto, puedes darle clik a los  siguientes enlaces:
 
