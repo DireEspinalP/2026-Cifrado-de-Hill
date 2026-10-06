@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,55 +9,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
 <style>
 :root {
-  --bg: #07090f;
-  --bg2: #0c101c;
-  --bg3: #101520;
-  --border: #1a2238;
-  --border2: #1e3060;
-  --accent: #3b82f6;
-  --accent2: #818cf8;
-  --text: #dde6f5;
-  --muted: #4a607a;
-  --muted2: #7e99b8;
-  --green: #22d982;
-  --green2: #184522;
-  --red: #f05252;
-  --amber: #fbbf24;
-  --pixel: 'Press Start 2P', monospace;
-  --mono: 'JetBrains Mono', monospace;
+  --bg: #07090f; --bg2: #0c101c; --bg3: #101520;
+  --border: #1a2238; --border2: #1e3060;
+  --accent: #3b82f6; --accent2: #818cf8;
+  --text: #dde6f5; --muted: #4a607a; --muted2: #7e99b8;
+  --green: #22d982; --green2: #184522; --red: #f05252; --amber: #fbbf24;
+  --pixel: 'Press Start 2P', monospace; --mono: 'JetBrains Mono', monospace;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body {
-  font-family: var(--pixel);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-  image-rendering: pixelated;
-}
- 
+body { font-family: var(--pixel); background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; image-rendering: pixelated; }
 body::after {
-  content: '';
-  position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
   background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.06) 3px, rgba(0,0,0,0.06) 4px);
 }
- 
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  background: rgba(7,9,15,0.97);
-  border-bottom: 2px solid var(--accent);
-  display: flex; align-items: center;
-  padding: 0 1.5rem; height: 52px;
+  background: rgba(7,9,15,0.97); border-bottom: 2px solid var(--accent);
+  display: flex; align-items: center; padding: 0 1.5rem; height: 52px;
   box-shadow: 0 2px 0 rgba(59,130,246,0.2);
 }
-.nav-logo {
-  display: flex; align-items: center; gap: 10px;
-  text-decoration: none; margin-right: 2rem;
-}
+.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; margin-right: 2rem; }
 .nav-logo-box {
-  width: 28px; height: 28px;
-  background: var(--accent);
+  width: 28px; height: 28px; background: var(--accent);
   display: flex; align-items: center; justify-content: center;
   font-family: var(--pixel); font-size: 11px; color: #fff;
   clip-path: polygon(0 0, calc(100% - 4px) 0, 100% 4px, 100% 100%, 4px 100%, 0 calc(100% - 4px));
@@ -66,494 +39,245 @@ nav {
 .nav-logo span { font-family: var(--pixel); font-size: 9px; color: var(--text); }
 .nav-links { display: flex; gap: 0; flex: 1; overflow-x: auto; }
 .nav-links a {
-  text-decoration: none; color: var(--muted);
-  font-family: var(--pixel); font-size: 7px;
-  padding: 0 12px; height: 52px;
-  display: flex; align-items: center;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap; transition: color .15s, border-color .15s;
+  text-decoration: none; color: var(--muted); font-family: var(--pixel); font-size: 7px;
+  padding: 0 12px; height: 52px; display: flex; align-items: center;
+  border-bottom: 3px solid transparent; white-space: nowrap; transition: color .15s, border-color .15s;
 }
 .nav-links a:hover { color: var(--accent); border-color: var(--accent); }
- 
-#hero {
-  padding: 110px 2rem 60px;
-  max-width: 900px; margin: 0 auto;
-  position: relative; overflow: hidden;
-}
+.nav-links a.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+#hero { padding: 110px 2rem 60px; max-width: 900px; margin: 0 auto; position: relative; overflow: hidden; }
 canvas#rain { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .07; pointer-events: none; z-index: 0; }
 .hero-inner { position: relative; z-index: 1; }
- 
 .px-tag {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--pixel); font-size: 7px;
-  color: var(--accent);
-  background: rgba(59,130,246,0.06);
-  border: 2px solid rgba(59,130,246,0.3);
-  padding: 6px 14px; margin-bottom: 2rem;
-  animation: blink-slow 3s step-end infinite;
+  display: inline-flex; align-items: center; gap: 8px; font-family: var(--pixel); font-size: 7px;
+  color: var(--accent); background: rgba(59,130,246,0.06); border: 2px solid rgba(59,130,246,0.3);
+  padding: 6px 14px; margin-bottom: 2rem; animation: blink-slow 3s step-end infinite;
 }
 .px-tag::before { content: '▶'; animation: blink-fast 1s step-end infinite; }
 @keyframes blink-slow { 0%,100%{opacity:1} 50%{opacity:.4} }
 @keyframes blink-fast { 0%,100%{opacity:1} 50%{opacity:0} }
- 
 h1 {
-  font-family: var(--pixel);
-  font-size: clamp(.9rem, 2.5vw, 1.8rem);
-  line-height: 1.8; letter-spacing: .02em;
-  margin-bottom: 1.5rem; color: var(--text);
-  text-shadow: 4px 4px 0 rgba(59,130,246,0.25);
+  font-family: var(--pixel); font-size: clamp(.9rem, 2.5vw, 1.8rem); line-height: 1.8; letter-spacing: .02em;
+  margin-bottom: 1.5rem; color: var(--text); text-shadow: 4px 4px 0 rgba(59,130,246,0.25);
 }
 h1 em { font-style: normal; color: var(--accent); text-shadow: 4px 4px 0 rgba(59,130,246,0.45); }
- 
 .cursor::after { content: '█'; color: var(--accent); animation: blink-fast .8s step-end infinite; margin-left: 4px; }
- 
-.hero-desc {
-  font-family: var(--pixel); font-size: 8px;
-  color: var(--muted2); max-width: 620px;
-  margin-bottom: 2rem; line-height: 2.4;
-}
- 
+.hero-desc { font-family: var(--pixel); font-size: 8px; color: var(--muted2); max-width: 620px; margin-bottom: 2rem; line-height: 2.4; }
 .hero-formula {
-  display: block;
-  text-align: center;
-  margin-top: 50px;
-  font-family: var(--pixel);
-  font-size: 22px;
-  color: #60a5fa;
-  line-height: 2.2;
-  text-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
-  background: transparent;
-  border: none;
-  padding: 0;
+  display: block; text-align: center; margin-top: 50px; font-family: var(--pixel); font-size: 22px;
+  color: #60a5fa; line-height: 2.2; text-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6;
+  background: transparent; border: none; padding: 0;
 }
- 
 section { padding: 40px 2rem; max-width: 1000px; margin: 0 auto; }
 section + section { border-top: 2px solid var(--border); }
- 
 .px-label {
-  font-family: var(--pixel); font-size: 7px;
-  letter-spacing: .18em; color: var(--accent);
-  text-transform: uppercase; margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
+  font-family: var(--pixel); font-size: 7px; letter-spacing: .18em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px;
 }
 .px-label::before { content: ''; display: inline-block; width: 8px; height: 8px; background: var(--accent); }
- 
-h2 {
-  font-family: var(--pixel); font-size: clamp(.85rem, 2vw, 1.4rem);
-  line-height: 1.7; margin-bottom: 1.25rem;
-  text-shadow: 3px 3px 0 rgba(59,130,246,0.2);
-}
- 
-h3 {
-  font-family: var(--pixel); font-size: 10px;
-  line-height: 1.8; margin-bottom: .75rem;
-  color: var(--text);
-}
- 
-p {
-  font-family: var(--pixel); font-size: 8px;
-  color: var(--muted2); line-height: 2.2; margin-bottom: 1rem;
-}
+h2 { font-family: var(--pixel); font-size: clamp(.85rem, 2vw, 1.4rem); line-height: 1.7; margin-bottom: 1.25rem; text-shadow: 3px 3px 0 rgba(59,130,246,0.2); }
+h3 { font-family: var(--pixel); font-size: 10px; line-height: 1.8; margin-bottom: .75rem; color: var(--text); }
+p { font-family: var(--pixel); font-size: 8px; color: var(--muted2); line-height: 2.2; margin-bottom: 1rem; }
 p:last-child { margin-bottom: 0; }
- 
 .card {
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  padding: 1.25rem;
-  position: relative;
+  background: var(--bg2); border: 2px solid var(--border); padding: 1.25rem; position: relative;
   clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 }
 .card::before {
-  content: ''; position: absolute; top: 0; right: 0;
-  width: 0; height: 0;
-  border-style: solid; border-width: 0 8px 8px 0;
-  border-color: transparent var(--border) transparent transparent;
+  content: ''; position: absolute; top: 0; right: 0; width: 0; height: 0;
+  border-style: solid; border-width: 0 8px 8px 0; border-color: transparent var(--border) transparent transparent;
 }
- 
 .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
- 
 .card-accent { border-left: 4px solid var(--accent); }
-.card-green  { border-left: 4px solid var(--green); }
-.card-amber  { border-left: 4px solid var(--amber); }
-.card-red    { border-left: 4px solid var(--red); }
+.card-green { border-left: 4px solid var(--green); }
+.card-amber { border-left: 4px solid var(--amber); }
+.card-red { border-left: 4px solid var(--red); }
 .card-purple { border-left: 4px solid var(--accent2); }
- 
-.badge {
-  display: inline-block;
-  font-family: var(--pixel); font-size: 6px;
-  letter-spacing: .05em; padding: 4px 10px;
-  border: 2px solid currentColor;
-}
+.badge { display: inline-block; font-family: var(--pixel); font-size: 6px; letter-spacing: .05em; padding: 4px 10px; border: 2px solid currentColor; }
 .badge-green { color: var(--green); background: rgba(34,217,130,.08); }
-.badge-red   { color: var(--red);   background: rgba(240,82,82,.08); }
+.badge-red { color: var(--red); background: rgba(240,82,82,.08); }
 .badge-amber { color: var(--amber); background: rgba(251,191,36,.08); }
- 
 .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 2rem; }
-.tl-item {
-  display: grid; grid-template-columns: 90px 1fr;
-  gap: 1.5rem; padding: 1.5rem 0;
-  border-bottom: 1px dashed var(--border);
-  align-items: start;
-}
+.tl-item { display: grid; grid-template-columns: 90px 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px dashed var(--border); align-items: start; }
 .tl-item:last-child { border-bottom: none; }
 .tl-year { font-family: var(--pixel); font-size: 9px; color: var(--accent); padding-top: 3px; }
 .tl-content h3 { font-size: 9px; color: var(--text); }
-.tl-content p  { font-size: 7.5px; }
- 
+.tl-content p { font-size: 7.5px; }
 .compare-table { width: 100%; border-collapse: collapse; }
 .compare-table th {
-  text-align: left; padding: 12px 14px;
-  font-family: var(--pixel); font-size: 7px; letter-spacing: .1em;
-  color: var(--muted); background: var(--bg3);
-  border: 1px solid var(--border);
+  text-align: left; padding: 12px 14px; font-family: var(--pixel); font-size: 7px; letter-spacing: .1em;
+  color: var(--muted); background: var(--bg3); border: 1px solid var(--border);
 }
-.compare-table td {
-  padding: 10px 14px; border: 1px solid var(--border);
-  font-family: var(--pixel); font-size: 7px; color: var(--muted2);
-  vertical-align: top; line-height: 2;
-}
+.compare-table td { padding: 10px 14px; border: 1px solid var(--border); font-family: var(--pixel); font-size: 7px; color: var(--muted2); vertical-align: top; line-height: 2; }
 .compare-table td:first-child { color: var(--text); }
- 
 .attack-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
 .attack-card {
-  background: var(--bg2); border: 2px solid var(--border);
-  padding: 1.25rem;
+  background: var(--bg2); border: 2px solid var(--border); padding: 1.25rem; position: relative;
   clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-  position: relative;
 }
 .attack-card::before {
-  content: ''; position: absolute; top: 0; right: 0;
-  width: 0; height: 0; border-style: solid; border-width: 0 8px 8px 0;
-  border-color: transparent var(--border) transparent transparent;
+  content: ''; position: absolute; top: 0; right: 0; width: 0; height: 0;
+  border-style: solid; border-width: 0 8px 8px 0; border-color: transparent var(--border) transparent transparent;
 }
-.attack-tag {
-  font-family: var(--pixel); font-size: 6px; font-weight: 700;
-  letter-spacing: .1em; padding: 4px 10px; margin-bottom: 12px;
-  display: inline-block; border: 2px solid currentColor;
-}
- 
+.attack-tag { font-family: var(--pixel); font-size: 6px; font-weight: 700; letter-spacing: .1em; padding: 4px 10px; margin-bottom: 12px; display: inline-block; border: 2px solid currentColor; }
+
 #tool { padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border); }
 .tool-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 1.5rem; align-items: start; }
 @media(max-width:700px){ .tool-grid { grid-template-columns: 1fr; } }
- 
-.matrix-visual {
-  display: flex; align-items: center; justify-content: center;
-  padding: 2rem 1.5rem;
-}
-.matrix-bracket {
-  display: grid; grid-template-columns: repeat(2, 58px);
-  gap: 8px; position: relative;
-}
-.matrix-bracket::before, .matrix-bracket::after {
-  content: ''; position: absolute; top: -6px; bottom: -6px; width: 5px;
-  border: 3px solid var(--accent);
-}
+.matrix-visual { display: flex; align-items: center; justify-content: center; padding: 2rem 1.5rem; }
+.matrix-bracket { display: grid; grid-template-columns: repeat(2, 58px); gap: 8px; position: relative; }
+.matrix-bracket::before, .matrix-bracket::after { content: ''; position: absolute; top: -6px; bottom: -6px; width: 5px; border: 3px solid var(--accent); }
 .matrix-bracket::before { left: -12px; border-right: none; }
-.matrix-bracket::after  { right: -12px; border-left: none; }
+.matrix-bracket::after { right: -12px; border-left: none; }
 .m-input {
-  width: 58px; height: 58px;
-  background: var(--bg); border: 2px solid var(--border2);
-  color: #93c5fd; font-family: var(--pixel); font-size: 16px;
-  text-align: center; outline: none;
-  transition: border-color .15s;
+  width: 58px; height: 58px; background: var(--bg); border: 2px solid var(--border2);
+  color: #93c5fd; font-family: var(--pixel); font-size: 16px; text-align: center; outline: none; transition: border-color .15s;
 }
 .m-input:focus { border-color: var(--accent); }
- 
 .info-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-.info-pill {
-  font-family: var(--pixel); font-size: 7px;
-  padding: 5px 10px; background: var(--bg3); border: 2px solid var(--border);
-  color: var(--muted2);
-}
+.info-pill { font-family: var(--pixel); font-size: 7px; padding: 5px 10px; background: var(--bg3); border: 2px solid var(--border); color: var(--muted2); }
 .info-pill span { color: #93c5fd; }
- 
 .mode-switch { display: flex; gap: 8px; margin-top: 12px; }
 .mode-btn {
-  flex: 1; padding: 10px 6px;
-  border: 2px solid var(--border); background: var(--bg);
-  color: var(--muted); font-family: var(--pixel); font-size: 7px;
-  cursor: pointer; transition: all .15s;
+  flex: 1; padding: 10px 6px; border: 2px solid var(--border); background: var(--bg);
+  color: var(--muted); font-family: var(--pixel); font-size: 7px; cursor: pointer; transition: all .15s;
   clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
 }
 .mode-btn.active { background: rgba(59,130,246,.1); color: var(--accent); border-color: var(--accent); }
 .mode-btn:hover:not(.active) { border-color: var(--border2); color: var(--muted2); }
- 
-.field-label {
-  font-family: var(--pixel); font-size: 7px; color: var(--muted);
-  letter-spacing: .12em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
-}
+.field-label { font-family: var(--pixel); font-size: 7px; color: var(--muted); letter-spacing: .12em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
 .field-label::before { content: '>'; color: var(--accent); }
- 
 textarea {
-  width: 100%; background: var(--bg); border: 2px solid var(--border);
-  color: var(--text); font-family: var(--pixel); font-size: 9px;
-  padding: 12px; resize: none; outline: none; line-height: 1.9;
-  transition: border-color .15s;
+  width: 100%; background: var(--bg); border: 2px solid var(--border); color: var(--text);
+  font-family: var(--pixel); font-size: 9px; padding: 12px; resize: none; outline: none; line-height: 1.9; transition: border-color .15s;
 }
 textarea:focus { border-color: var(--accent); }
 textarea::placeholder { color: #1e3060; }
- 
 .run-btn {
-  width: 100%; padding: 14px;
-  background: var(--accent); border: none;
-  color: #fff; font-family: var(--pixel); font-size: 9px;
-  cursor: pointer; letter-spacing: .08em;
-  transition: background .15s, transform .1s;
+  width: 100%; padding: 14px; background: var(--accent); border: none; color: #fff;
+  font-family: var(--pixel); font-size: 9px; cursor: pointer; letter-spacing: .08em; transition: background .15s, transform .1s;
   clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 }
 .run-btn:hover { background: #2563eb; }
 .run-btn:active { transform: scale(.98); }
 .run-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
- 
 .output-box {
-  background: var(--bg); border: 2px solid var(--border);
-  border-left: 4px solid var(--accent);
-  padding: 14px; font-family: var(--pixel); font-size: 9px;
-  color: #93c5fd; min-height: 60px; word-break: break-all; line-height: 2;
+  background: var(--bg); border: 2px solid var(--border); border-left: 4px solid var(--accent);
+  padding: 14px; font-family: var(--pixel); font-size: 9px; color: #93c5fd; min-height: 60px; word-break: break-all; line-height: 2;
 }
 .output-box.empty { color: var(--muted); }
 .output-box.error { color: var(--red); border-left-color: var(--red); }
- 
-.steps-title {
-  font-family: var(--pixel); font-size: 7px; color: var(--muted);
-  letter-spacing: .1em; margin: 12px 0 6px;
-  display: flex; align-items: center; gap: 6px;
-}
+.steps-title { font-family: var(--pixel); font-size: 7px; color: var(--muted); letter-spacing: .1em; margin: 12px 0 6px; display: flex; align-items: center; gap: 6px; }
 .steps-title::before { content: '//'; color: var(--accent); }
- 
-.step-row {
-  font-family: var(--mono); font-size: 11px; color: var(--muted);
-  padding: 7px 10px; background: var(--bg); border: 1px solid var(--border);
-  margin-bottom: 4px;
-}
- 
+.step-row { font-family: var(--mono); font-size: 11px; color: var(--muted); padding: 7px 10px; background: var(--bg); border: 1px solid var(--border); margin-bottom: 4px; }
 .composer-box { background: var(--bg3); border: 2px solid var(--border); margin-top: 1.5rem; }
-.composer-header {
-  background: var(--bg2); border-bottom: 2px solid var(--border);
-  padding: 12px 20px; display: flex; align-items: center; gap: 10px;
-  font-family: var(--pixel); font-size: 7px; color: var(--muted);
-}
+.composer-header { background: var(--bg2); border-bottom: 2px solid var(--border); padding: 12px 20px; display: flex; align-items: center; gap: 10px; font-family: var(--pixel); font-size: 7px; color: var(--muted); }
 .composer-header strong { color: var(--text); }
 .composer-body { padding: 1.5rem; }
-.composer-body ol {
-  color: var(--muted2); font-family: var(--pixel); font-size: 7.5px;
-  line-height: 2.6; padding-left: 1.2rem;
-}
+.composer-body ol { color: var(--muted2); font-family: var(--pixel); font-size: 7.5px; line-height: 2.6; padding-left: 1.2rem; }
 .composer-body ol li { margin-bottom: 4px; }
- 
-footer {
-  border-top: 2px solid var(--border); padding: 2rem;
-  text-align: center; font-family: var(--pixel); font-size: 7px; color: var(--muted);
-}
+footer { border-top: 2px solid var(--border); padding: 2rem; text-align: center; font-family: var(--pixel); font-size: 7px; color: var(--muted); }
 footer::before { content: '[ '; color: var(--accent); }
-footer::after  { content: ' ]'; color: var(--accent); }
- 
+footer::after { content: ' ]'; color: var(--accent); }
 ul.px-list { list-style: none; padding: 0; }
-ul.px-list li {
-  font-family: var(--pixel); font-size: 7.5px; color: var(--muted2);
-  line-height: 2.2; padding: 4px 0; padding-left: 18px;
-  position: relative;
-}
+ul.px-list li { font-family: var(--pixel); font-size: 7.5px; color: var(--muted2); line-height: 2.2; padding: 4px 0; padding-left: 18px; position: relative; }
 ul.px-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
- 
 ol.px-list { list-style: none; counter-reset: px-counter; padding: 0; }
-ol.px-list li {
-  font-family: var(--pixel); font-size: 7.5px; color: var(--muted2);
-  line-height: 2.2; padding: 4px 0; padding-left: 28px;
-  position: relative; counter-increment: px-counter;
-}
-ol.px-list li::before {
-  content: counter(px-counter, decimal-leading-zero) '.';
-  position: absolute; left: 0; color: var(--accent); font-size: 7px;
-}
- 
+ol.px-list li { font-family: var(--pixel); font-size: 7.5px; color: var(--muted2); line-height: 2.2; padding: 4px 0; padding-left: 28px; position: relative; counter-increment: px-counter; }
+ol.px-list li::before { content: counter(px-counter, decimal-leading-zero) '.'; position: absolute; left: 0; color: var(--accent); font-size: 7px; }
 .px-code {
-  background: var(--bg); border: 2px solid var(--border2);
-  border-left: 4px solid var(--accent2);
-  padding: 14px; font-family: var(--mono); font-size: 12px;
-  color: #93c5fd; line-height: 1.9; margin-top: 12px;
+  background: var(--bg); border: 2px solid var(--border2); border-left: 4px solid var(--accent2);
+  padding: 14px; font-family: var(--mono); font-size: 12px; color: #93c5fd; line-height: 1.9; margin-top: 12px;
 }
 .px-code .comment { color: var(--muted); }
-/* ...código existente... */
-.px-code .comment { color: var(--muted); }
- 
+
 /* ── NAV CARDS GLOBAL ── */
-.sec-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 2rem;
-  padding-top: 14px;
-  border-top: 2px dashed var(--border);
-}
+.sec-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 14px; border-top: 2px dashed var(--border); }
 .sec-nav-btn {
-  font-family: var(--pixel);
-  font-size: 7px;
-  background: var(--bg2);
-  border: 2px solid var(--border);
-  color: var(--muted);
-  padding: 10px 16px;
-  cursor: pointer;
-  letter-spacing: .08em;
+  font-family: var(--pixel); font-size: 7px; background: var(--bg2); border: 2px solid var(--border); color: var(--muted);
+  padding: 10px 16px; cursor: pointer; letter-spacing: .08em;
   clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
   transition: color .15s, border-color .15s, background .15s;
 }
-.sec-nav-btn:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: rgba(59,130,246,.08);
-}
-.sec-nav-btn.next {
-  color: #22d982;
-  border-color: #184522;
-  background: rgba(34,217,130,.06);
-}
-.sec-nav-btn.next:hover {
-  border-color: #22d982;
-  background: rgba(34,217,130,.12);
-}
-.sec-nav-btn:disabled {
-  opacity: 0.2;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.sec-counter {
-  font-family: var(--pixel);
-  font-size: 7px;
-  color: var(--muted);
-  letter-spacing: .12em;
-}
- 
+.sec-nav-btn:hover { color: var(--accent); border-color: var(--accent); background: rgba(59,130,246,.08); }
+.sec-nav-btn.next { color: #22d982; border-color: #184522; background: rgba(34,217,130,.06); }
+.sec-nav-btn.next:hover { border-color: #22d982; background: rgba(34,217,130,.12); }
+.sec-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; pointer-events: none; }
+.sec-counter { font-family: var(--pixel); font-size: 7px; color: var(--muted); letter-spacing: .12em; }
+
 /* ── EXTENSION N×N: ORDEN + MATRIZ DINAMICA + LATEX ── */
 .order-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.order-input {
-  width: 64px; height: 44px;
-  background: var(--bg); border: 2px solid var(--border2);
-  color: #93c5fd; font-family: var(--pixel); font-size: 15px;
-  text-align: center; outline: none;
-  transition: border-color .15s;
-}
+.order-input { width: 64px; height: 44px; background: var(--bg); border: 2px solid var(--border2); color: #93c5fd; font-family: var(--pixel); font-size: 15px; text-align: center; outline: none; transition: border-color .15s; }
 .order-input:focus { border-color: var(--accent); }
-.order-hint {
-  font-family: var(--pixel); font-size: 6.5px;
-  color: var(--muted); letter-spacing: .05em; line-height: 1.8;
-}
+.order-hint { font-family: var(--pixel); font-size: 6.5px; color: var(--muted); letter-spacing: .05em; line-height: 1.8; }
 .order-stepper { display: flex; gap: 6px; }
-.order-btn {
-  width: 30px; height: 30px;
-  background: var(--bg2); border: 2px solid var(--border);
-  color: var(--accent); font-family: var(--pixel); font-size: 10px;
-  cursor: pointer; display:flex; align-items:center; justify-content:center;
-  transition: border-color .15s, background .15s;
-}
+.order-btn { width: 30px; height: 30px; background: var(--bg2); border: 2px solid var(--border); color: var(--accent); font-family: var(--pixel); font-size: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .15s, background .15s; }
 .order-btn:hover { border-color: var(--accent); background: rgba(59,130,246,.08); }
- 
-.matrix-bracket-dyn {
-  display: inline-grid; gap: 6px; position: relative; padding: 4px 16px;
-}
-.matrix-bracket-dyn::before, .matrix-bracket-dyn::after {
-  content: ''; position: absolute; top: -6px; bottom: -6px; width: 5px;
-  border: 3px solid var(--accent);
-}
+.matrix-bracket-dyn { display: inline-grid; gap: 6px; position: relative; padding: 4px 16px; }
+.matrix-bracket-dyn::before, .matrix-bracket-dyn::after { content: ''; position: absolute; top: -6px; bottom: -6px; width: 5px; border: 3px solid var(--accent); }
 .matrix-bracket-dyn::before { left: 0; border-right: none; }
-.matrix-bracket-dyn::after  { right: 0; border-left: none; }
-.m-input-dyn {
-  width: 42px; height: 42px;
-  background: var(--bg); border: 2px solid var(--border2);
-  color: #93c5fd; font-family: var(--pixel); font-size: 12px;
-  text-align: center; outline: none;
-  transition: border-color .15s;
-}
+.matrix-bracket-dyn::after { right: 0; border-left: none; }
+.m-input-dyn { width: 42px; height: 42px; background: var(--bg); border: 2px solid var(--border2); color: #93c5fd; font-family: var(--pixel); font-size: 12px; text-align: center; outline: none; transition: border-color .15s; }
 .m-input-dyn:focus { border-color: var(--accent); }
- 
-.latex-box {
-  background: var(--bg); border: 2px solid var(--border);
-  border-left: 4px solid var(--accent2);
-  padding: 12px 14px; margin-top: 12px;
-  overflow-x: auto; color: #93c5fd; min-height: 40px;
-}
+.latex-box { background: var(--bg); border: 2px solid var(--border); border-left: 4px solid var(--accent2); padding: 12px 14px; margin-top: 12px; overflow-x: auto; color: #93c5fd; min-height: 40px; }
 .latex-box .katex { color: #93c5fd !important; font-size: 1.05em; }
 .latex-box.err { color: var(--red); border-left-color: var(--red); font-family: var(--pixel); font-size: 8px; }
- 
+
 /* ── EXTENSION: KPA / BFA ── */
-.attack-tool-note {
-  font-family: var(--pixel); font-size: 7px; color: var(--muted);
-  line-height: 2; margin-top: 10px; padding: 10px 12px;
-  background: var(--bg3); border: 1px dashed var(--border);
-}
-.progress-outer {
-  width: 100%; height: 18px; background: var(--bg3);
-  border: 2px solid var(--border); margin-top: 10px; position: relative; overflow: hidden;
-}
-.progress-inner {
-  height: 100%; width: 0%; background: var(--accent);
-  transition: width .12s linear;
-}
-.progress-label {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: var(--pixel); font-size: 6.5px; color: #fff; text-shadow: 1px 1px 0 rgba(0,0,0,.6);
-}
+.attack-tool-note { font-family: var(--pixel); font-size: 7px; color: var(--muted); line-height: 2; margin-top: 10px; padding: 10px 12px; background: var(--bg3); border: 1px dashed var(--border); }
+.progress-outer { width: 100%; height: 18px; background: var(--bg3); border: 2px solid var(--border); margin-top: 10px; position: relative; overflow: hidden; }
+.progress-inner { height: 100%; width: 0%; background: var(--accent); transition: width .12s linear; }
+.progress-label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: var(--pixel); font-size: 6.5px; color: #fff; text-shadow: 1px 1px 0 rgba(0,0,0,.6); }
 .btn-row { display: flex; gap: 8px; }
 .btn-row .run-btn { flex: 1; }
-.stop-btn {
-  background: var(--bg2); border: 2px solid var(--red); color: var(--red);
-  font-family: var(--pixel); font-size: 9px; padding: 14px; cursor: pointer;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-}
+.stop-btn { background: var(--bg2); border: 2px solid var(--red); color: var(--red); font-family: var(--pixel); font-size: 9px; padding: 14px; cursor: pointer; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px)); }
 .stop-btn:hover { background: rgba(240,82,82,.1); }
 .stop-btn:disabled { opacity: .3; cursor: not-allowed; }
-.found-key-card {
-  background: var(--bg); border: 2px solid var(--green); border-left: 4px solid var(--green);
-  padding: 12px; margin-top: 8px; font-family: var(--pixel); font-size: 7px; color: var(--muted2); line-height: 2;
-}
+.found-key-card { background: var(--bg); border: 2px solid var(--green); border-left: 4px solid var(--green); padding: 12px; margin-top: 8px; font-family: var(--pixel); font-size: 7px; color: var(--muted2); line-height: 2; word-break: break-all; }
 .found-key-card strong { color: var(--green); }
- 
+
 /* ── EXTENSION: GROVER / COMPUTACION CUANTICA ── */
-.qubit-line {
-  stroke: var(--border2); stroke-width: 2;
-}
-.gate-box {
-  fill: var(--bg); stroke: var(--accent); stroke-width: 2;
-}
+.qubit-line { stroke: var(--border2); stroke-width: 2; }
+.gate-box { fill: var(--bg); stroke: var(--accent); stroke-width: 2; }
 .gate-box.oracle { stroke: var(--red); }
 .gate-box.diffuser { stroke: var(--green); }
-.gate-label {
-  font-family: var(--pixel); font-size: 9px; fill: var(--text);
-}
-.gate-sub {
-  font-family: var(--mono); font-size: 8px; fill: var(--muted2);
-}
-.iter-bracket-label {
-  font-family: var(--pixel); font-size: 7px; fill: var(--accent2);
-}
-.amp-bar-track {
-  width: 100%; height: 120px; background: var(--bg); border: 2px solid var(--border);
-  position: relative; overflow: hidden; margin-top: 10px;
-}
-.amp-bar-fill {
-  position: absolute; bottom: 0; left: 0; width: 100%;
-  background: linear-gradient(180deg, var(--accent2), var(--accent));
-  transition: height .08s linear;
-}
-.amp-bar-grid {
-  position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 24px);
-}
-.amp-readout {
-  position: absolute; top: 6px; left: 8px;
-  font-family: var(--pixel); font-size: 7px; color: var(--text);
-  text-shadow: 1px 1px 0 rgba(0,0,0,.6);
-}
+.gate-label { font-family: var(--pixel); font-size: 9px; fill: var(--text); }
+.gate-sub { font-family: var(--mono); font-size: 8px; fill: var(--muted2); }
+.iter-bracket-label { font-family: var(--pixel); font-size: 7px; fill: var(--accent2); }
+.amp-bar-track { width: 100%; height: 120px; background: var(--bg); border: 2px solid var(--border); position: relative; overflow: hidden; margin-top: 10px; }
+.amp-bar-fill { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(180deg, var(--accent2), var(--accent)); transition: height .08s linear; }
+.amp-bar-grid { position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 24px); }
+.amp-readout { position: absolute; top: 6px; left: 8px; font-family: var(--pixel); font-size: 7px; color: var(--text); text-shadow: 1px 1px 0 rgba(0,0,0,.6); }
 .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 10px; margin-top: 12px; }
-.metric-box {
-  background: var(--bg3); border: 2px solid var(--border); padding: 10px 12px;
-}
-.metric-box .m-label { font-family: var(--pixel); font-size: 6px; color: var(--muted); letter-spacing:.1em; margin-bottom:6px; }
+.metric-box { background: var(--bg3); border: 2px solid var(--border); padding: 10px 12px; }
+.metric-box .m-label { font-family: var(--pixel); font-size: 6px; color: var(--muted); letter-spacing: .1em; margin-bottom: 6px; }
 .metric-box .m-value { font-family: var(--pixel); font-size: 12px; color: var(--accent2); }
+
+
+.px-code pre { margin: 0; font: inherit; white-space: pre-wrap; }
+.px-code .c  { color: var(--muted); }
+.pc-wrap { display: flex; gap: 8px; height: 190px; margin-top: 10px; padding: 10px; background: var(--bg); border: 2px solid var(--border); }
+.pc-col { flex: 1; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.pc-track { flex: 1; width: 100%; position: relative; border-bottom: 2px solid var(--border2); }
+.pc-bar { position: absolute; bottom: 0; left: 0; width: 100%; background: var(--accent); transition: height .25s steps(5); }
+.pc-bar.hit { background: var(--green); }
+.pc-lbl { font-family: var(--pixel); font-size: 6px; color: var(--muted2); margin-top: 6px; }
+.pc-val { font-family: var(--pixel); font-size: 6px; color: #93c5fd; margin-top: 4px; }
+
+
+/* ── MODO PRESENTACIÓN ── */
+.slide { display: none; border-top: none !important; }
+.slide.active { display: block; animation: slide-in .35s steps(6) both; }
+.slide:not(#hero) { min-height: 100vh; padding-top: 92px !important; padding-bottom: 48px !important; }
+#hero.slide { min-height: 100vh; }
+#hero .sec-nav { margin-top: 3rem; }
+@keyframes slide-in { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .slide.active { animation: none; } }
 </style>
 </head>
 <body>
- 
+
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#hero">
@@ -569,14 +293,15 @@ ol.px-list li::before {
     <a href="#como-funciona">FUNCIONAMIENTO</a>
     <a href="#teoria">TEORIA</a>
     <a href="#ataques">ATAQUES</a>
-    <a href="#tool">APLICACION</a>
+    <a href="#tool">CIFRADO/DESCIFRADO</a>
     <a href="#kpa">KPA</a>
     <a href="#bfa">BFA</a>
     <a href="#grover">GROVER</a>
- 
+    <a href="#qasm">QASM</a>
+    <a href="#grover-grafico">GRAFICO</a>
   </div>
 </nav>
- 
+
 <!-- HERO -->
 <div id="hero">
   <canvas id="rain"></canvas>
@@ -594,7 +319,7 @@ ol.px-list li::before {
     </div>
   </div>
 </div>
- 
+
 <!-- 00 · INTRODUCCION -->
 <section id="introduccion">
   <div class="px-label">00 · Introduccion</div>
@@ -603,10 +328,8 @@ ol.px-list li::before {
     <p>Lester S. Hill, un matemático estadounidense, publicó en The American Mathematical Monthly uno de los cifrados más relevantes en 1929 al aplicar aritmética modular en un lenguaje polialfabético en vez de monoalfabético, siendo este método nombrado Cifrado de Hill.</p>
     <p>Este proyecto tiene como objetivo simular, analizar y comparar la seguridad de dicho cifrado frente a ataques criptográficos antiguos y modernos, entre ellos está el Known-Plaintext Attack, el Brute Force Attack y computación cuántica respectivamente, considerando además la ética computacional para casos a futuro.</p>
   </div>
-  
- 
 </section>
- 
+
 <!-- 01 · HISTORIA -->
 <section id="historia">
   <div class="px-label">01 · HISTORIA</div>
@@ -624,7 +347,7 @@ ol.px-list li::before {
       <div class="tl-year">1931</div>
       <div class="tl-content">
         <h3>SEGUNDA PUBLICACION</h3>
-        <p>Amplia su trabajo demostrando aplicaciones mecanicas del sistema mediante dispositivos electrónicos.</p>
+        <p>Amplia su trabajo demostrando aplicaciones mecanicas del sistema mediante dispositivos mecánicos.</p>
       </div>
     </div>
     <div class="tl-item">
@@ -644,7 +367,7 @@ ol.px-list li::before {
     </div>
   </div>
 </section>
- 
+
 <!-- 02 · QUÉ ES -->
 <section id="que-es">
   <div class="px-label">02 · ¿QUÉ ES?</div>
@@ -654,19 +377,18 @@ ol.px-list li::before {
     <p>El cifrado de Hill también es un cifrado de bloques, que recibe como entrada bits de texto plano y genera un bloque de bits cifrados. El cifrado de Hill fue inventado por Lester S. Hill en 1929 y fue el primer cifrado poligráfico que operaba con más de tres símbolos o letras a la vez.</p>
   </div>
 </section>
- 
+
 <!-- 03 · IMPORTANCIA -->
 <section id="porque-es-importante">
   <div class="px-label">03 · ¿PORQUE ES IMPORTANTE?</div>
   <h2>IMPORTANCIA</h2>
   <div class="card card-purple">
-     <p>-Contribuye a comprender las fortalezas y vulnerabilidades del cifrado de Hill en la protección de la información.</p>
- 
+    <p>-Contribuye a comprender las fortalezas y vulnerabilidades del cifrado de Hill en la protección de la información.</p>
     <p>-Fomenta el interés por la criptografía clásica y cuántica mediante un caso práctico de estudio.</p>
     <p>-Facilita el estudio de aplicaciones del álgebra lineal en la criptografía y la ciberseguridad.</p>
   </div>
 </section>
- 
+
 <!-- 04 · TIPOS -->
 <section id="tipos">
   <div class="px-label">04 · TIPOS DE CIFRADO</div>
@@ -722,7 +444,7 @@ ol.px-list li::before {
     </table>
   </div>
 </section>
- 
+
 <!-- 05 · COMO FUNCIONA -->
 <section id="como-funciona">
   <div class="px-label">05 · ¿COMO FUNCIONA?</div>
@@ -742,17 +464,17 @@ ol.px-list li::before {
     </div>
   </div>
 </section>
- 
+
 <!-- 06 · TEORIA -->
 <section id="teoria">
   <div class="px-label">06 · TEORIA MATEMATICA</div>
   <h2>FUNDAMENTO ALGEBRAICO</h2>
   <p>El cifrado de Hill requiere aritmetica modular, algebra matricial e inversos multiplicativos. Proceso paso a paso:</p>
- 
+
   <div style="margin-top:1rem; margin-bottom:.75rem;">
     <h3>Proceso de Cifrado:</h3>
   </div>
- 
+
   <div class="card-grid">
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 01</div>
@@ -765,7 +487,7 @@ det(K) = 3(5) - 3(2) = 9<br>
 verifica la invertibilidad<br>
       </div>
     </div>
- 
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 02</div>
       <h3>CONVERTIR EL MENSAJE A NUMEROS</h3>
@@ -779,7 +501,7 @@ P2 = [13,4]<br>
 P3 = [0,11]<br>
       </div>
     </div>
- 
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 03</div>
       <h3>MULTIPLICAR CADA BLOQUE POR K</h3>
@@ -791,7 +513,7 @@ C2: [[3,3],[2,5]] x [13,4] = [51,46]<br>
 C3: [[3,3],[2,5]] x [0,11] = [33,55]<br>
       </div>
     </div>
- 
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 04</div>
       <h3>REDUCIR CADA BLOQUE MOD 26</h3>
@@ -803,7 +525,7 @@ C2: [51,46] → [25,20]<br>
 C3: [33,55] → [7,3]<br>
       </div>
     </div>
- 
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 05</div>
       <h3>CONVERTIR CADA ELEMENTO A LETRA</h3>
@@ -813,7 +535,7 @@ C2 = ZU<br>
 C3 = HD<br>
       </div>
     </div>
- 
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 06</div>
       <h3>UNIR CADA BLOQUE CIFRADO</h3>
@@ -824,34 +546,32 @@ LINEAL → FKZUHD<br>
       </div>
     </div>
   </div>
-  
- 
-     <div style="margin-top:1rem; margin-bottom:.75rem;">
-    <h3>Proceso de Desifrado:</h3>
+
+  <div style="margin-top:1rem; margin-bottom:.75rem;">
+    <h3>Proceso de Descifrado:</h3>
   </div>
- 
+
   <div class="card-grid">
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 01</div>
       <h3>CONVERTIR EL MENSAJE CIFRADO A NUMEROS</h3>
       <div class="px-code">
- A=0 B=1 ... Z=25<br>
+A=0 B=1 ... Z=25<br>
 "FKZUHD" → [5,10,25,20,7,3]<br>
       </div>
     </div>
- 
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 02</div>
       <h3>HALLAR LA INVERSA DE LA MATRIZ K</h3>
       <div class="px-code">
-    K⁻¹ = 1/det(K)Adj(K) <br>
-       K=[[3,3],[2,5]] → Adj(K) = [[5,-3],[-2,3]]<br>
-       det(K⁻¹) = 3<br>
-       → K⁻¹ = [[15,17],[20,9]]<br>
+K⁻¹ = 1/det(K)Adj(K) <br>
+K=[[3,3],[2,5]] → Adj(K) = [[5,-3],[-2,3]]<br>
+det(K)⁻¹ mod 26 = 3<br>
+→ K⁻¹ = [[15,17],[20,9]]<br>
       </div>
     </div>
- 
-    
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 03</div>
       <h3>MULTIPLICAR CADA BLOQUE C POR K⁻¹ </h3>
@@ -863,7 +583,7 @@ P2: [[15,17],[20,9]] x [25,20] = [715,680]<br>
 P3:[[15,17],[20,9]] x [7,3] = [156,167]<br>
       </div>
     </div>
-    
+
     <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 04</div>
       <h3>REDUCIR A MOD 26</h3>
@@ -875,9 +595,8 @@ P2: [715,680] → [13,4]<br>
 P3: [156,167] → [0,11]<br>
       </div>
     </div>
- 
- 
-<div class="card">
+
+    <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 05</div>
       <h3>CONVERTIR CADA ELEMENTO A LETRA</h3>
       <div class="px-code">
@@ -886,28 +605,25 @@ P2 = NE<br>
 P3 = AL<br>
       </div>
     </div>
- 
-<div class="card">
+
+    <div class="card">
       <div class="px-label" style="font-size:6px;">PASO 06</div>
-      <h3>UNIR CADA BLOQUE CIFRADO</h3>
+      <h3>UNIR CADA BLOQUE DESCIFRADO</h3>
       <div class="px-code">
 P1 U P2 U P3 = LI + NE + AL<br>
 mensaje:<br>
- FKZUHD → LINEAL<br>
+FKZUHD → LINEAL<br>
       </div>
     </div>
   </div>
-  
 </section>
- 
- 
- 
+
 <!-- 07 · ATAQUES -->
 <section id="ataques">
   <div class="px-label">07 · ANALISIS DE SEGURIDAD</div>
   <h2>TIPOS DE ATAQUES</h2>
   <div class="attack-grid">
- 
+
     <div class="attack-card">
       <div class="attack-tag" style="color:var(--red);border-color:var(--red);background:rgba(240,82,82,.06);">KPA · KNOWN-PLAINTEXT</div>
       <h3>TEXTO PLANO CONOCIDO</h3>
@@ -920,11 +636,11 @@ Texto cifrado = FKZUHD<br>
 → Llave = [[3,3],[2,5]]<br>
       </div>
     </div>
- 
+
     <div class="attack-card">
       <div class="attack-tag" style="color:var(--amber);border-color:var(--amber);background:rgba(251,191,36,.06);">BFA · BRUTE-FORCE</div>
       <h3>FUERZA BRUTA</h3>
-      <p>Tenemos que el atacante solo tiene el texto cifrado (C) y asume que es un cifrado de Hill dividiendo el mensaje en bloques de 2x2. La estrategia es intentar TODAS las llaves posibles (K) hasta encontrar un texto cifrado que tenga sentido.</p>
+      <p>Tenemos que el atacante solo tiene el texto cifrado (C) y asume que es un cifrado de Hill dividiendo el mensaje en bloques de 2 letras. La estrategia es intentar TODAS las llaves posibles (K) hasta encontrar un texto cifrado que tenga sentido.</p>
       <div class="px-label" style="font-size:6px; margin-top:1rem;">PROCESO</div>
       <div class="px-code">
 Orden de la matriz = 2<br>
@@ -933,48 +649,39 @@ Fragmento esperado = LINEAL<br>
 → Llave = [[3,3],[2,5]]<br>
       </div>
     </div>
- 
+
   </div>
 </section>
- 
+
 <!-- 08 · HERRAMIENTA -->
 <div id="tool">
   <div class="px-label">08 · HERRAMIENTA</div>
   <h2 style="margin-bottom:.5rem;">CIFRAR / DESCIFRAR</h2>
   <p style="margin-bottom:1.5rem;">Version generalizada para cualquier orden n×n. Define el tamaño de la matriz, sus elementos, y el cifrado/descifrado se calcula dinamicamente mod 26, con la matriz K y su inversa K⁻¹ mostradas en notacion LaTeX.</p>
   <div class="tool-grid">
- 
-    <!-- Columna izquierda: Orden + Matriz + Modo -->
     <div style="display:flex; flex-direction:column; gap:1rem;">
- 
       <div class="card">
         <div class="px-label" style="font-size:6px;">ORDEN DE LA MATRIZ (n)</div>
         <div class="order-row">
           <div class="order-stepper">
             <button class="order-btn" onclick="setOrder(matrixOrder - 1)">−</button>
-            <input type="number" class="order-input" id="order-input" value="2" min="2" max="10" onchange="setOrder(this.value)" />
+            <input type="number" class="order-input" id="order-input" value="2" min="2" max="8" onchange="setOrder(this.value)" />
             <button class="order-btn" onclick="setOrder(matrixOrder + 1)">+</button>
           </div>
-          <div class="order-hint">n = 2..10<br>bloques de n letras</div>
+          <div class="order-hint">n = 2..8<br>bloques de n letras</div>
         </div>
       </div>
- 
       <div class="card">
         <div class="px-label" style="font-size:6px;">MATRIZ CLAVE K (n×n)</div>
-        <div class="matrix-visual">
-          <div class="matrix-bracket-dyn" id="matrix-grid"></div>
-        </div>
+        <div class="matrix-visual"><div class="matrix-bracket-dyn" id="matrix-grid"></div></div>
         <div id="k-latex" class="latex-box"></div>
         <div class="info-row">
           <div class="info-pill">DET = <span id="det-val">9</span></div>
           <div class="info-pill">DET⁻¹ MOD26 = <span id="inv-val">3</span></div>
         </div>
         <div id="kinv-latex" class="latex-box"></div>
-        <div style="margin-top:10px;">
-          <span class="badge badge-green" id="valid-badge">✓ VALIDA</span>
-        </div>
+        <div style="margin-top:10px;"><span class="badge badge-green" id="valid-badge">✓ VALIDA</span></div>
       </div>
- 
       <div class="card">
         <div class="px-label" style="font-size:6px;">MODO</div>
         <div class="mode-switch">
@@ -983,8 +690,6 @@ Fragmento esperado = LINEAL<br>
         </div>
       </div>
     </div>
- 
-    <!-- Columna derecha: Input + Output -->
     <div class="card" style="display:flex; flex-direction:column; gap:14px;">
       <div>
         <div class="field-label" id="input-label">TEXTO PLANO</div>
@@ -1001,17 +706,15 @@ Fragmento esperado = LINEAL<br>
         <div id="steps-list"></div>
       </div>
     </div>
- 
   </div>
 </div>
- 
+
 <!-- 09 · KPA -->
 <div id="kpa" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
   <div class="px-label">09 · ATAQUE KPA</div>
   <h2 style="margin-bottom:.5rem;">KNOWN-PLAINTEXT ATTACK</h2>
   <p style="margin-bottom:1.5rem;">Generalizado para cualquier orden n. El atacante conoce un fragmento de texto plano y su correspondiente texto cifrado. Con n bloques independientes (n·n letras) se arma la matriz P (columnas = bloques de texto plano) y C (columnas = bloques cifrados), y se despeja <strong style="color:var(--text)">K = C · P⁻¹ (mod 26)</strong>.</p>
   <div class="tool-grid">
- 
     <div style="display:flex; flex-direction:column; gap:1rem;">
       <div class="card">
         <div class="px-label" style="font-size:6px;">ORDEN DE LA MATRIZ (n)</div>
@@ -1025,14 +728,12 @@ Fragmento esperado = LINEAL<br>
         </div>
         <div class="attack-tool-note" id="kpa-req-note">Se requieren al menos 4 letras de texto plano conocido y su cifrado correspondiente (n=2).</div>
       </div>
- 
       <div class="card">
         <div class="px-label" style="font-size:6px;">LLAVE RECUPERADA K</div>
         <div id="kpa-k-latex" class="latex-box">// AUN NO CALCULADA</div>
         <div id="kpa-result-note"></div>
       </div>
     </div>
- 
     <div class="card" style="display:flex; flex-direction:column; gap:14px;">
       <div>
         <div class="field-label">TEXTO PLANO CONOCIDO</div>
@@ -1052,17 +753,15 @@ Fragmento esperado = LINEAL<br>
         <div class="output-box empty" id="kpa-output">// RESULTADO AQUI...</div>
       </div>
     </div>
- 
   </div>
 </div>
- 
+
 <!-- 10 · BFA -->
 <div id="bfa" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
   <div class="px-label">10 · ATAQUE BFA</div>
   <h2 style="margin-bottom:.5rem;">BRUTE-FORCE ATTACK</h2>
-  <p style="margin-bottom:1.5rem;">Fijo en orden 2×2: el espacio de llaves es 26⁴ = 456,976 matrices, factible de recorrer en el navegador. Para n≥3 el espacio crece a 26⁽ⁿ²⁾ (26⁹ ≈ 5.4 billones para n=3), computacionalmente inviable por fuerza bruta pura — por eso este ataque se mantiene generalizado solo conceptualmente y se demuestra aqui en su caso practico 2×2.</p>
+  <p style="margin-bottom:1.5rem;">Fijo en orden 2×2: el espacio de llaves es 26⁴ = 456,976 matrices, factible de recorrer en el navegador. Para n≥3 el espacio crece a 26⁽ⁿ²⁾ (26⁹ ≈ 5.4 billones para n=3), computacionalmente inviable por fuerza bruta pura — por eso este ataque se demuestra aqui solo en su caso practico 2×2.</p>
   <div class="tool-grid">
- 
     <div style="display:flex; flex-direction:column; gap:1rem;">
       <div class="card">
         <div class="field-label">TEXTO CIFRADO INTERCEPTADO</div>
@@ -1074,7 +773,6 @@ Fragmento esperado = LINEAL<br>
         <div class="attack-tool-note">El crib debe corresponder al INICIO del texto cifrado. Minimo 4 letras (2 bloques) recomendado para evitar falsos positivos.</div>
       </div>
     </div>
- 
     <div class="card" style="display:flex; flex-direction:column; gap:14px;">
       <div class="btn-row">
         <button class="run-btn" id="bfa-run-btn" onclick="startBFA()">INICIAR FUERZA BRUTA ▶</button>
@@ -1089,10 +787,9 @@ Fragmento esperado = LINEAL<br>
         <div id="bfa-results"><div class="output-box empty">// EJECUTA LA BUSQUEDA...</div></div>
       </div>
     </div>
- 
   </div>
 </div>
- 
+
 <!-- 11 · GROVER -->
 <div id="grover" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
   <div class="px-label">11 · COMPUTACION CUANTICA</div>
@@ -1102,55 +799,37 @@ Fragmento esperado = LINEAL<br>
     <h3>COMPLEJIDAD: DE O(N) A O(√N)</h3>
     <p>Fuerza bruta clasica necesita, en el peor caso, revisar las N llaves. Grover alcanza una probabilidad de exito cercana al 100% con solo:</p>
     <div class="latex-box" id="grover-formula-latex"></div>
-    <p>Para N = 456,976 (asumiendo M = 1 llave valida), esto equivale a aproximadamente <strong style="color:var(--text)">519 iteraciones</strong> en vez de hasta <strong style="color:var(--text)">456,976</strong> evaluaciones — una reduccion cuadratica, no exponencial, pero la mejor conocida para busqueda no estructurada.</p>
+    <p>Para N = 456,976 (asumiendo M = 1 llave valida), esto equivale a aproximadamente <strong style="color:var(--text)">531 iteraciones</strong> en vez de hasta <strong style="color:var(--text)">456,976</strong> evaluaciones — una reduccion cuadratica, no exponencial, pero la mejor conocida para busqueda no estructurada.</p>
   </div>
- 
   <div class="card" style="margin-bottom:1.5rem;">
     <div class="px-label" style="font-size:6px;">CIRCUITO (ESTILO IBM QUANTUM COMPOSER)</div>
     <div style="overflow-x:auto;">
       <svg id="grover-circuit-svg" viewBox="0 0 760 210" style="width:100%; min-width:620px; display:block;">
-        <!-- qubit lines -->
-        <line class="qubit-line" x1="40" y1="40"  x2="720" y2="40"/>
-        <line class="qubit-line" x1="40" y1="90"  x2="720" y2="90"/>
+        <line class="qubit-line" x1="40" y1="40" x2="720" y2="40"/>
+        <line class="qubit-line" x1="40" y1="90" x2="720" y2="90"/>
         <line class="qubit-line" x1="40" y1="140" x2="720" y2="140"/>
-        <text x="10" y="44"  class="gate-sub">q0</text>
-        <text x="10" y="94"  class="gate-sub">q1</text>
+        <text x="10" y="44" class="gate-sub">q0</text>
+        <text x="10" y="94" class="gate-sub">q1</text>
         <text x="10" y="144" class="gate-sub">q⋮</text>
- 
-        <!-- H layer -->
-        <rect class="gate-box" x="60" y="24" width="34" height="32"/>
-        <text x="70" y="46" class="gate-label">H</text>
-        <rect class="gate-box" x="60" y="74" width="34" height="32"/>
-        <text x="70" y="96" class="gate-label">H</text>
-        <rect class="gate-box" x="60" y="124" width="34" height="32"/>
-        <text x="70" y="146" class="gate-label">H</text>
- 
-        <!-- iteration bracket -->
+        <rect class="gate-box" x="60" y="24" width="34" height="32"/><text x="70" y="46" class="gate-label">H</text>
+        <rect class="gate-box" x="60" y="74" width="34" height="32"/><text x="70" y="96" class="gate-label">H</text>
+        <rect class="gate-box" x="60" y="124" width="34" height="32"/><text x="70" y="146" class="gate-label">H</text>
         <path d="M 130 16 L 122 16 L 122 168 L 130 168" fill="none" stroke="var(--accent2)" stroke-width="2"/>
         <path d="M 590 16 L 598 16 L 598 168 L 590 168" fill="none" stroke="var(--accent2)" stroke-width="2"/>
         <text x="330" y="12" class="iter-bracket-label" text-anchor="middle">× r ≈ ⌈(π/4)√(N/M)⌉ ITERACIONES</text>
- 
-        <!-- Oracle -->
         <rect class="gate-box oracle" x="180" y="24" width="90" height="132"/>
         <text x="200" y="96" class="gate-label" style="fill:var(--red)">U_f</text>
         <text x="196" y="112" class="gate-sub">oraculo</text>
- 
-        <!-- Diffuser -->
         <rect class="gate-box diffuser" x="330" y="24" width="150" height="132"/>
         <text x="355" y="90" class="gate-label" style="fill:var(--green)">2|ψ⟩⟨ψ|-I</text>
         <text x="365" y="112" class="gate-sub">difusor</text>
- 
-        <!-- repeat ellipsis -->
         <text x="530" y="96" class="gate-label" style="fill:var(--muted2)">...</text>
- 
-        <!-- measurement -->
         <rect class="gate-box" x="630" y="24" width="60" height="132" stroke="var(--accent)"/>
         <text x="640" y="96" class="gate-label" style="font-size:8px;">MEDIR</text>
       </svg>
     </div>
     <p style="margin-top:.75rem; font-size:7.5px;">Nota: esta es una <strong style="color:var(--text)">simulacion clasica de amplitudes</strong> ejecutada en el navegador (vector de N=456,976 amplitudes reales), matematicamente equivalente a lo que se compondria en el IBM Quantum Composer para un oraculo de busqueda no estructurada. No se ejecuta sobre hardware cuantico real.</p>
   </div>
- 
   <div class="tool-grid">
     <div style="display:flex; flex-direction:column; gap:1rem;">
       <div class="card">
@@ -1171,7 +850,6 @@ Fragmento esperado = LINEAL<br>
         </div>
       </div>
     </div>
- 
     <div class="card" style="display:flex; flex-direction:column; gap:14px;">
       <div class="btn-row">
         <button class="run-btn" id="grover-run-btn" onclick="startGrover()">EJECUTAR GROVER ▶</button>
@@ -1196,7 +874,165 @@ Fragmento esperado = LINEAL<br>
     </div>
   </div>
 </div>
- 
+
+<!-- 12 · INSTRUCCIONES QASM -->
+<div id="qasm" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
+  <div class="px-label">12 · GROVER EN QASM</div>
+  <h2 style="margin-bottom:.5rem;">ARMAR EL CODIGO OPENQASM</h2>
+  <p style="margin-bottom:1.5rem;">Version didactica con <strong style="color:var(--text)">3 qubits (N = 8 estados)</strong> que marca el estado |101⟩. Pega el codigo completo en IBM Quantum Composer (panel OpenQASM) o sigue los pasos para construirlo bloque por bloque.</p>
+
+  <div class="card-grid">
+    <div class="card card-accent">
+      <div class="px-label" style="font-size:6px;">PASO 01</div>
+      <h3>CABECERA Y REGISTROS</h3>
+      <div class="px-code"><pre>OPENQASM 2.0;
+include "qelib1.inc";
+qreg q[4];
+creg c[3];</pre></div>
+      <p style="margin-top:10px;">q[0..2] guardan la busqueda; q[3] es la ancilla. c[3] recibe las 3 mediciones.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="px-label" style="font-size:6px;">PASO 02</div>
+      <h3>SUPERPOSICION UNIFORME</h3>
+      <div class="px-code"><pre>h q[0];
+h q[1];
+h q[2];</pre></div>
+      <p style="margin-top:10px;">Hadamard en cada qubit: los 8 estados quedan con la misma amplitud 1/√8.</p>
+    </div>
+    <div class="card card-accent">
+      <div class="px-label" style="font-size:6px;">PASO 03</div>
+      <h3>ANCILLA EN |−⟩</h3>
+      <div class="px-code"><pre>x q[3];
+h q[3];</pre></div>
+      <p style="margin-top:10px;">Prepara el qubit auxiliar en |−⟩. En este oraculo de fase directa no interviene, pero se deja para ampliar a un oraculo con retroceso de fase.</p>
+    </div>
+    <div class="card card-red">
+      <div class="px-label" style="font-size:6px;">PASO 04</div>
+      <h3>ORACULO PARA |101⟩</h3>
+      <div class="px-code"><pre>x q[1];
+h q[2];
+ccx q[0], q[1], q[2];
+h q[2];
+x q[1];</pre></div>
+      <p style="margin-top:10px;">X sobre q[1] convierte 101 en 111; H·CCX·H equivale a un CCZ que invierte la fase solo de 111; el ultimo X deshace el cambio.</p>
+    </div>
+    <div class="card card-green">
+      <div class="px-label" style="font-size:6px;">PASO 05</div>
+      <h3>DIFUSION 2|ψ⟩⟨ψ|−I</h3>
+      <div class="px-code"><pre>h q[0]; h q[1]; h q[2];
+x q[0]; x q[1]; x q[2];
+h q[2];
+ccx q[0], q[1], q[2];
+h q[2];
+x q[0]; x q[1]; x q[2];
+h q[0]; h q[1]; h q[2];</pre></div>
+      <p style="margin-top:10px;">Refleja las amplitudes sobre su promedio: la del estado marcado crece, las demas bajan.</p>
+    </div>
+    <div class="card card-amber">
+      <div class="px-label" style="font-size:6px;">PASO 06</div>
+      <h3>MEDICION</h3>
+      <div class="px-code"><pre>measure q[0] -> c[0];
+measure q[1] -> c[1];
+measure q[2] -> c[2];</pre></div>
+      <p style="margin-top:10px;">Con 1 iteracion, |101⟩ aparece en ≈78 % de las 1024 capturas.</p>
+    </div>
+  </div>
+
+  <div class="card card-purple" style="margin-top:1.5rem;">
+    <div class="px-label" style="font-size:6px;">CODIGO COMPLETO</div>
+    <div class="px-code"><pre id="qasm-full">OPENQASM 2.0;
+include "qelib1.inc";
+
+qreg q[4];
+creg c[3];
+
+// PASO 2: Superposición
+h q[0];
+h q[1];
+h q[2];
+
+// Ancilla en |-⟩
+x q[3];
+h q[3];
+
+// Oráculo: fase directa sobre |101⟩
+x q[1];
+h q[2];
+ccx q[0], q[1], q[2];
+h q[2];
+x q[1];
+
+// PASO 4: DIFUSIÓN
+h q[0];
+h q[1];
+h q[2];
+
+x q[0];
+x q[1];
+x q[2];
+
+h q[2];
+ccx q[0], q[1], q[2];
+h q[2];
+
+x q[0];
+x q[1];
+x q[2];
+
+h q[0];
+h q[1];
+h q[2];
+
+// MEDICIÓN
+measure q[0] -> c[0];
+measure q[1] -> c[1];
+measure q[2] -> c[2];</pre></div>
+    <button class="run-btn" id="qasm-copy" onclick="copyQasm()" style="margin-top:12px;">COPIAR CODIGO ▶</button>
+  </div>
+</div>
+
+<!-- 13 · GRÁFICO GROVER -->
+<div id="grover-grafico" style="padding: 40px 2rem; max-width: 1000px; margin: 0 auto; border-top: 2px solid var(--border);">
+  <div class="px-label">13 · GRAFICO DEL ALGORITMO</div>
+  <h2 style="margin-bottom:.5rem;">CIRCUITO Y PROBABILIDADES</h2>
+  <p style="margin-bottom:1.5rem;">Mismo orden que IBM Quantum Composer (alineacion a la izquierda). El circuito es el codigo QASM de la seccion anterior; cambia k para ver como se amplifica |101⟩ en las probabilidades.</p>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="px-label" style="font-size:6px;">CIRCUITO · ALINEACION A LA IZQUIERDA · 1 ITERACION</div>
+    <div style="overflow-x:auto;"><svg id="gq-circuit" viewBox="0 0 810 275" style="width:100%; min-width:700px; display:block;"></svg></div>
+    <p style="margin-top:.75rem; font-size:7px;">H = Hadamard · ⊕ = X (o objetivo de la Toffoli CCX) · ● = control · cuadro gris = medicion hacia c[0..2].</p>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="px-label" style="font-size:6px;">ITERACIONES k</div>
+    <div class="order-row">
+      <div class="order-stepper">
+        <button class="order-btn" onclick="gqSet(gqK - 1)">−</button>
+        <input type="number" class="order-input" id="gq-k" value="1" min="0" max="6" onchange="gqSet(this.value)" />
+        <button class="order-btn" onclick="gqSet(gqK + 1)">+</button>
+      </div>
+      <div class="order-hint">k = 0..6<br>N = 8, M = 1</div>
+      <div class="metric-grid" style="flex:1; margin-top:0; min-width:220px;">
+        <div class="metric-box"><div class="m-label">P(|101⟩)</div><div class="m-value" id="gq-p">—</div></div>
+        <div class="metric-box"><div class="m-label">k OPTIMO</div><div class="m-value" id="gq-kopt">2</div></div>
+      </div>
+    </div>
+    <div class="latex-box" id="gq-formula"></div>
+    <div class="attack-tool-note" id="gq-note"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:1.5rem;">
+    <div class="px-label" style="font-size:6px;">PROBABILIDADES (q2 q1 q0)</div>
+    <div class="pc-wrap" id="gq-chart"></div>
+  </div>
+
+  <div class="card card-amber">
+    <h3>¿SE APLICA A HILL?</h3>
+    <p>Este ejemplo es una demostracion: busca 1 de 8 estados. Para Hill 2×2, N = 26⁴ = 456,976 exige ≈19 qubits (2¹⁹ ≥ N) y r ≈ 531 iteraciones; para 3×3, N = 26⁹ pide ≈43 qubits.</p>
+    <p>Lo que cambia es el oraculo: en vez de comparar |101⟩, debe calcular reversiblemente D·C mod 26 y verificar el crib. La difusion y la amplificacion son identicas.</p>
+  </div>
+</div>
+
 <script>
 // ─── MATRIX RAIN ───
 (function(){
@@ -1207,7 +1043,7 @@ Fragmento esperado = LINEAL<br>
   function resize(){
     c.width = c.offsetWidth; c.height = c.offsetHeight;
     const cols = Math.floor(c.width / 14);
-    drops = Array.from({length: cols}, () =>  Math.random() * -c.height / 14);
+    drops = Array.from({length: cols}, () => Math.random() * -c.height / 14);
   }
   function draw(){
     ctx.fillStyle = 'rgba(7,9,15,0.2)'; ctx.fillRect(0,0,c.width,c.height);
@@ -1220,7 +1056,7 @@ Fragmento esperado = LINEAL<br>
   }
   resize(); window.addEventListener('resize', resize); setInterval(draw, 70);
 })();
- 
+
 // ─── TYPEWRITER ───
 (function(){
   const el = document.getElementById('px-title');
@@ -1239,69 +1075,47 @@ Fragmento esperado = LINEAL<br>
   }
   setTimeout(type, 600);
 })();
- 
+
 // ─── CIPHER LOGIC (GENERALIZADO n×n) ───
-const MOD26 = 26;
+const MOD26 = 26, MAX_N = 8;
 let cipherMode = 'enc';
 let matrixOrder = 2;
 let matrixValues = [[3,3],[2,5]];
- 
+
 function mod(a, n){ return ((a % n) + n) % n; }
 function modInvScalar(a, m){
   a = mod(a, m);
   for(let x = 1; x < m; x++) if(mod(a * x, m) === 1) return x;
   return null;
 }
- 
-// Elimina la fila `row` y columna `col` de una matriz (menor complementario)
-function minorOf(M, row, col){
-  return M.filter((_, i) => i !== row).map(r => r.filter((_, j) => j !== col));
-}
- 
-// Determinante por expansion de Laplace, valido sobre el anillo Z/26Z para cualquier n
+function minorOf(M, row, col){ return M.filter((_, i) => i !== row).map(r => r.filter((_, j) => j !== col)); }
+// Determinante por expansion de Laplace sobre Z/26Z
 function determinant(M, m){
   const n = M.length;
   if(n === 1) return mod(M[0][0], m);
   if(n === 2) return mod(M[0][0]*M[1][1] - M[0][1]*M[1][0], m);
   let det = 0;
-  for(let j = 0; j < n; j++){
-    const sign = (j % 2 === 0) ? 1 : -1;
-    det += sign * M[0][j] * determinant(minorOf(M, 0, j), m);
-  }
+  for(let j = 0; j < n; j++) det += (j % 2 === 0 ? 1 : -1) * M[0][j] * determinant(minorOf(M, 0, j), m);
   return mod(det, m);
 }
- 
-// Matriz de cofactores mod m
 function cofactorMatrix(M, m){
-  const n = M.length;
-  const C = [];
+  const n = M.length, C = [];
   for(let i = 0; i < n; i++){
     C.push([]);
-    for(let j = 0; j < n; j++){
-      const sign = ((i + j) % 2 === 0) ? 1 : -1;
-      C[i].push(mod(sign * determinant(minorOf(M, i, j), m), m));
-    }
+    for(let j = 0; j < n; j++) C[i].push(mod(((i + j) % 2 === 0 ? 1 : -1) * determinant(minorOf(M, i, j), m), m));
   }
   return C;
 }
- 
 function transpose(M){ return M[0].map((_, j) => M.map(row => row[j])); }
- 
-// K⁻¹ = det(K)⁻¹ · Adj(K)  mod 26   (Adj = transpuesta de la matriz de cofactores)
+// K⁻¹ = det(K)⁻¹ · Adj(K)  mod 26
 function matrixInverseMod(M, m){
-  const det = determinant(M, m);
-  const detInv = modInvScalar(det, m);
+  const detInv = modInvScalar(determinant(M, m), m);
   if(detInv === null) return null;
-  const adj = transpose(cofactorMatrix(M, m));
-  return adj.map(row => row.map(v => mod(v * detInv, m)));
+  return transpose(cofactorMatrix(M, m)).map(row => row.map(v => mod(v * detInv, m)));
 }
- 
-function matVecMulMod(M, v, m){
-  return M.map(row => mod(row.reduce((acc, val, j) => acc + val * v[j], 0), m));
-}
- 
+function matVecMulMod(M, v, m){ return M.map(row => mod(row.reduce((acc, val, j) => acc + val * v[j], 0), m)); }
 function matMulMod(A, B, m){
-  const n = A.length; const R = [];
+  const n = A.length, R = [];
   for(let i = 0; i < n; i++){
     R.push([]);
     for(let j = 0; j < n; j++){
@@ -1312,20 +1126,18 @@ function matMulMod(A, B, m){
   }
   return R;
 }
- 
 function textToNums(s){ return [...s].map(c => c.charCodeAt(0) - 65); }
 function numsToText(nums){ return nums.map(v => String.fromCharCode(mod(v,26) + 65)).join(''); }
 function blocksOf(nums, n){ const b = []; for(let i = 0; i < nums.length; i += n) b.push(nums.slice(i, i + n)); return b; }
 function colsToMatrix(cols){ const n = cols.length; const M = []; for(let r = 0; r < n; r++) M.push(cols.map(c => c[r])); return M; }
- 
+function cleanText(id){ return document.getElementById(id).value.toUpperCase().replace(/[^A-Z]/g, ''); }
+
 // ─── UI: ORDEN Y MATRIZ DINAMICA ───
 function setOrder(n){
-  n = Math.max(2, Math.min(10, parseInt(n) || 2));
-  matrixOrder = n;
-  document.getElementById('order-input').value = n;
+  matrixOrder = Math.max(2, Math.min(MAX_N, parseInt(n) || 2));
+  document.getElementById('order-input').value = matrixOrder;
   buildMatrixGrid();
 }
- 
 function buildMatrixGrid(){
   const container = document.getElementById('matrix-grid');
   container.innerHTML = '';
@@ -1335,7 +1147,7 @@ function buildMatrixGrid(){
   for(let i = 0; i < matrixOrder; i++){
     matrixValues.push([]);
     for(let j = 0; j < matrixOrder; j++){
-      // conserva valores previos si existian en esa posicion, si no usa una llave por defecto invertible (identidad)
+      // conserva valores previos; las posiciones nuevas se rellenan con identidad
       const val = (prev[i] && prev[i][j] !== undefined) ? prev[i][j] : (i === j ? 1 : 0);
       matrixValues[i].push(val);
       const input = document.createElement('input');
@@ -1348,25 +1160,17 @@ function buildMatrixGrid(){
   }
   updateMatrixInfo();
 }
- 
 function onMatrixInput(e){
-  const i = +e.target.dataset.row, j = +e.target.dataset.col;
-  matrixValues[i][j] = +e.target.value || 0;
+  matrixValues[+e.target.dataset.row][+e.target.dataset.col] = +e.target.value || 0;
   updateMatrixInfo();
 }
- 
 function renderLatexMatrix(elId, M, label){
   const box = document.getElementById(elId);
-  const rows = M.map(r => r.join(' & ')).join(' \\\\ ');
-  const tex = `${label} = \\begin{bmatrix} ${rows} \\end{bmatrix} \\pmod{26}`;
+  const tex = `${label} = \\begin{bmatrix} ${M.map(r => r.join(' & ')).join(' \\\\ ')} \\end{bmatrix} \\pmod{26}`;
   box.classList.remove('err');
-  try{
-    katex.render(tex, box, { throwOnError: false, displayMode: true });
-  }catch(e){
-    box.textContent = label + ' = [matriz no renderizable]';
-  }
+  try{ katex.render(tex, box, { throwOnError: false, displayMode: true }); }
+  catch(e){ box.textContent = label + ' = [' + M.map(r => r.join(',')).join(' / ') + '] mod 26'; }
 }
- 
 function updateMatrixInfo(){
   const K = matrixValues;
   const d = determinant(K, MOD26);
@@ -1374,22 +1178,19 @@ function updateMatrixInfo(){
   document.getElementById('det-val').textContent = d;
   document.getElementById('inv-val').textContent = di != null ? di : '—';
   const badge = document.getElementById('valid-badge');
-  const runBtn = document.getElementById('run-btn');
   renderLatexMatrix('k-latex', K, 'K');
   if(di != null){
     badge.textContent = '✓ VALIDA'; badge.className = 'badge badge-green';
-    runBtn.disabled = false;
-    const Kinv = matrixInverseMod(K, MOD26);
-    renderLatexMatrix('kinv-latex', Kinv, 'K^{-1}');
+    document.getElementById('run-btn').disabled = false;
+    renderLatexMatrix('kinv-latex', matrixInverseMod(K, MOD26), 'K^{-1}');
   } else {
     badge.textContent = '✗ NO INVERTIBLE'; badge.className = 'badge badge-red';
-    runBtn.disabled = true;
+    document.getElementById('run-btn').disabled = true;
     const box = document.getElementById('kinv-latex');
     box.classList.add('err');
     box.textContent = 'K⁻¹ NO EXISTE — gcd(det K, 26) ≠ 1';
   }
 }
- 
 function setMode(m){
   cipherMode = m;
   document.getElementById('btn-enc').classList.toggle('active', m === 'enc');
@@ -1399,16 +1200,12 @@ function setMode(m){
   document.getElementById('input-text').placeholder = m === 'enc' ? 'Escribe aqui...' : 'Texto cifrado (solo letras)...';
 }
 function updateCount(){
-  const t = document.getElementById('input-text').value.replace(/[^a-zA-Z]/g, '');
-  document.getElementById('char-count').textContent = t.length + ' LETRAS';
+  document.getElementById('char-count').textContent = document.getElementById('input-text').value.replace(/[^a-zA-Z]/g, '').length + ' LETRAS';
 }
- 
 function runCipher(){
   const K = matrixValues;
-  const det = determinant(K, MOD26);
-  const detInv = modInvScalar(det, MOD26);
-  if(detInv === null) return;
-  const raw = document.getElementById('input-text').value.toUpperCase().replace(/[^A-Z]/g, '');
+  if(modInvScalar(determinant(K, MOD26), MOD26) === null) return;
+  const raw = cleanText('input-text');
   if(!raw){ showOut('// INGRESA UN MENSAJE.', true); return; }
   let text = raw;
   while(text.length % matrixOrder !== 0) text += 'X';
@@ -1435,143 +1232,106 @@ function showOut(msg, err){
   o.textContent = msg; o.className = 'output-box' + (err ? ' error' : '');
   document.getElementById('steps-area').style.display = 'none';
 }
- 
-// Inicializacion: matriz 2x2 de ejemplo del proyecto (K = [[3,3],[2,5]])
-buildMatrixGrid();
- 
-// ══════════════════════════════════════════════════
-// 09 · KPA — KNOWN-PLAINTEXT ATTACK (generalizado n×n)
-// ══════════════════════════════════════════════════
+buildMatrixGrid(); // K = [[3,3],[2,5]] de ejemplo
+
+// ══════════ 09 · KPA — KNOWN-PLAINTEXT ATTACK (n×n) ══════════
 let kpaOrder = 2;
- 
 function setKpaOrder(n){
-  n = Math.max(2, Math.min(8, parseInt(n) || 2));
-  kpaOrder = n;
-  document.getElementById('kpa-order-input').value = n;
+  kpaOrder = Math.max(2, Math.min(MAX_N, parseInt(n) || 2));
+  document.getElementById('kpa-order-input').value = kpaOrder;
   document.getElementById('kpa-req-note').textContent =
-    `Se requieren al menos ${n*n} letras de texto plano conocido y su cifrado correspondiente (n=${n}).`;
+    `Se requieren al menos ${kpaOrder*kpaOrder} letras de texto plano conocido y su cifrado correspondiente (n=${kpaOrder}).`;
 }
- 
 function runKPA(){
   const n = kpaOrder;
-  const plainRaw = document.getElementById('kpa-plain').value.toUpperCase().replace(/[^A-Z]/g, '');
-  const cipherRaw = document.getElementById('kpa-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
+  let plainRaw = cleanText('kpa-plain'), cipherRaw = cleanText('kpa-cipher');
   const noteEl = document.getElementById('kpa-result-note');
-  const kLatexBox = document.getElementById('kpa-k-latex');
+  const kBox = document.getElementById('kpa-k-latex');
   const outBox = document.getElementById('kpa-output');
   outBox.textContent = '// RESULTADO AQUI...'; outBox.className = 'output-box empty';
   noteEl.innerHTML = '';
- 
   if(plainRaw.length !== cipherRaw.length || plainRaw.length < n*n){
-    kLatexBox.classList.add('err');
-    kLatexBox.textContent = `SE NECESITAN AL MENOS ${n*n} LETRAS EN AMBOS CAMPOS, DE IGUAL LONGITUD.`;
+    kBox.classList.add('err');
+    kBox.textContent = `SE NECESITAN AL MENOS ${n*n} LETRAS EN AMBOS CAMPOS, DE IGUAL LONGITUD.`;
     return;
   }
- 
-  const pNums = textToNums(plainRaw);
-  const cNums = textToNums(cipherRaw);
-  const pBlocks = blocksOf(pNums, n);
-  const cBlocks = blocksOf(cNums, n);
- 
-  // busqueda por ventana deslizante: halla n bloques consecutivos cuya matriz P sea invertible mod 26
-  let Krec = null, windowUsed = null;
-  for(let start = 0; start + n <= pBlocks.length; start++){
-    const Pmat = colsToMatrix(pBlocks.slice(start, start + n));
-    const Pinv = matrixInverseMod(Pmat, 26);
-    if(Pinv){
-      const Cmat = colsToMatrix(cBlocks.slice(start, start + n));
-      Krec = matMulMod(Cmat, Pinv, 26);
-      windowUsed = start;
-      break;
+  // solo bloques completos (evita bloques parciales con valores indefinidos)
+  const L = Math.floor(plainRaw.length / n) * n;
+  plainRaw = plainRaw.slice(0, L); cipherRaw = cipherRaw.slice(0, L);
+  const pBlocks = blocksOf(textToNums(plainRaw), n);
+  const cBlocks = blocksOf(textToNums(cipherRaw), n);
+
+  // prueba combinaciones de n bloques (no solo consecutivos) hasta hallar una matriz P invertible mod 26
+  let Krec = null, windowUsed = null, tries = 0;
+  const idx = [];
+  (function pick(from){
+    if(Krec || tries > 20000) return;
+    if(idx.length === n){
+      tries++;
+      const Pinv = matrixInverseMod(colsToMatrix(idx.map(i => pBlocks[i])), 26);
+      if(Pinv){ Krec = matMulMod(colsToMatrix(idx.map(i => cBlocks[i])), Pinv, 26); windowUsed = idx.slice(); }
+      return;
     }
-  }
- 
+    for(let i = from; i < pBlocks.length; i++){ idx.push(i); pick(i + 1); idx.pop(); if(Krec) return; }
+  })(0);
   if(!Krec){
-    kLatexBox.classList.add('err');
-    kLatexBox.textContent = 'NINGUNA COMBINACION DE BLOQUES PRODUJO UNA MATRIZ P INVERTIBLE. PRUEBA CON OTRO FRAGMENTO.';
+    kBox.classList.add('err');
+    kBox.textContent = 'NINGUNA COMBINACION DE BLOQUES PRODUJO UNA MATRIZ P INVERTIBLE. PRUEBA CON OTRO FRAGMENTO.';
     return;
   }
- 
-  kLatexBox.classList.remove('err');
   renderLatexMatrix('kpa-k-latex', Krec, 'K_{recuperada}');
- 
-  // verificacion: re-cifra el texto plano conocido completo con la K recuperada y compara
-  let reEncrypted = '';
-  for(let i = 0; i < pBlocks.length; i++){
-    reEncrypted += numsToText(matVecMulMod(Krec, pBlocks[i], 26));
-  }
-  const fullMatch = reEncrypted === cipherRaw;
+  let reEnc = '';
+  pBlocks.forEach(b => reEnc += numsToText(matVecMulMod(Krec, b, 26)));
+  const ok = reEnc === cipherRaw;
   noteEl.innerHTML = `<div class="found-key-card">
-    <strong>${fullMatch ? '✓ VERIFICADA' : '✗ INCONSISTENTE'}</strong> — bloques usados: ventana [${windowUsed}:${windowUsed+n}]<br>
-    Re-cifrando "${plainRaw}" con K recuperada → ${reEncrypted}<br>
-    Coincide con el cifrado dado: ${fullMatch ? 'SI' : 'NO (revisa los datos ingresados)'}
+    <strong>${ok ? '✓ VERIFICADA' : '✗ INCONSISTENTE'}</strong> — bloques usados: #${windowUsed.map(i => i + 1).join(', #')}<br>
+    Re-cifrando "${plainRaw}" con K recuperada → ${reEnc}<br>
+    Coincide con el cifrado dado: ${ok ? 'SI' : 'NO (revisa los datos ingresados)'}
   </div>`;
- 
-  // si hay texto cifrado adicional, se descifra con la K recuperada
-  const extraRaw = document.getElementById('kpa-extra').value.toUpperCase().replace(/[^A-Z]/g, '');
+
+  const extraRaw = cleanText('kpa-extra');
   if(extraRaw){
+    const Kinv = matrixInverseMod(Krec, 26);
     if(extraRaw.length % n !== 0){
-      outBox.textContent = `// EL TEXTO ADICIONAL DEBE SER MULTIPLO DE ${n} LETRAS.`;
-      outBox.className = 'output-box error';
+      outBox.textContent = `// EL TEXTO ADICIONAL DEBE SER MULTIPLO DE ${n} LETRAS.`; outBox.className = 'output-box error';
+    } else if(!Kinv){
+      outBox.textContent = '// LA LLAVE RECUPERADA NO ES INVERTIBLE.'; outBox.className = 'output-box error';
     } else {
-      const Kinv = matrixInverseMod(Krec, 26);
-      if(!Kinv){
-        outBox.textContent = '// LA LLAVE RECUPERADA NO ES INVERTIBLE.';
-        outBox.className = 'output-box error';
-      } else {
-        const extraBlocks = blocksOf(textToNums(extraRaw), n);
-        let decrypted = '';
-        extraBlocks.forEach(b => decrypted += numsToText(matVecMulMod(Kinv, b, 26)));
-        outBox.textContent = decrypted; outBox.className = 'output-box';
-      }
+      let dec = '';
+      blocksOf(textToNums(extraRaw), n).forEach(b => dec += numsToText(matVecMulMod(Kinv, b, 26)));
+      outBox.textContent = dec; outBox.className = 'output-box';
     }
   }
 }
 setKpaOrder(2);
- 
-// ══════════════════════════════════════════════════
-// 10 · BFA — BRUTE-FORCE ATTACK (fijo 2×2, asincrono con crib)
-// ══════════════════════════════════════════════════
+
+// ══════════ 10 · BFA — BRUTE-FORCE ATTACK (2×2, asincrono con crib) ══════════
 const BFA_TOTAL = 26 * 26 * 26 * 26; // 456,976
-let bfaCancelled = false;
-let bfaRunning = false;
- 
+let bfaCancelled = false, bfaRunning = false;
+
 function startBFA(){
   if(bfaRunning) return;
-  const cipherRaw = document.getElementById('bfa-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
-  const cribRaw = document.getElementById('bfa-crib').value.toUpperCase().replace(/[^A-Z]/g, '');
+  const cipherRaw = cleanText('bfa-cipher'), cribRaw = cleanText('bfa-crib');
   const resultsBox = document.getElementById('bfa-results');
- 
-  if(!cipherRaw || !cribRaw){
-    resultsBox.innerHTML = '<div class="output-box error">// INGRESA TEXTO CIFRADO Y UN FRAGMENTO ESPERADO.</div>';
-    return;
-  }
-  if(cribRaw.length < 2){
-    resultsBox.innerHTML = '<div class="output-box error">// EL CRIB DEBE TENER AL MENOS 2 LETRAS.</div>';
-    return;
-  }
- 
-  const cNums = textToNums(cipherRaw);
+  const fail = msg => resultsBox.innerHTML = `<div class="output-box error">${msg}</div>`;
+  if(!cipherRaw || !cribRaw) return fail('// INGRESA TEXTO CIFRADO Y UN FRAGMENTO ESPERADO.');
+  if(cribRaw.length < 2) return fail('// EL CRIB DEBE TENER AL MENOS 2 LETRAS.');
   const cribNums = textToNums(cribRaw);
-  const nBlocksNeeded = Math.ceil(cribNums.length / 2);
-  if(cNums.length < nBlocksNeeded * 2){
-    resultsBox.innerHTML = '<div class="output-box error">// EL TEXTO CIFRADO ES MAS CORTO QUE EL CRIB.</div>';
-    return;
-  }
-  const cBlocks = blocksOf(cNums, 2).slice(0, nBlocksNeeded);
+  const nNeeded = Math.ceil(cribNums.length / 2);
+  const cNums = textToNums(cipherRaw);
+  if(cNums.length < nNeeded * 2) return fail('// EL TEXTO CIFRADO ES MAS CORTO QUE EL CRIB.');
+  const cBlocks = blocksOf(cNums, 2).slice(0, nNeeded);
   const cribBlocks = blocksOf(cribNums, 2);
- 
+
   bfaRunning = true; bfaCancelled = false;
   document.getElementById('bfa-run-btn').disabled = true;
   document.getElementById('bfa-stop-btn').disabled = false;
   resultsBox.innerHTML = '<div class="output-box empty">// BUSCANDO...</div>';
- 
+
   const found = [];
-  let a = 0, b = 0, c = 0, d = 0;
-  let tested = 0;
-  const CHUNK = 8000;
-  const startTime = performance.now();
- 
+  let a = 0, b = 0, c = 0, d = 0, tested = 0;
+  const CHUNK = 8000, startTime = performance.now();
+
   function step(){
     if(bfaCancelled){ finishBFA(found, tested, true); return; }
     let count = 0;
@@ -1583,13 +1343,11 @@ function startBFA(){
             const D = [[a,b],[c,d]];
             let ok = true;
             for(let i = 0; i < cribBlocks.length; i++){
-              const blk = cribBlocks[i];
-              const p = matVecMulMod(D, cBlocks[i], 26);
+              const blk = cribBlocks[i], p = matVecMulMod(D, cBlocks[i], 26);
               if(p[0] !== blk[0] || (blk[1] !== undefined && p[1] !== blk[1])){ ok = false; break; }
             }
             if(ok) found.push(D);
-            tested++; count++;
-            d++;
+            tested++; count++; d++;
             if(count >= CHUNK) break outer;
           }
           d = 0; c++;
@@ -1598,142 +1356,103 @@ function startBFA(){
       }
       b = 0; a++;
     }
- 
     const pct = Math.min(100, (tested / BFA_TOTAL) * 100);
     document.getElementById('bfa-progress-bar').style.width = pct.toFixed(1) + '%';
     document.getElementById('bfa-progress-label').textContent = `${tested.toLocaleString('es')} / ${BFA_TOTAL.toLocaleString('es')}`;
- 
-    if(a >= 26 || tested >= BFA_TOTAL){
-      finishBFA(found, tested, false, performance.now() - startTime);
-    } else {
-      setTimeout(step, 0);
-    }
+    if(a >= 26 || tested >= BFA_TOTAL) finishBFA(found, tested, false, performance.now() - startTime);
+    else setTimeout(step, 0);
   }
   setTimeout(step, 0);
 }
- 
 function stopBFA(){ bfaCancelled = true; }
- 
+
 function finishBFA(found, tested, wasCancelled, elapsedMs){
   bfaRunning = false;
   document.getElementById('bfa-run-btn').disabled = false;
   document.getElementById('bfa-stop-btn').disabled = true;
   const resultsBox = document.getElementById('bfa-results');
-  const cipherRaw = document.getElementById('bfa-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
- 
+  const cipherBlocks = blocksOf(textToNums(cleanText('bfa-cipher')), 2).filter(b => b.length === 2);
   if(found.length === 0){
     resultsBox.innerHTML = `<div class="output-box error">// NINGUNA LLAVE ENCONTRADA EN ${tested.toLocaleString('es')} PROBADAS${wasCancelled ? ' (DETENIDO)' : ''}.</div>`;
     return;
   }
- 
+  const SHOW = 20;
   let html = '';
-  found.forEach((D, idx) => {
-    const detInv = modInvScalar(determinant(D, 26), 26);
-    const encK = detInv != null ? matrixInverseMod(D, 26) : null;
-    let decryptedFull = '';
-    const cBlocksAll = blocksOf(textToNums(cipherRaw), 2);
-    cBlocksAll.forEach(blk => decryptedFull += numsToText(matVecMulMod(D, blk, 26)));
+  found.slice(0, SHOW).forEach((D, idx) => {
+    const encK = matrixInverseMod(D, 26);
+    let dec = '';
+    cipherBlocks.forEach(blk => dec += numsToText(matVecMulMod(D, blk, 26)));
     html += `<div class="found-key-card">
       <strong>LLAVE #${idx + 1}</strong><br>
       D (descifrado) = [[${D[0][0]},${D[0][1]}],[${D[1][0]},${D[1][1]}]]<br>
       K (cifrado, D⁻¹) = ${encK ? `[[${encK[0][0]},${encK[0][1]}],[${encK[1][0]},${encK[1][1]}]]` : 'NO INVERTIBLE'}<br>
-      Texto descifrado completo: ${decryptedFull}
+      Texto descifrado completo: ${dec}
     </div>`;
   });
-  html += `<div class="attack-tool-note">Probadas ${tested.toLocaleString('es')} de ${BFA_TOTAL.toLocaleString('es')} llaves${elapsedMs ? ` en ${(elapsedMs/1000).toFixed(2)}s` : ''}${wasCancelled ? ' (busqueda detenida manualmente)' : ''}.</div>`;
+  html += `<div class="attack-tool-note">${found.length > SHOW ? `Mostrando ${SHOW} de ${found.length.toLocaleString('es')} llaves (crib corto: usa 4+ letras). ` : ''}Probadas ${tested.toLocaleString('es')} de ${BFA_TOTAL.toLocaleString('es')} llaves${elapsedMs ? ` en ${(elapsedMs/1000).toFixed(2)}s` : ''}${wasCancelled ? ' (busqueda detenida manualmente)' : ''}.</div>`;
   resultsBox.innerHTML = html;
 }
- 
-// ══════════════════════════════════════════════════
-// 11 · GROVER — SIMULACION CLASICA DE AMPLIFICACION DE AMPLITUD
-// N = 26^4 = 456,976 (mismo espacio que BFA). Cada indice codifica
-// una llave de descifrado D=[[a,b],[c,d]] via a*26^3+b*26^2+c*26+d.
-// ══════════════════════════════════════════════════
+
+// ══════════ 11 · GROVER — SIMULACION CLASICA DE AMPLIFICACION DE AMPLITUD ══════════
+// N = 26^4 = 456,976. Cada indice codifica D=[[a,b],[c,d]] como a*26^3+b*26^2+c*26+d.
 const GROVER_N = 456976;
-let groverCancelled = false;
-let groverRunning = false;
- 
+let groverCancelled = false, groverRunning = false;
 try{
   katex.render('r \\;\\approx\\; \\Big\\lceil \\frac{\\pi}{4}\\sqrt{\\frac{N}{M}} \\Big\\rceil \\qquad (\\text{vs. } O(N) \\text{ clasico})',
     document.getElementById('grover-formula-latex'), { throwOnError: false, displayMode: true });
 }catch(e){}
- 
+
 function idxToKey(idx){
   const d = idx % 26; idx = (idx - d) / 26;
   const c = idx % 26; idx = (idx - c) / 26;
   const b = idx % 26; idx = (idx - b) / 26;
-  const a = idx % 26;
-  return [[a,b],[c,d]];
+  return [[idx % 26, b],[c, d]];
 }
-function keyToIdx(K){
-  return ((K[0][0]*26 + K[0][1])*26 + K[1][0])*26 + K[1][1];
-}
- 
-// Localiza TODOS los indices marcados (mismo criterio del oraculo del BFA)
+function keyToIdx(K){ return ((K[0][0]*26 + K[0][1])*26 + K[1][0])*26 + K[1][1]; }
+
+// Oraculo: localiza TODOS los indices marcados (mismo criterio que el BFA)
 function findMarkedIndices(cipherRaw, cribRaw){
-  const cNums = textToNums(cipherRaw);
   const cribNums = textToNums(cribRaw);
-  const nBlocksNeeded = Math.ceil(cribNums.length / 2);
-  const cBlocks = blocksOf(cNums, 2).slice(0, nBlocksNeeded);
+  const cBlocks = blocksOf(textToNums(cipherRaw), 2).slice(0, Math.ceil(cribNums.length / 2));
   const cribBlocks = blocksOf(cribNums, 2);
   const marked = [];
-  for(let a = 0; a < 26; a++)
-    for(let b = 0; b < 26; b++)
-      for(let c = 0; c < 26; c++)
-        for(let d = 0; d < 26; d++){
-          const D = [[a,b],[c,d]];
-          let ok = true;
-          for(let i = 0; i < cribBlocks.length; i++){
-            const blk = cribBlocks[i];
-            const p = matVecMulMod(D, cBlocks[i], 26);
-            if(p[0] !== blk[0] || (blk[1] !== undefined && p[1] !== blk[1])){ ok = false; break; }
-          }
-          if(ok) marked.push(keyToIdx(D));
-        }
+  for(let a = 0; a < 26; a++) for(let b = 0; b < 26; b++) for(let c = 0; c < 26; c++) for(let d = 0; d < 26; d++){
+    const D = [[a,b],[c,d]];
+    let ok = true;
+    for(let i = 0; i < cribBlocks.length; i++){
+      const blk = cribBlocks[i], p = matVecMulMod(D, cBlocks[i], 26);
+      if(p[0] !== blk[0] || (blk[1] !== undefined && p[1] !== blk[1])){ ok = false; break; }
+    }
+    if(ok) marked.push(keyToIdx(D));
+  }
   return marked;
 }
- 
+
 function startGrover(){
   if(groverRunning) return;
-  const cipherRaw = document.getElementById('grover-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
-  const cribRaw = document.getElementById('grover-crib').value.toUpperCase().replace(/[^A-Z]/g, '');
+  const cipherRaw = cleanText('grover-cipher'), cribRaw = cleanText('grover-crib');
   const resultsBox = document.getElementById('grover-results');
- 
-  if(!cipherRaw || !cribRaw){
-    resultsBox.innerHTML = '<div class="output-box error">// INGRESA TEXTO CIFRADO Y UN FRAGMENTO ESPERADO.</div>';
-    return;
-  }
-  if(cribRaw.length < 2){
-    resultsBox.innerHTML = '<div class="output-box error">// EL CRIB DEBE TENER AL MENOS 2 LETRAS.</div>';
-    return;
-  }
-  const cNums = textToNums(cipherRaw);
-  const nBlocksNeeded = Math.ceil(textToNums(cribRaw).length / 2);
-  if(cNums.length < nBlocksNeeded * 2){
-    resultsBox.innerHTML = '<div class="output-box error">// EL TEXTO CIFRADO ES MAS CORTO QUE EL CRIB.</div>';
-    return;
-  }
- 
+  const fail = msg => resultsBox.innerHTML = `<div class="output-box error">${msg}</div>`;
+  if(!cipherRaw || !cribRaw) return fail('// INGRESA TEXTO CIFRADO Y UN FRAGMENTO ESPERADO.');
+  if(cribRaw.length < 2) return fail('// EL CRIB DEBE TENER AL MENOS 2 LETRAS.');
+  if(cipherRaw.length < Math.ceil(cribRaw.length / 2) * 2) return fail('// EL TEXTO CIFRADO ES MAS CORTO QUE EL CRIB.');
+
   resultsBox.innerHTML = '<div class="output-box empty">// LOCALIZANDO ESTADOS MARCADOS (ORACULO)...</div>';
   document.getElementById('grover-run-btn').disabled = true;
- 
-  // deja repintar antes del trabajo sincronico de localizar marcados
-  setTimeout(() => {
+  setTimeout(() => { // deja repintar antes del trabajo sincronico
     const marked = findMarkedIndices(cipherRaw, cribRaw);
     if(marked.length === 0){
-      resultsBox.innerHTML = '<div class="output-box error">// EL ORACULO NO MARCA NINGUN ESTADO. NO HAY SOLUCION PARA ESE CRIB.</div>';
+      fail('// EL ORACULO NO MARCA NINGUN ESTADO. NO HAY SOLUCION PARA ESE CRIB.');
       document.getElementById('grover-run-btn').disabled = false;
       return;
     }
-    runGroverAmplification(cipherRaw, marked);
+    runGroverAmplification(marked);
   }, 30);
 }
- 
-function runGroverAmplification(cipherRaw, markedIndices){
-  const N = GROVER_N;
-  const M = markedIndices.length;
+
+function runGroverAmplification(markedIndices){
+  const N = GROVER_N, M = markedIndices.length;
   const rOptimal = Math.max(1, Math.round((Math.PI / 4) * Math.sqrt(N / M)));
- 
   document.getElementById('gr-m-val').textContent = M.toLocaleString('es');
   document.getElementById('gr-r-val').textContent = rOptimal.toLocaleString('es');
   document.getElementById('gr-speedup-val').textContent = '×' + Math.round(N / rOptimal).toLocaleString('es');
@@ -1741,93 +1460,190 @@ function runGroverAmplification(cipherRaw, markedIndices){
   document.getElementById('grover-progress-bar').style.width = '0%';
   document.getElementById('grover-amp-fill').style.height = '0%';
   document.getElementById('grover-amp-readout').textContent = 'P = 0.0000';
- 
-  // vector de amplitudes reales, inicializado en superposicion uniforme
-  const amp = new Float64Array(N);
-  const a0 = 1 / Math.sqrt(N);
-  amp.fill(a0);
- 
-  const markedSet = new Set(markedIndices);
- 
+
+  const amp = new Float64Array(N).fill(1 / Math.sqrt(N)); // superposicion uniforme
   groverRunning = true; groverCancelled = false;
   document.getElementById('grover-stop-btn').disabled = false;
   document.getElementById('grover-results').innerHTML = '<div class="output-box empty">// AMPLIFICANDO AMPLITUD...</div>';
- 
   let iter = 0;
   const startTime = performance.now();
- 
+
   function oracleAndDiffuse(){
-    // oraculo: invierte fase de estados marcados
-    for(const idx of markedIndices) amp[idx] = -amp[idx];
-    // difusor: reflexion sobre el promedio -> a_i' = 2*mean - a_i
+    for(const idx of markedIndices) amp[idx] = -amp[idx];       // oraculo: invierte la fase
     let sum = 0;
     for(let i = 0; i < N; i++) sum += amp[i];
-    const mean = sum / N;
-    const twoMean = 2 * mean;
-    for(let i = 0; i < N; i++) amp[i] = twoMean - amp[i];
+    const twoMean = 2 * sum / N;
+    for(let i = 0; i < N; i++) amp[i] = twoMean - amp[i];       // difusor: 2·media − a
   }
- 
   function step(){
     if(groverCancelled){ finishGrover(markedIndices, amp, iter, rOptimal, true); return; }
- 
-    oracleAndDiffuse();
-    iter++;
- 
-    const probMarked = amp[markedIndices[0]] * amp[markedIndices[0]];
-    const pct = Math.min(100, (iter / rOptimal) * 100);
-    document.getElementById('grover-progress-bar').style.width = pct.toFixed(1) + '%';
+    oracleAndDiffuse(); iter++;
+    const p = amp[markedIndices[0]] ** 2;
+    document.getElementById('grover-progress-bar').style.width = Math.min(100, iter / rOptimal * 100).toFixed(1) + '%';
     document.getElementById('grover-progress-label').textContent = `${iter.toLocaleString('es')} / ${rOptimal.toLocaleString('es')} ITERACIONES`;
-    document.getElementById('grover-amp-fill').style.height = (Math.min(1, probMarked) * 100).toFixed(2) + '%';
-    document.getElementById('grover-amp-readout').textContent = 'P = ' + probMarked.toFixed(4);
- 
-    if(iter >= rOptimal){
-      finishGrover(markedIndices, amp, iter, rOptimal, false, performance.now() - startTime);
-    } else {
-      setTimeout(step, 0);
-    }
+    document.getElementById('grover-amp-fill').style.height = (Math.min(1, p) * 100).toFixed(2) + '%';
+    document.getElementById('grover-amp-readout').textContent = 'P = ' + p.toFixed(4);
+    if(iter >= rOptimal) finishGrover(markedIndices, amp, iter, rOptimal, false, performance.now() - startTime);
+    else setTimeout(step, 0);
   }
   setTimeout(step, 0);
 }
- 
 function stopGrover(){ groverCancelled = true; }
- 
+
 function finishGrover(markedIndices, amp, iter, rOptimal, wasCancelled, elapsedMs){
   groverRunning = false;
   document.getElementById('grover-run-btn').disabled = false;
   document.getElementById('grover-stop-btn').disabled = true;
-  const resultsBox = document.getElementById('grover-results');
-  const cipherRaw = document.getElementById('grover-cipher').value.toUpperCase().replace(/[^A-Z]/g, '');
- 
-  // "medicion": muestreo ponderado por probabilidad sobre todo el vector de amplitudes
-  let r = Math.random(); let acc = 0; let measuredIdx = markedIndices[0];
-  const N = amp.length;
-  for(let i = 0; i < N; i++){
-    acc += amp[i] * amp[i];
-    if(acc >= r){ measuredIdx = i; break; }
-  }
+  const cipherRaw = cleanText('grover-cipher');
+  // "medicion": muestreo ponderado por probabilidad
+  const r = Math.random(); let acc = 0, measuredIdx = markedIndices[0];
+  for(let i = 0; i < amp.length; i++){ acc += amp[i] * amp[i]; if(acc >= r){ measuredIdx = i; break; } }
   const wasMarked = markedIndices.includes(measuredIdx);
-  const D = idxToKey(measuredIdx);
-  const detInv = modInvScalar(determinant(D, 26), 26);
-  const encK = detInv != null ? matrixInverseMod(D, 26) : null;
-  let decryptedFull = '';
-  const cBlocksAll = blocksOf(textToNums(cipherRaw), 2);
-  cBlocksAll.forEach(blk => decryptedFull += numsToText(matVecMulMod(D, blk, 26)));
- 
-  const finalProb = amp[markedIndices[0]] * amp[markedIndices[0]];
- 
-  let html = `<div class="found-key-card">
+  const D = idxToKey(measuredIdx), encK = matrixInverseMod(D, 26);
+  let dec = '';
+  blocksOf(textToNums(cipherRaw), 2).filter(b => b.length === 2).forEach(blk => dec += numsToText(matVecMulMod(D, blk, 26)));
+  const finalProb = amp[markedIndices[0]] ** 2;
+  document.getElementById('grover-results').innerHTML = `<div class="found-key-card">
     <strong>${wasMarked ? '✓ ESTADO MARCADO MEDIDO' : '✗ MEDICION FUERA DEL MARCADO (probabilidad residual)'}</strong><br>
     Iteraciones aplicadas: ${iter.toLocaleString('es')} (optimo r=${rOptimal.toLocaleString('es')})<br>
     Estados marcados totales (M): ${markedIndices.length}<br>
     Probabilidad final del estado marcado: ${finalProb.toFixed(4)}<br>
     D (descifrado, medido) = [[${D[0][0]},${D[0][1]}],[${D[1][0]},${D[1][1]}]]<br>
     K (cifrado, D⁻¹) = ${encK ? `[[${encK[0][0]},${encK[0][1]}],[${encK[1][0]},${encK[1][1]}]]` : 'NO INVERTIBLE'}<br>
-    Texto descifrado: ${decryptedFull}
+    Texto descifrado: ${dec}
   </div>
   <div class="attack-tool-note">Comparacion: BFA clasico habria requerido revisar hasta ${GROVER_N.toLocaleString('es')} llaves (O(N)). Grover alcanzo alta probabilidad de exito en solo ${rOptimal.toLocaleString('es')} iteraciones (O(√N))${elapsedMs ? `, simuladas en ${(elapsedMs/1000).toFixed(2)}s` : ''}${wasCancelled ? ' (busqueda detenida manualmente, probabilidad parcial)' : ''}.</div>`;
-  resultsBox.innerHTML = html;
 }
+
+
+// ─── Copiar QASM ───
+function copyQasm(){
+  const btn = document.getElementById('qasm-copy');
+  navigator.clipboard.writeText(document.getElementById('qasm-full').textContent).then(() => {
+    btn.textContent = '✓ COPIADO'; setTimeout(() => btn.textContent = 'COPIAR CODIGO ▶', 1500);
+  });
+}
+
+// ─── Circuito SVG (estilo IBM Quantum Composer, alineado a la izquierda) ───
+(function(){
+  const Y = [40, 90, 140, 190], YC = 250, X = c => 100 + (c - 1) * 50;
+  const RED = '#fa4d56', BLU = '#4589ff', GRY = '#a8a8a8';
+  // columna -> compuerta, por qubit (posiciones tomadas del Composer)
+  const G = {
+    0: {1:'H', 4:'H', 5:'X', 9:'X', 10:'H'},
+    1: {1:'H', 2:'X', 4:'X', 5:'H', 6:'X', 9:'X', 10:'H'},
+    2: {1:'H', 2:'H', 4:'H', 5:'H', 6:'X', 7:'H', 9:'H', 10:'X', 13:'H'},
+    3: {1:'X', 2:'H'}
+  };
+  const M = {0: 11, 1: 12, 2: 14}, CCX = [3, 8];  // mediciones y Toffolis (controles q0,q1 · objetivo q2)
+  const plus = (x, y) => `<line x1="${x-9}" y1="${y}" x2="${x+9}" y2="${y}" stroke="#fff" stroke-width="2"/><line x1="${x}" y1="${y-9}" x2="${x}" y2="${y+9}" stroke="#fff" stroke-width="2"/>`;
+  let s = '';
+  Y.forEach((y, i) => s += `<line x1="78" y1="${y}" x2="790" y2="${y}" stroke="#2a3a5a" stroke-width="2"/><text x="8" y="${y+4}" class="gate-sub" style="font-size:11px">q[${i}]</text>`);
+  s += `<line x1="78" y1="${YC}" x2="790" y2="${YC}" stroke="#2a3a5a" stroke-width="2"/><text x="8" y="${YC+4}" class="gate-sub" style="font-size:11px">c3</text>`;
+  CCX.forEach(c => { const x = X(c);
+    s += `<line x1="${x}" y1="${Y[0]}" x2="${x}" y2="${Y[2]}" stroke="${BLU}" stroke-width="2"/>
+          <circle cx="${x}" cy="${Y[0]}" r="5" fill="${BLU}"/><circle cx="${x}" cy="${Y[1]}" r="5" fill="${BLU}"/>
+          <circle cx="${x}" cy="${Y[2]}" r="18" fill="${BLU}"/>${plus(x, Y[2])}`; });
+  Object.entries(G).forEach(([q, cols]) => Object.entries(cols).forEach(([c, t]) => {
+    const x = X(+c), y = Y[q];
+    s += t === 'H'
+      ? `<rect x="${x-18}" y="${y-18}" width="36" height="36" fill="${RED}"/><text x="${x}" y="${y+5}" text-anchor="middle" fill="#fff" style="font:700 14px 'JetBrains Mono',monospace">H</text>`
+      : `<circle cx="${x}" cy="${y}" r="18" fill="${BLU}"/>${plus(x, y)}`;
+  }));
+  Object.entries(M).forEach(([q, c]) => { const x = X(c), y = Y[q];
+    s += `<line x1="${x}" y1="${y+18}" x2="${x}" y2="${YC-8}" stroke="#8d8d8d" stroke-width="1.5" stroke-dasharray="2 3"/>
+          <polygon points="${x-4},${YC-8} ${x+4},${YC-8} ${x},${YC}" fill="#8d8d8d"/>
+          <text x="${x+8}" y="${YC-6}" fill="#dde6f5" style="font:700 10px 'JetBrains Mono',monospace">${q}</text>
+          <rect x="${x-18}" y="${y-18}" width="36" height="36" fill="${GRY}"/>
+          <path d="M${x-10} ${y+7} A10 10 0 0 1 ${x+10} ${y+7}" fill="none" stroke="#161616" stroke-width="2"/>
+          <line x1="${x}" y1="${y+7}" x2="${x+6}" y2="${y-7}" stroke="#161616" stroke-width="2"/>`; });
+  document.getElementById('gq-circuit').innerHTML = s;
+})();
+
+// ─── Simulación de 3 qubits (8 amplitudes) ───
+let gqK = 1;
+const GQ_THETA = Math.asin(1 / Math.sqrt(8));
+function gqSet(k){ gqK = Math.max(0, Math.min(6, parseInt(k) || 0)); document.getElementById('gq-k').value = gqK; gqRender(); }
+function gqAmps(k){
+  const a = new Array(8).fill(1 / Math.sqrt(8));
+  for(let it = 0; it < k; it++){
+    a[5] = -a[5];                                         // oraculo: fase de |101>
+    const mean = a.reduce((x, y) => x + y, 0) / 8;        // difusor: 2·media − a
+    for(let i = 0; i < 8; i++) a[i] = 2 * mean - a[i];
+  }
+  return a;
+}
+function gqRender(){
+  const a = gqAmps(gqK), P = a.map(v => v * v);
+  document.getElementById('gq-chart').innerHTML = P.map((p, i) =>
+    `<div class="pc-col"><div class="pc-track"><div class="pc-bar ${i === 5 ? 'hit' : ''}" style="height:${(p * 100).toFixed(1)}%"></div></div>
+     <div class="pc-lbl">${i.toString(2).padStart(3, '0')}</div><div class="pc-val">${(p * 100).toFixed(1)}%</div></div>`).join('');
+  document.getElementById('gq-p').textContent = (P[5] * 100).toFixed(1) + '%';
+  document.getElementById('gq-note').textContent =
+    gqK === 0 ? 'Sin iteraciones: todos los estados son equiprobables (12.5 %).' :
+    gqK === 1 ? 'Es el circuito de arriba: ≈78 %, igual que el histograma de IBM Quantum Composer.' :
+    gqK === 2 ? 'Punto optimo: ≈94.5 % de probabilidad.' :
+    'Sobre-rotacion: pasarse del k optimo hace que la probabilidad vuelva a bajar.';
+  try{ katex.render(`P_k=\\sin^2\\!\\big((2k+1)\\theta\\big),\\ \\theta=\\arcsin\\tfrac{1}{\\sqrt{8}}\\approx 20.7^\\circ`,
+    document.getElementById('gq-formula'), { throwOnError: false, displayMode: true }); }catch(e){}
+}
+gqRender();
+
+
+// ─── MODO PRESENTACIÓN ───
+(function () {
+  const ids = ['hero','introduccion','historia','que-es','porque-es-importante','tipos','como-funciona','teoria','ataques','tool','kpa','bfa','grover','qasm','grover-grafico'];
+  const slides = ids.map(id => document.getElementById(id));
+  const links = document.querySelectorAll('.nav-links a');
+  const total = slides.length;
+  let cur = 0;
+
+  slides.forEach((s, i) => {
+    s.classList.add('slide');
+    const bar = document.createElement('div');
+    bar.className = 'sec-nav';
+    bar.innerHTML =
+      `<button class="sec-nav-btn" data-d="-1" ${i === 0 ? 'disabled' : ''}>◀ ANTERIOR</button>` +
+      `<span class="sec-counter">${String(i + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</span>` +
+      `<button class="sec-nav-btn next" data-d="1" ${i === total - 1 ? 'disabled' : ''}>SIGUIENTE ▶</button>`;
+    (s.querySelector('.hero-inner') || s).appendChild(bar);
+    bar.addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (b) go(cur + +b.dataset.d);
+    });
+  });
+
+  function go(n) {
+    n = Math.max(0, Math.min(total - 1, n));
+    slides[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + ids[cur]));
+    const act = document.querySelector('.nav-links a.active');
+    if (act) act.scrollIntoView({ inline: 'center', block: 'nearest' });
+    history.replaceState(null, '', '#' + ids[cur]);
+    window.scrollTo(0, 0);
+    window.dispatchEvent(new Event('resize'));
+  }
+
+  document.querySelectorAll('nav a[href^="#"]').forEach(a =>
+    a.addEventListener('click', e => {
+      const i = ids.indexOf(a.getAttribute('href').slice(1));
+      if (i > -1) { e.preventDefault(); go(i); }
+    }));
+
+  document.addEventListener('keydown', e => {
+    if (/INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+    if (['ArrowRight', 'PageDown'].includes(e.key)) go(cur + 1);
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) go(cur - 1);
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(total - 1);
+  });
+
+  const start = ids.indexOf(location.hash.slice(1));
+  slides[0].classList.add('active');
+  go(start > -1 ? start : 0);
+})();
 </script>
 </body>
 </html>
- 
